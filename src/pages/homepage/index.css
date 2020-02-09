@@ -1,0 +1,22 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.body {
+  text-align: center;
+}
+
+h3 {
+  font-family: SegoeUISemiBold;
+}
+
+h4 {
+  font-family: SegoeUI;
+}
+
+h5 {
+  font-family: SegoeUI;
+}

@@ -1,22 +1,19 @@
 import './index.css';
-import HamMenu from '../navmenu/'
+import HamMenu from '../hammenu/'
 import Navbar from 'react-bootstrap/Navbar'
 import React from 'react';
 
 class HeaderBar extends React.Component {
-  // render () {
-  //   return (
-  //     <div class='HeaderBar'>
-  //     <HamMenu/>
-  //     </div>
-  //   )
-  // }
   render() {
     return (
-      <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">Driver Incentive</Navbar.Brand>
-      <HamMenu/>
-      </Navbar>
+      <div>
+        <Navbar className='navbar-dark' bg="dark" expand="lg" variant="dark">
+          <Navbar.Brand href="/home">
+            <span>Driver Incentive</span>
+          </Navbar.Brand>
+          <HamMenu/>
+        </Navbar>
+      </div>
     )
   }
 

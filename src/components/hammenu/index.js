@@ -12,9 +12,15 @@ class HamMenu extends React.Component {
     return (
       <div className="bm-burger-button">
       <Menu right>
-        <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a>
+        <a id="Login" className="menu-item" href="/login">
+          <div class="itemBox">Login</div>
+        </a>
+        <a id="Register" className="menu-item" href="/register">
+          <div class="itemBox">Register</div>
+        </a>
+        <a id="contact" className="menu-item" href="/home">
+          <div class="itemBox">Home</div>
+        </a>
       </Menu>
       </div>
     );

@@ -39,10 +39,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: rgb(52, 58, 64);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
-  padding-top: 0;
+  padding-top: 5;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -70,4 +70,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
   margin: auto;
   width: 50%;
   padding: 10px;
+}
+
+.itemBox {
+  font-family: SegoeUISemiBold;
+  text-align: center;
 }
