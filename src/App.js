@@ -4,6 +4,10 @@ import HomePage from './pages/homepage/'
 import Login from './pages/login'
 import Register from './pages/register'
 import './App.css';
+import { ApolloProvider } from '@apollo/react-hooks';
+import client from './state/client';
+
+import ExampleGraphQL from './pages/example-graphql';
 
 import {
   BrowserRouter as Router,
