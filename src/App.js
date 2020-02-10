@@ -18,24 +18,27 @@ import {
 
 function App() {
   return (
-    <Router>
-      <HeaderBar/>
-      <Route path='/login'>
-        <Login/>
-      </Route>
-      <Route path='/register'>
-        <Register/>
-      </Route>
-      <Route path='/support'>
-        <Support/>
-      </Route>
-      <Route exact path='/home'>
-        <HomePage/>
-      </Route>
-      <Route exact path='/'>
-        <HomePage/>
-      </Route>
-    </Router>
+    <ApolloProvider client={client}>
+      <Router>
+        <HeaderBar/>
+        <Route path='/login'>
+          <Login/>
+        </Route>
+        <Route path='/register'>
+          <Register/>
+        </Route>
+        <Route path='/support'>
+          <Support/>
+        </Route>
+        <Route exact path='/home'>
+          <HomePage/>
+          <ExampleGraphQL />
+        </Route>
+        <Route exact path='/'>
+          <HomePage/>
+        </Route>
+      </Router>
+    </ApolloProvider>
   );
 }
 
