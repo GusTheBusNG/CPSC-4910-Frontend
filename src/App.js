@@ -1,8 +1,10 @@
 import React from 'react';
+import Footer from './components/footer'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
 import Register from './pages/register'
+import Support from './pages/support'
 import './App.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './state/client';
@@ -23,6 +25,9 @@ function App() {
       </Route>
       <Route path='/register'>
         <Register/>
+      </Route>
+      <Route path='/support'>
+        <Support/>
       </Route>
       <Route exact path='/home'>
         <HomePage/>
