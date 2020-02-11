@@ -30,10 +30,6 @@ function App() {
         <Route path='/support'>
           <Support/>
         </Route>
-        <Route exact path='/home'>
-          <HomePage/>
-          <ExampleGraphQL />
-        </Route>
         <Route exact path='/'>
           <HomePage/>
         </Route>

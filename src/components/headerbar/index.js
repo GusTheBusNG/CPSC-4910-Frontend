@@ -8,7 +8,7 @@ class HeaderBar extends React.Component {
     return (
       <div>
         <Navbar className='navbar-dark' bg="dark" expand="lg" variant="dark">
-          <Navbar.Brand href="/home">
+          <Navbar.Brand href="/">
             <span>Driver Incentive</span>
           </Navbar.Brand>
           <HamMenu/>

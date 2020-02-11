@@ -18,7 +18,7 @@ class HamMenu extends React.Component {
         <a id="Register" className="menu-item" href="/register">
           <div class="itemBox">Register</div>
         </a>
-        <a id="contact" className="menu-item" href="/home">
+        <a id="Home" className="menu-item" href="/">
           <div class="itemBox">Home</div>
         </a>
       </Menu>
