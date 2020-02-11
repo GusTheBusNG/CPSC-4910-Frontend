@@ -1,31 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import Footer from './components/footer'
+import HeaderBar from './components/headerbar'
+import HomePage from './pages/homepage/'
+import Login from './pages/login'
+import Register from './pages/register'
+import Support from './pages/support'
 import './App.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './state/client';
 
 import ExampleGraphQL from './pages/example-graphql';
 
+import {
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom";
+
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-      <ExampleGraphQL />
+      <Router>
+        <HeaderBar/>
+        <Route path='/login'>
+          <Login/>
+        </Route>
+        <Route path='/register'>
+          <Register/>
+        </Route>
+        <Route path='/support'>
+          <Support/>
+        </Route>
+        <Route exact path='/'>
+          <HomePage/>
+        </Route>
+      </Router>
     </ApolloProvider>
   );
 }
