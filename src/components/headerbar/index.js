@@ -12,7 +12,7 @@ class HeaderBar extends React.Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
               <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/signup">Register</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
