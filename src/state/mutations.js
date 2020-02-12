@@ -34,3 +34,47 @@ export const insertDriver = gql`
     }
   }
 `;
+
+export const insertSponsor = gql`
+  mutation insertSponsor(
+    $companyDescription: String!,
+    $companyName: String!,
+    $companyPointToDollarRatio: numeric!,
+    $email: String!,
+    $firstName: String!,
+    $lastName: String!,
+    $password: String!
+  ) {
+    insert_Sponsors(objects: {
+      Company: {
+        data: {
+          description: $companyDescription,
+          name: $companyName,
+          pointToDollarRatio: $companyPointToDollarRatio
+        }
+      },
+      User: {
+        data: {
+          email: $email,
+          firstName: $firstName,
+          lastName: $lastName,
+          role: "Sponsor",
+          password: $password
+        }
+      }
+    }) {
+      returning {
+        User {
+          email
+          firstName
+          lastName
+          role
+        }
+        Company {
+          name
+          description
+        }
+      }
+    }
+  }
+`;

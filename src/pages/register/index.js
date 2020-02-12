@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Nav from 'react-bootstrap/Nav';
 import NewDriverForm from '../../components/new-driver-form';
+import NewSponsorForm from '../../components/new-sponsor-form';
 
 const Register = () => {
   const [registerSheet, setRegisterSheet] = useState('driver');
@@ -22,14 +23,14 @@ const Register = () => {
               <Nav.Link 
                 href="#sponsor"
                 onClick={() => setRegisterSheet('sponsor')}>
-                  sponsor
+                  Sponsor
               </Nav.Link>
             </Nav.Item>
           </Nav>
         </Card.Header>
         
         <Card.Body>
-          {registerSheet === 'driver' ? <NewDriverForm /> : <NewDriverForm />}
+          {registerSheet === 'driver' ? <NewDriverForm /> : <NewSponsorForm />}
         </Card.Body>
       </Card>
     </div>
