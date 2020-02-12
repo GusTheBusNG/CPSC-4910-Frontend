@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from './components/footer'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
