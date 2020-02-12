@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from './components/footer'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
@@ -9,7 +8,8 @@ import './App.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './state/client';
 
-import ExampleGraphQL from './pages/example-graphql';
+// Add this to any route to see how graphql works
+// import ExampleGraphQL from './pages/example-graphql';
 
 import {
   BrowserRouter as Router,
