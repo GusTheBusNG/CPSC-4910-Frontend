@@ -1,4 +1,5 @@
 import React from 'react';
+import AccountRecovery from './pages/accountrecovery'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
@@ -23,6 +24,9 @@ function App() {
         <HeaderBar/>
         <Route path='/login'>
           <Login/>
+        </Route>
+        <Route path='/accountrecovery'>
+          <AccountRecovery/>
         </Route>
         <Route path='/register'>
           <Register/>

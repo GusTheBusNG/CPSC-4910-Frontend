@@ -1,5 +1,10 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+
+import AdminPanel from '../adminpanel'
+import DriverPanel from '../driverpanel'
+import SponsorPanel from '../sponsorpanel'
+
 import React from 'react';
 import './index.css'
 
@@ -21,12 +26,22 @@ const Login = () => {
     if (error) return <p> error </p>;
     if (loading) return <p>Loading ...</p>;
     if (data) {
-      if (data.Users.length === 0) {
+      if (data.Users.length !== 1) {
         return <InvalidLogin/>;
       }
-      return data.Users.map(({ firstName }) => (
-      <p key={firstName}>First Name: {firstName}</p>
-    ));
+      localStorage.setItem('id', data.Users[0].id);
+      localStorage.setItem('role', data.Users[0].role);
+
+      switch(data.Users[0].role) {
+        case "Admin":
+          return <AdminPanel/>;
+        case "Driver":
+          return <DriverPanel/>;
+        case "Sponsor":
+          return <SponsorPanel/>;
+        default:
+          return <InvalidLogin/>;
+      }
   }
 
     return (
@@ -52,6 +67,7 @@ const Login = () => {
             </Button>
             <br/>
             <a className='register' href='/register'> Register </a>
+            <a className='forgot' href='/accountrecovery'> Forgot login </a>
           </Form>
         </center>
       </div>
