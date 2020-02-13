@@ -28,7 +28,7 @@ const Login = () => {
       <div className='login'>
         <div className='bold'> Login </div>
         <center>
-          <Form onSubmit={() => submit({ variables: { email: 'asdf@asdf.com', password: 'asdf' } })}>
+          <Form onSubmit={(event) => submit({ variables: { email: event.currentTarget['email'].value, password: event.currentTarget['password'].value } })}>
             <Form.Group controlId="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email"/>
