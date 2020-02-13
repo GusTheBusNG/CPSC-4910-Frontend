@@ -6,23 +6,28 @@ import './index.css'
 import {useLazyQuery} from '@apollo/react-hooks';
 import { login } from '../../state/queries';
 
-
-// const Submit = event => {
-//   const [submit, { loading, data }] = useLazyQuery(login);
-//
-//     if (loading) return <p>Loading ...</p>;
-//     if (data) return data.Users.map(({ firstName }) => (
-//       <p key={firstName}>First Name: {firstName}</p>
-//     ));
-//
-// }
+class InvalidLogin extends React.Component {
+  render() {
+    return (
+      <div className='login'>Email or password was incorrect.<br/>
+        <a href='/login'> Click here to return to login. </a>
+      </div>
+    );
+  }
+}
 const Login = () => {
-  const [submit, { loading, data }] = useLazyQuery(login);
+  const [submit, {loading, data, error }] = useLazyQuery(login);
 
+    if (error) return <p> error </p>;
     if (loading) return <p>Loading ...</p>;
-    if (data) return data.Users.map(({ firstName }) => (
+    if (data) {
+      if (data.Users.length === 0) {
+        return <InvalidLogin/>;
+      }
+      return data.Users.map(({ firstName }) => (
       <p key={firstName}>First Name: {firstName}</p>
     ));
+  }
 
     return (
       <div className='login'>
@@ -51,7 +56,6 @@ const Login = () => {
         </center>
       </div>
     );
-
 }
 
 export default Login;
