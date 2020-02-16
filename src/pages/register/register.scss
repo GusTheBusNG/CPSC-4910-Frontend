@@ -1,0 +1,10 @@
+.register {
+  padding: 1rem 1rem 3rem;
+  margin: 0 auto;
+  max-width: 40rem;
+
+  &__heading {
+    margin: 1rem;
+    text-align: center;
+  }
+}
