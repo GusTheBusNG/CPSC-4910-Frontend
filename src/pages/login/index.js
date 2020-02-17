@@ -1,10 +1,6 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import AdminPanel from '../adminpanel'
-import DriverPanel from '../driverpanel'
-import SponsorPanel from '../sponsorpanel'
-
 import React from 'react';
 import './index.css'
 
@@ -34,16 +30,7 @@ const Login = () => {
       var encrypted = crypto.encrypt(combined);
       localStorage.setItem('session', encrypted);
 
-      switch(data.Users[0].role) {
-        case "Admin":
-          return <AdminPanel/>;
-        case "Driver":
-          return <DriverPanel/>;
-        case "Sponsor":
-          return <SponsorPanel/>;
-        default:
-          return <InvalidLogin/>;
-      }
+      window.location.href="/dashboard";
   }
 
     return (

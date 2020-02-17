@@ -1,5 +1,6 @@
 import React from 'react';
 import AccountRecovery from './pages/accountrecovery'
+import Dashboard from './pages/dashboard'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path='/support'>
           <Support/>
+        </Route>
+        <Route path='/dashboard'>
+          <Dashboard/>
         </Route>
         <Route exact path='/'>
           <HomePage/>
