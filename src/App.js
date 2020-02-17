@@ -4,7 +4,6 @@ import HomePage from './pages/homepage/'
 import Login from './pages/login'
 import Register from './pages/register'
 import Support from './pages/support'
-import './App.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './state/client';
 

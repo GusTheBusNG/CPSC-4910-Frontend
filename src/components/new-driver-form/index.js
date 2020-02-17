@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const NewDriverForm = () => {
-  const [makeDriver, { loading, error, data }] = useMutation(insertDriver);
+  const [makeDriver, { loading, error }] = useMutation(insertDriver);
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
@@ -30,10 +30,6 @@ const NewDriverForm = () => {
       description: form['description'].value
     }})
   }
-
-  console.log('Data: ', data);
-  console.log('Error: ', error);
-  console.log('Loading: ', loading);
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -65,10 +61,6 @@ const NewDriverForm = () => {
       <Form.Group controlId="description">
         <Form.Label>Description of yourself for sponsors!</Form.Label>
         <Form.Control type="textarea" placeholder="Description" />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
 
       <Button variant="primary" type="submit">
