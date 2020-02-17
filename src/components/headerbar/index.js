@@ -26,7 +26,7 @@ class HeaderBar extends React.Component {
               { !session ? (
                 <React.Fragment>
                   <Nav.Link href="/login">Login</Nav.Link>
-                  <Nav.Link href="/signup">Sign Up</Nav.Link>
+                  <Nav.Link href="/register">Sign Up</Nav.Link>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
