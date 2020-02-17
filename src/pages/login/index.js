@@ -8,8 +8,9 @@ import SponsorPanel from '../sponsorpanel'
 import React from 'react';
 import './index.css'
 
+import crypto from "../../state/crypto";
+import {login} from '../../state/queries';
 import {useLazyQuery} from '@apollo/react-hooks';
-import { login } from '../../state/queries';
 
 class InvalidLogin extends React.Component {
   render() {
@@ -29,8 +30,9 @@ const Login = () => {
       if (data.Users.length !== 1) {
         return <InvalidLogin/>;
       }
-      localStorage.setItem('id', data.Users[0].id);
-      localStorage.setItem('role', data.Users[0].role);
+      var combined = data.Users[0].id + "." + data.Users[0].role;
+      var encrypted = crypto.encrypt(combined);
+      localStorage.setItem('session', encrypted);
 
       switch(data.Users[0].role) {
         case "Admin":
