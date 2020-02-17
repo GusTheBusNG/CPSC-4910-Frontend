@@ -4,14 +4,14 @@ import SponsorPanel from '../../components/sponsorpanel'
 
 import React from 'react';
 
-import crypto from "../../state/crypto";
+import {decrypt} from "../../state/crypto";
 
 class Dashboard extends React.Component {
   render() {
-    var session = localStorage.getItem('session')
+    const session = localStorage.getItem('session')
     if (session) {
-      var decrypted = crypto.decrypt(session.toString());
-      var role = decrypted.split(".")[1];
+      const decrypted = decrypt(session.toString());
+      const role = decrypted.split(".")[1];
       switch(role) {
         case "Admin":
           return <AdminPanel/>;

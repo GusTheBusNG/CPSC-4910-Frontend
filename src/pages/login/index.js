@@ -1,10 +1,14 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
+import {
+  withRouter
+} from 'react-router-dom'
+
 import React from 'react';
 import './index.css'
 
-import crypto from "../../state/crypto";
+import {encrypt} from "../../state/crypto";
 import {login} from '../../state/queries';
 import {useLazyQuery} from '@apollo/react-hooks';
 
@@ -17,7 +21,7 @@ class InvalidLogin extends React.Component {
     );
   }
 }
-const Login = () => {
+const Login = (props) => {
   const [submit, {loading, data, error }] = useLazyQuery(login);
 
     if (error) return <p> error </p>;
@@ -26,11 +30,11 @@ const Login = () => {
       if (data.Users.length !== 1) {
         return <InvalidLogin/>;
       }
-      var combined = data.Users[0].id + "." + data.Users[0].role;
-      var encrypted = crypto.encrypt(combined);
+      const combined = data.Users[0].id + "." + data.Users[0].role;
+      const encrypted = encrypt(combined);
       localStorage.setItem('session', encrypted);
 
-      window.location.href="/dashboard";
+      props.history.push("/dashboard");
   }
 
     return (
@@ -63,4 +67,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default withRouter(Login);

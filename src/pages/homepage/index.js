@@ -7,7 +7,7 @@ import "../../fonts/fonts.css"
 class HomePageBody extends React.Component {
   render() {
     return (
-      <div class="body">
+      <div className="body">
         <h3>Good Driver Incentive Program</h3>
         <h4> What we do:</h4>
         <h5> Placeholder text here</h5>
@@ -20,7 +20,7 @@ class HomePage extends React.Component {
   render() {
     return (
         <div>
-          <img class="center"
+          <img className="center"
           alt="Happy Driver"
           src={DriverImage}
           />

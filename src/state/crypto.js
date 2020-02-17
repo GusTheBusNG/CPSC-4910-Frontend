@@ -1,13 +1,7 @@
-var CryptoJS = require("crypto-js");
+import CryptoJS from 'crypto-js/'
 
-const crypto = {
-   encrypt: function(value) {
-    return CryptoJS.AES.encrypt(value, process.env.REACT_APP_ENCRYPTION_KEY);
-  },
-  decrypt: function(value) {
-    var bytes = CryptoJS.AES.decrypt(value.toString(), process.env.REACT_APP_ENCRYPTION_KEY);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  }
+export const encrypt = value => CryptoJS.AES.encrypt(value, process.env.REACT_APP_ENCRYPTION_KEY);
+export const decrypt = value => {
+  var bytes = CryptoJS.AES.decrypt(value.toString(), process.env.REACT_APP_ENCRYPTION_KEY);
+  return bytes.toString(CryptoJS.enc.Utf8);
 }
-
-export default crypto;
