@@ -1,7 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import React from 'react';
-// import {Redirect} from 'react-router-dom'
 import {
   withRouter
 } from 'react-router-dom'
