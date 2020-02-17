@@ -15,6 +15,7 @@ export const login = gql`
       firstName
       lastName
       role
+      id
     }
   }
 `;
