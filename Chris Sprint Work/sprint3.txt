@@ -1,0 +1,1 @@
+For my sprint 3, I attempted to create a pipeline for content to be uploaded to the AWS server. Unfortunatly I ran into an authentication problem with the AWS Educate so it did not get done
