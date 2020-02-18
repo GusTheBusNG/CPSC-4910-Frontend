@@ -1,0 +1,25 @@
+.login {
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  font-family: SegoeUI;
+}
+
+.bold {
+  font-family: SegoeUIBold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.registerButton {
+  padding-top: 10px;
+  padding-bottom: 0px;
+  display: block;
+  color: rgb(0, 123, 255);
+}
+
+.forgot {
+  padding-top: 5px;
+  display: block;
+  color: rgb(0, 123, 255);
+}
