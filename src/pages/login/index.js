@@ -59,7 +59,7 @@ const Login = (props) => {
               Submit
             </Button>
             <br/>
-            <a className='register' href='/register'> Register </a>
+            <a className='registerButton' href='/register'> Register </a>
             <a className='forgot' href='/accountrecovery'> Forgot login </a>
           </Form>
         </center>
