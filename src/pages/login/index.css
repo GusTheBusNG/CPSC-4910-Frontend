@@ -13,12 +13,13 @@
 
 .register {
   padding-top: 10px;
+  padding-bottom: 0px;
   display: block;
   color: rgb(0, 123, 255);
 }
 
 .forgot {
-  padding-top: 5px;
+  margin-top: -43px;
   display: block;
   color: rgb(0, 123, 255);
 }
