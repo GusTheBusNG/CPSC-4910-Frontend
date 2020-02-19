@@ -1,9 +1,27 @@
 import React from 'react';
+import Table from '../table';
 
 class AdminPanel extends React.Component {
   render() {
     return (
-      <p> this is an admin panel. </p>
+      <div style={{ maxWidth: "100%" }}>
+        <Table
+          columns={[
+            { title: "Adı", field: "name" },
+            { title: "Soyadı", field: "surname" },
+            { title: "Doğum Yılı", field: "birthYear", type: "numeric" },
+            {
+              title: "Doğum Yeri",
+              field: "birthCity",
+              lookup: { 34: "İstanbul", 63: "Şanlıurfa" }
+            }
+          ]}
+          data={[
+            { name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63 }
+          ]}
+          title="Demo Title"
+        />
+      </div>
     );
   }
 }
