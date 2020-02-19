@@ -10,7 +10,6 @@ export const insertDriver = gql`
   ) {
     insert_Drivers(objects: {
       description: $description,
-      points: "0.0",
       User: {
         data: {
           email: $email,
@@ -23,7 +22,6 @@ export const insertDriver = gql`
     }) {
       returning {
         description
-        points
         User {
           email
           firstName
