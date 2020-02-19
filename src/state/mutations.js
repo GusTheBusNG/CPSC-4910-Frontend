@@ -78,3 +78,18 @@ export const insertSponsor = gql`
     }
   }
 `;
+
+export const deleteDriver = gql`
+  mutation deleteDriver(
+    $id: numeric!
+  ) {
+    deleteDriver(where: {id: {_eq: $id}, User: {role: {_eq: "Driver"}}}) {
+      returning {
+        User {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;

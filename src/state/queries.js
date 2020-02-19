@@ -19,3 +19,24 @@ export const login = gql`
     }
   }
 `;
+
+export const getAllDrivers = gql`
+  query getAllDrivers {
+    Users(where: {role: {_eq: "Driver"}}) {
+      id
+      firstName
+      email
+      lastName
+      password
+      Driver {
+        description
+        DriverCompanies {
+          Company {
+            name
+          }
+          points
+        }
+      }
+    }
+  }
+`;
