@@ -10,7 +10,6 @@ export const insertDriver = gql`
   ) {
     insert_Drivers(objects: {
       description: $description,
-      points: "0.0",
       User: {
         data: {
           email: $email,
@@ -23,12 +22,20 @@ export const insertDriver = gql`
     }) {
       returning {
         description
-        points
         User {
+          id
           email
           firstName
           lastName
+          password
           role
+        }
+        DriverCompanies {
+          Company {
+            name
+          }
+          activeRelationship
+          points
         }
       }
     }
@@ -81,14 +88,44 @@ export const insertSponsor = gql`
 
 export const deleteDriver = gql`
   mutation deleteDriver(
-    $id: numeric!
+    $id: Int!
   ) {
-    deleteDriver(where: {id: {_eq: $id}, User: {role: {_eq: "Driver"}}}) {
+    delete_Drivers(where: {User: {id: {_eq: $id}}}) {
       returning {
-        User {
-          firstName
-          lastName
-        }
+        description
+      }
+    }
+    delete_Users(where: {id: {_eq: $id}}) {
+      returning {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const updateDriver = gql`
+  mutation updateDriver(
+    $id: Int!
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+    $description: String!
+  ) {
+    update_Drivers(where: {userId: {_eq: $id}}, _set: {description: $description}) {
+      returning {
+        description
+      }
+    }
+    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName, password: $password}) {
+      returning {
+        email
+        firstName
+        lastName
+        password
+        id
       }
     }
   }

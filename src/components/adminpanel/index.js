@@ -2,77 +2,84 @@ import React from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getAllDrivers } from '../../state/queries';
-import { deleteDriver } from '../../state/mutations';
-import Save from '@material-ui/icons/Save';
-import Delete from '@material-ui/icons/Delete';
-
+import { deleteDriver, insertDriver, updateDriver } from '../../state/mutations';
 
 const AdminPanel = () => {
+  const [deleteDriverAction] = useMutation(deleteDriver, {
+    update(cache, { data: { delete_Users: { returning } } }) {
+      const { Drivers } = cache.readQuery({ query: getAllDrivers });
+      cache.writeQuery({
+        query: getAllDrivers,
+        data: { Drivers: Drivers.filter(({ User: { id } }) => id !== returning[0].id)}
+      })
+    }
+  });
+  const [insertDriverAction] = useMutation(insertDriver, {
+    update(cache, { data: { insert_Drivers: { returning } } }) {
+      const { Drivers } = cache.readQuery({ query: getAllDrivers });
+      cache.writeQuery({
+        query: getAllDrivers,
+        data: { Drivers: Drivers.concat(returning) },
+      });
+    }
+  });
+  const [updateDriverAction] = useMutation(updateDriver, {
+    update(cache, { data: { update_Drivers, update_Users } }) {
+      const newDriver = update_Drivers.returning[0];
+      const newUser = update_Users.returning[0];
+      const { Drivers } = cache.readQuery({ query: getAllDrivers });
+      cache.writeQuery({
+        query: getAllDrivers,
+        data: {
+          Drivers: Drivers.map(driver =>
+            driver.User.id === newUser.id ?
+              {
+                description: newDriver.description,
+                User: { ...newUser },
+                DriverCompanies: driver.DriverCompanies
+              } : driver
+          )
+        }
+      })
+    }
+  });
+
   const { loading, error, data } = useQuery(getAllDrivers);
-  const [deleteDriverAction] = useMutation(deleteDriver);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>😢 Error</p>;
+  if (error) return <p>Error</p>;
 
   return (
-    <div style={{ maxWidth: "98%", margin: "0 auto" }}>
+    <div style={{ maxWidth: "98%", margin: "1rem auto" }}>
       <Table
         columns={[
-          { title: "ID", field: "id", type: "numeric" },
+          { title: "ID", field: "id", type: "numeric", editable: "never" },
           { title: "First Name", field: "firstName" },
           { title: "Last Name", field: "lastName" },
           { title: "Email", field: "email" },
           { title: "Password", field: "password" },
           { title: "Description", field: "description" },
-          { title: "Companies - Points", field: "companies"}
+          { title: "Companies - Points", field: "companies", editable: "never" }
         ]}
-        data={data.Users.map(driver => ({
-          id: driver.id,
-          firstName: driver.firstName,
-          lastName: driver.lastName,
-          email: driver.email,
-          password: driver.password,
-          description: driver.Driver.description,
-          companies: driver.Driver.DriverCompanies.map(
-            company => `${company.Company.name} - ${company.points}\n`
+        data={data.Drivers.map(driver => ({
+          id: driver.User.id,
+          firstName: driver.User.firstName,
+          lastName: driver.User.lastName,
+          email: driver.User.email,
+          password: driver.User.password,
+          description: driver.description,
+          companies: driver.DriverCompanies.map(
+            company => company.activeRelationship ?
+              `${company.Company.name} - ${company.points}\n` : ''
           )
         }))}
         editable={{
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  data.push(newData);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data[index] = newData;
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
+          onRowAdd: newData => insertDriverAction({ variables: { ...newData }}),
+          onRowUpdate: ({ id, firstName, lastName, email, password, description }) =>
+            updateDriverAction({ variables: {
+              id, firstName, lastName, email, password, description
+            }}),
+          onRowDelete: ({ id }) => deleteDriverAction({ variables: { id }})
         }}
         title="Drivers"
       />

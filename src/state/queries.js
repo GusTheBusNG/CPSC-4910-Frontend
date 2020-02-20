@@ -22,20 +22,21 @@ export const login = gql`
 
 export const getAllDrivers = gql`
   query getAllDrivers {
-    Users(where: {role: {_eq: "Driver"}}) {
-      id
-      firstName
-      email
-      lastName
-      password
-      Driver {
-        description
-        DriverCompanies {
-          Company {
-            name
-          }
-          points
+    Drivers {
+      User {
+        id
+        firstName
+        email
+        lastName
+        password
+      }
+      description
+      DriverCompanies {
+        Company {
+          name
         }
+        activeRelationship
+        points
       }
     }
   }
