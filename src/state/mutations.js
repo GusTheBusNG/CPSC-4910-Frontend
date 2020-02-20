@@ -79,6 +79,42 @@ export const insertSponsor = gql`
   }
 `;
 
+export const addSponsorToCompany = gql`
+  mutation insertSponsor(
+    $companyId: Int!,
+    $email: String!,
+    $firstName: String!,
+    $lastName: String!,
+    $password: String!
+  ) {
+    insert_Sponsors(objects: {
+      User: {
+        data: {
+          email: $email,
+          firstName: $firstName,
+          lastName: $lastName,
+          role: "Sponsor",
+          password: $password
+        }
+      },
+      companyId: $companyId
+    }) {
+      returning {
+        User {
+          email
+          firstName
+          lastName
+          role
+        }
+        Company {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+
 export const deleteDriver = gql`
   mutation deleteDriver(
     $id: Int!

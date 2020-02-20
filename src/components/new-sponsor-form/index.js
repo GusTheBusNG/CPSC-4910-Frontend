@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { insertSponsor } from '../../state/mutations';
+import { insertSponsor, addSponsorToCompany } from '../../state/mutations';
 import isEmail from 'validator/es/lib/isEmail';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const NewSponsorForm = () => {
-  const [makeSponsor, { loading, error, data }] = useMutation(insertSponsor);
+const NewSponsorForm = ({ companies }) => {
+  const [makeSponsor, { loading, error }] = useMutation(insertSponsor);
+  const [addSponsorToCompanyAction] = useMutation(addSponsorToCompany);
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
@@ -22,20 +23,29 @@ const NewSponsorForm = () => {
     }
 
     setValidated(true);
-    makeSponsor({ variables: {
+
+    const variables = {
       email: form['email'].value,
       password: form['password'].value,
       firstName: form['firstName'].value,
-      lastName: form['lastName'].value,
-      companyDescription: form['companyDescription'].value,
-      companyName: form['companyName'].value,
-      companyPointToDollarRatio: form['companyPointToDollarRatio'].value
-    }})
-  }
+      lastName: form['lastName'].value
+    };
 
-  console.log('Data: ', data);
-  console.log('Error: ', error);
-  console.log('Loading: ', loading);
+    if (companies) {
+      const companyId = parseInt(form['companySelect'].value.substring(0, form['companySelect'].value.indexOf(' ')), 10);
+      addSponsorToCompanyAction({ variables: {
+        ...variables,
+        companyId
+      }});
+    } else {
+      makeSponsor({ variables: {
+        ...variables,
+        companyDescription: form['companyDescription'].value,
+        companyName: form['companyName'].value,
+        companyPointToDollarRatio: form['companyPointToDollarRatio'].value
+      }});
+    }
+  }
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -64,20 +74,32 @@ const NewSponsorForm = () => {
         </Form.Group>
       </Form.Row>
 
-      <Form.Group controlId="companyName">
-        <Form.Label>Company Name</Form.Label>
-        <Form.Control type="text" placeholder="Company Name" />
-      </Form.Group>
 
-      <Form.Group controlId="companyDescription">
-        <Form.Label>Description of your company for drivers!</Form.Label>
-        <Form.Control type="textarea" placeholder="My company loves giving out points to drivers!" />
-      </Form.Group>
+      {companies ?
+        (<Form.Group controlId="companySelect">
+          <Form.Label>Company</Form.Label>
+          <Form.Control as="select">
+            { companies.map(({ id, name }) => <option key={name}>{`${id} - ${name}`}</option>) }
+          </Form.Control>
+        </Form.Group>)
+        :
+        (<>
+          <Form.Group controlId="companyName">
+            <Form.Label>Company Name</Form.Label>
+            <Form.Control type="text" placeholder="Company Name" />
+          </Form.Group>
 
-      <Form.Group controlId="companyPointToDollarRatio">
-        <Form.Label>Company Point to Dollar Ratio</Form.Label>
-        <Form.Control type="text" placeholder="0.01" />
-      </Form.Group>
+          <Form.Group controlId="companyDescription">
+            <Form.Label>Description of your company for drivers!</Form.Label>
+            <Form.Control type="textarea" placeholder="My company loves giving out points to drivers!" />
+          </Form.Group>
+
+          <Form.Group controlId="companyPointToDollarRatio">
+            <Form.Label>Company Point to Dollar Ratio</Form.Label>
+            <Form.Control type="text" placeholder="0.01" />
+          </Form.Group>
+        </>)
+      }
 
       <Button variant="primary" type="submit">
         { loading ? "Loading..." : "Submit" }
