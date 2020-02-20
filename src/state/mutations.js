@@ -30,13 +30,6 @@ export const insertDriver = gql`
           password
           role
         }
-        DriverCompanies {
-          Company {
-            name
-          }
-          activeRelationship
-          points
-        }
       }
     }
   }

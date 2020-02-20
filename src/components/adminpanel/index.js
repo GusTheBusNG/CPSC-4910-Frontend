@@ -36,7 +36,6 @@ const AdminPanel = () => {
               {
                 description: newDriver.description,
                 User: { ...newUser },
-                DriverCompanies: driver.DriverCompanies
               } : driver
           )
         }
@@ -59,7 +58,6 @@ const AdminPanel = () => {
           { title: "Email", field: "email" },
           { title: "Password", field: "password" },
           { title: "Description", field: "description" },
-          { title: "Companies - Points", field: "companies", editable: "never" }
         ]}
         data={data.Drivers.map(driver => ({
           id: driver.User.id,
@@ -67,18 +65,11 @@ const AdminPanel = () => {
           lastName: driver.User.lastName,
           email: driver.User.email,
           password: driver.User.password,
-          description: driver.description,
-          companies: driver.DriverCompanies.map(
-            company => company.activeRelationship ?
-              `${company.Company.name} - ${company.points}\n` : ''
-          )
+          description: driver.description
         }))}
         editable={{
           onRowAdd: newData => insertDriverAction({ variables: { ...newData }}),
-          onRowUpdate: ({ id, firstName, lastName, email, password, description }) =>
-            updateDriverAction({ variables: {
-              id, firstName, lastName, email, password, description
-            }}),
+          onRowUpdate: (newData) => updateDriverAction({ variables: { ...newData }}),
           onRowDelete: ({ id }) => deleteDriverAction({ variables: { id }})
         }}
         title="Drivers"

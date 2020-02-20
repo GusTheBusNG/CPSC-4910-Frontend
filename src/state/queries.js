@@ -31,13 +31,6 @@ export const getAllDrivers = gql`
         password
       }
       description
-      DriverCompanies {
-        Company {
-          name
-        }
-        activeRelationship
-        points
-      }
     }
   }
 `;
