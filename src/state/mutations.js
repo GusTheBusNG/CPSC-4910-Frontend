@@ -65,14 +65,18 @@ export const insertSponsor = gql`
     }) {
       returning {
         User {
+          id
           email
           firstName
           lastName
+          password
           role
         }
         Company {
+          id
           name
           description
+          pointToDollarRatio
         }
       }
     }
@@ -101,14 +105,18 @@ export const addSponsorToCompany = gql`
     }) {
       returning {
         User {
+          id
           email
           firstName
           lastName
+          password
           role
         }
         Company {
+          id
           name
           description
+          pointToDollarRatio
         }
       }
     }

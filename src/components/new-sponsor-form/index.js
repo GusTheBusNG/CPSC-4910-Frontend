@@ -1,13 +1,35 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
+import { getAllSponsors, getAllCompanies } from '../../state/queries';
 import { insertSponsor, addSponsorToCompany } from '../../state/mutations';
 import isEmail from 'validator/es/lib/isEmail';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const NewSponsorForm = ({ companies }) => {
-  const [makeSponsor, { loading, error }] = useMutation(insertSponsor);
-  const [addSponsorToCompanyAction] = useMutation(addSponsorToCompany);
+  const [makeSponsor, { loading, error }] = useMutation(insertSponsor, {
+    update(cache, { data: { insert_Sponsors : { returning } } }) {
+      const { Sponsors } = cache.readQuery({ query: getAllSponsors });
+      const { Companies } = cache.readQuery({ query: getAllCompanies });
+      cache.writeQuery({
+        query: getAllSponsors,
+        data: { Sponsors: Sponsors.concat(returning) },
+      });
+      cache.writeQuery({
+        query: getAllCompanies,
+        data: { Companies: Companies.concat([returning[0].Company]) }
+      })
+    }
+  });
+  const [addSponsorToCompanyAction] = useMutation(addSponsorToCompany, {
+    update(cache, { data: { insert_Sponsors: { returning } } }) {
+      const { Sponsors } = cache.readQuery({ query: getAllSponsors });
+      cache.writeQuery({
+        query: getAllSponsors,
+        data: { Sponsors: Sponsors.concat(returning) },
+      });
+    }
+  });
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {

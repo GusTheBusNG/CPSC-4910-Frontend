@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { getAllCompanies } from '../../../state/queries';
+import { getAllCompanies, getAllSponsors } from '../../../state/queries';
 import { deleteCompany, updateCompany } from '../../../state/mutations';
 import AddBox from '@material-ui/icons/AddBox';
 import NewSponsorForm from '../../new-sponsor-form';
 
 const AllDrivers = (props) => {
   const [deleteCompanyAction] = useMutation(deleteCompany, {
-    update(cache, { data: { delete_Companies: { returning } } }) {
+    update(cache, { data }) {
       const { Companies } = cache.readQuery({ query: getAllCompanies });
+      const { Sponsors } = cache.readQuery({ query: getAllSponsors });
       cache.writeQuery({
         query: getAllCompanies,
-        data: { Companies: Companies.filter(({ id } ) => id !== returning[0].id)}
-      })
+        data: { Companies: Companies.filter(({ id } ) => id !== data.delete_Companies.returning[0].id)}
+      });
+      console.log(Sponsors, data);
+      cache.writeQuery({
+        query: getAllSponsors,
+        data: { Sponsors: Sponsors.filter(({ User: { id } } ) => id !== data.delete_Sponsors.returning[0].userId)}
+      });
     }
   });
  
