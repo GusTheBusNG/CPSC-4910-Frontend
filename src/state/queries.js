@@ -34,3 +34,17 @@ export const getAllDrivers = gql`
     }
   }
 `;
+
+export const getAllSponsors = gql`
+  query getAllSponsors {
+    Sponsors {
+      User {
+        email
+        firstName
+        id
+        lastName
+        password
+      }
+    }
+  }
+`;

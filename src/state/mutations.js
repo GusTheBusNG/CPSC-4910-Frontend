@@ -123,3 +123,40 @@ export const updateDriver = gql`
     }
   }
 `;
+
+export const deleteSponsor = gql`
+  mutation deleteSponsor(
+    $id: Int!
+  ) {
+    delete_Sponsors(where: {userId: {_eq: $id}}) {
+      returning {
+        userId
+      }
+    }
+    delete_Users(where: {id: {_eq: $id}}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+export const updateSponsor = gql`
+  mutation MyMutation(
+    $id: Int!
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+  ) {
+    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName, password: $password}) {
+      returning {
+        email
+        firstName
+        lastName
+        password
+        id
+      }
+    }
+  }
+`;
