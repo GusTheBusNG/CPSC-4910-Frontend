@@ -160,3 +160,43 @@ export const updateSponsor = gql`
     }
   }
 `;
+
+export const deleteCompany = gql`
+  mutation MyMutation(
+    $id: Int!
+  ) {
+    delete_Sponsors(where: {companyId: {_eq: $id}}) {
+      returning {
+        userId
+      }
+    }
+    delete_Companies(where: {id: {_eq: $id}}) {
+      returning {
+        id
+      }
+    }
+    delete_DriverCompanies(where: {companyId: {_eq: $id}}) {
+      returning {
+        companyId
+      }
+    }
+  }
+`;
+
+export const updateCompany = gql`
+  mutation updateCompany(
+    $id: Int!
+    $description: String!
+    $name: String!
+    $pointToDollarRatio: numeric!
+  ) {
+    update_Companies(where: {id: {_eq: $id}}, _set: {description: $description, name: $name, pointToDollarRatio: $pointToDollarRatio}) {
+      returning {
+        name
+        pointToDollarRatio
+        description
+        id
+      }
+    }
+  }
+`;

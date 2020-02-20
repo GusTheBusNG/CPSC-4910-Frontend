@@ -48,3 +48,14 @@ export const getAllSponsors = gql`
     }
   }
 `;
+
+export const getAllCompanies = gql`
+  query getAllCompanies {
+    Companies {
+      id
+      name
+      pointToDollarRatio
+      description
+    }
+  }
+`;
