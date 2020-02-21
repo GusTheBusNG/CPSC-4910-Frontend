@@ -244,3 +244,85 @@ export const updateCompany = gql`
     }
   }
 `;
+
+export const deleteDriverApplication = gql`
+  mutation deleteDriverApplication(
+    $companyId: Int!
+    $userId: Int!
+  ) {
+    delete_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {userId: {_eq: $userId}}}) {
+      returning {
+        companyId
+        Driver {
+          userId
+        }
+      }
+    }
+  }
+`;
+
+export const updateDriverApplication = gql`
+  mutation updateDriverApplication(
+    $companyId: Int!
+    $userId: Int!
+    $points: numeric!
+    $applicationAccepted: Boolean!
+  ) {
+    update_DriverCompanies(
+      where: {
+        companyId: { _eq: $companyId },
+        Driver: { userId: { _eq: $userId } }
+      },
+      _set: {
+        points: $points,
+        activeRelationship:
+        $applicationAccepted
+      }) {
+      returning {
+        Company {
+          id
+          name
+        }
+        Driver {
+          User {
+            id
+            email
+          }
+        }
+        activeRelationship
+        points
+      }
+    }
+  }
+`;
+
+export const insertDriverApplication = gql`
+  mutation MyMutation(
+    $companyId: Int!
+    $driverId: Int!
+    $points: numeric = 0.0
+    $applicationAccepted: Boolean = false
+  ) {
+    insert_DriverCompanies(objects: {
+      activeRelationship: $applicationAccepted,
+      points: $points,
+      companyId: $companyId,
+      driverId: $driverId
+    }) {
+      returning {
+        points
+        activeRelationship
+        Driver {
+          User {
+            email
+            id
+          }
+        }
+        Company {
+          name
+          id
+        }
+      }
+    }
+  }
+`;

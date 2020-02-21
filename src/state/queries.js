@@ -23,6 +23,7 @@ export const login = gql`
 export const getAllDrivers = gql`
   query getAllDrivers {
     Drivers {
+      id
       User {
         id
         firstName
@@ -56,6 +57,25 @@ export const getAllCompanies = gql`
       name
       pointToDollarRatio
       description
+    }
+  }
+`;
+
+export const getAllDriverApplications = gql`
+  query getAllDriverApplications {
+    DriverCompanies {
+      activeRelationship
+      points
+      Company {
+        name
+        id
+      }
+      Driver {
+        User {
+          email
+          id
+        }
+      }
     }
   }
 `;

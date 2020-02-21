@@ -15,7 +15,6 @@ const AllDrivers = (props) => {
         query: getAllCompanies,
         data: { Companies: Companies.filter(({ id } ) => id !== data.delete_Companies.returning[0].id)}
       });
-      console.log(Sponsors, data);
       cache.writeQuery({
         query: getAllSponsors,
         data: { Sponsors: Sponsors.filter(({ User: { id } } ) => id !== data.delete_Sponsors.returning[0].userId)}
