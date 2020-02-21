@@ -5,6 +5,9 @@ import { getAllCompanies, getAllSponsors } from '../../../state/queries';
 import { deleteCompany, updateCompany } from '../../../state/mutations';
 import AddBox from '@material-ui/icons/AddBox';
 import NewSponsorForm from '../../new-sponsor-form';
+import Card from 'react-bootstrap/Card';
+
+import './all-companies.scss';
 
 const AllDrivers = (props) => {
   const [deleteCompanyAction] = useMutation(deleteCompany, {
@@ -56,7 +59,16 @@ const AllDrivers = (props) => {
         }}
         {...props}
       />
-      { showNewCompanyForm ? <NewSponsorForm /> : null }
+      
+      { showNewCompanyForm ? (
+        <Card className="admin-panel__new-company">
+          <Card.Header>
+            New Company
+          </Card.Header>
+          <Card.Body>
+            <NewSponsorForm />
+          </Card.Body>
+        </Card>) : null }
     </>
   );
 }
