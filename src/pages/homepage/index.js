@@ -1,6 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import DriverImage from "./happy-driver.png";
+import EbayExample from "../ebay-example";
 import "./index.css"
 import "../../fonts/fonts.css"
 
@@ -25,6 +26,7 @@ class HomePage extends React.Component {
           src={DriverImage}
           />
           <HomePageBody/>
+          <EbayExample />          
         </div>
     );
   }
