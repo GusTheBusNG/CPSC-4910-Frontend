@@ -5,6 +5,7 @@ import { insertSponsor, addSponsorToCompany } from '../../state/mutations';
 import isEmail from 'validator/es/lib/isEmail';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 const NewSponsorForm = ({ companies }) => {
   const [makeSponsor, { loading, error }] = useMutation(insertSponsor, {
@@ -85,12 +86,12 @@ const NewSponsorForm = ({ companies }) => {
       </Form.Group>
 
       <Form.Row>
-        <Form.Group controlId="firstName">
+        <Form.Group as={Col} controlId="firstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control type="text" placeholder="First Name" />
         </Form.Group>
 
-        <Form.Group controlId="lastName">
+        <Form.Group as={Col} controlId="lastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control type="text" placeholder="Last Name" />
         </Form.Group>
