@@ -49,7 +49,7 @@ const DriverPanel = (props) => {
             if (typeof b.points === 'string') {
               return 1;
             }
-            return b.points-a.points
+            return a.points-b.points
             }
           },
           ]}
