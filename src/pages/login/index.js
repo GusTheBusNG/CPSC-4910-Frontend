@@ -30,7 +30,20 @@ const Login = (props) => {
       if (data.Users.length !== 1) {
         return <InvalidLogin/>;
       }
-      const combined = data.Users[0].id + "." + data.Users[0].role;
+
+      let combined = data.Users[0].id + "." + data.Users[0].role
+
+      switch (data.Users[0].role) {
+        case "Driver":
+          combined += "." + data.Users[0].Driver.id;
+          break;
+        case "Sponsor":
+          combined += "." + data.Users[0].Sponsor.id;
+          break;
+        default:
+          break;
+      }
+
       const encrypted = encrypt(combined);
       localStorage.setItem('session', encrypted);
 

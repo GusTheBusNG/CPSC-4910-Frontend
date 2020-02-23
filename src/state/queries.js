@@ -16,6 +16,26 @@ export const login = gql`
       lastName
       role
       id
+      Driver {
+        id
+      }
+      Sponsor {
+        id
+      }
+    }
+  }
+`;
+
+export const fetchCompanies = gql`
+  query DriverCompanies($id: Int) {
+    Companies {
+      id
+      name
+      description
+      DriverCompanies(where: {driverId: {_eq: $id}}) {
+        activeRelationship
+        points
+      }
     }
   }
 `;
