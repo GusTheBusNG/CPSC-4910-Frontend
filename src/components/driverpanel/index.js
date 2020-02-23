@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import Table from '../table';
+import Table from '../tables/table';
 
 import {fetchCompanies} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
