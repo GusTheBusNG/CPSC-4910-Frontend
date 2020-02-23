@@ -31,7 +31,7 @@ const Login = (props) => {
         return <InvalidLogin/>;
       }
 
-      var combined = data.Users[0].id + "." + data.Users[0].role
+      let combined = data.Users[0].id + "." + data.Users[0].role
 
       switch (data.Users[0].role) {
         case "Driver":

@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 const TableButton = (props) => {
   const text = props.companies.length ? (props.companies[0].activeRelationship ? ("View Catalog") : ("Application pending")) : ("Apply")
-  const href = props.companies.length ? (props.companies[0].activeRelationship ? ("/catalog") : ("")) : ("/apply")
+  const href = props.companies.length ? (props.companies[0].activeRelationship ? ("/catalog") : ("/applicationstatus")) : ("/apply")
   return (
     <Button variant="contained" style={{backgroundColor: "rgb(0, 123, 255)", color: "rgb(255,255,255)"}} href={href}>
       {text}
