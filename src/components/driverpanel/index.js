@@ -1,12 +1,23 @@
+import Button from '@material-ui/core/Button';
 import React from 'react';
 import Table from '../table';
 
 import {fetchCompanies} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
 
+const TableButton = (props) => {
+  const text = props.companies.length ? (props.companies[0].activeRelationship ? ("View Catalog") : ("Application pending")) : ("Apply")
+  const href = props.companies.length ? (props.companies[0].activeRelationship ? ("/catalog") : ("")) : ("/apply")
+  return (
+    <Button variant="contained" style={{backgroundColor: "rgb(0, 123, 255)", color: "rgb(255,255,255)"}} href={href}>
+      {text}
+    </Button>
+  );
+}
+
 const DriverPanel = (props) => {
   const id = props.id;
-  var dataArray = [];
+  const dataArray = [];
   const { loading, error, data } = useQuery(fetchCompanies, {
     variables: { id }
   });
@@ -17,7 +28,7 @@ const DriverPanel = (props) => {
     data.Companies.map(({ name, description, DriverCompanies}) => (
       dataArray.push(
         {
-        status: DriverCompanies.length ? (<a href='/catalog'>View Catalog</a>) : (<a href='/apply'>Apply</a>),
+        status: <TableButton companies={DriverCompanies}/>,
         company: name,
         description: description,
         points: DriverCompanies.length ? (DriverCompanies[0].points) : ("None")
