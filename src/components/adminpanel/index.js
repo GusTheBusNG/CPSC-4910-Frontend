@@ -1,29 +1,16 @@
 import React from 'react';
-import Table from '../table';
+import AllDrivers from '../tables/all-drivers';
+import AllSponsors from '../tables/all-sponsors';
+import AllCompanies from '../tables/all-companies';
+import AllDriverApplications from '../tables/all-driver-applications';
 
-class AdminPanel extends React.Component {
-  render() {
-    return (
-      <div style={{ maxWidth: "100%" }}>
-        <Table
-          columns={[
-            { title: "Adı", field: "name" },
-            { title: "Soyadı", field: "surname" },
-            { title: "Doğum Yılı", field: "birthYear", type: "numeric" },
-            {
-              title: "Doğum Yeri",
-              field: "birthCity",
-              lookup: { 34: "İstanbul", 63: "Şanlıurfa" }
-            }
-          ]}
-          data={[
-            { name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63 }
-          ]}
-          title="Demo Title"
-        />
-      </div>
-    );
-  }
-}
+const AdminPanel = () => (
+  <div style={{ maxWidth: "98%", margin: "1rem auto" }}>
+    <AllDrivers />
+    <AllSponsors style={{ marginTop: "1rem" }} />
+    <AllCompanies style={{ marginTop: "1rem" }} />
+    <AllDriverApplications style={{ marginTop: "1rem" }} />
+  </div>
+);
 
 export default AdminPanel;

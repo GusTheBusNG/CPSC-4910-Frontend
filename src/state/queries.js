@@ -39,3 +39,63 @@ export const fetchCompanies = gql`
     }
   }
 `;
+
+export const getAllDrivers = gql`
+  query getAllDrivers {
+    Drivers {
+      id
+      User {
+        id
+        firstName
+        email
+        lastName
+        password
+      }
+      description
+    }
+  }
+`;
+
+export const getAllSponsors = gql`
+  query getAllSponsors {
+    Sponsors {
+      User {
+        email
+        firstName
+        id
+        lastName
+        password
+      }
+    }
+  }
+`;
+
+export const getAllCompanies = gql`
+  query getAllCompanies {
+    Companies {
+      id
+      name
+      pointToDollarRatio
+      description
+    }
+  }
+`;
+
+export const getAllDriverApplications = gql`
+  query getAllDriverApplications {
+    DriverCompanies {
+      activeRelationship
+      points
+      Company {
+        name
+        id
+      }
+      Driver {
+        User {
+          email
+          id
+        }
+      }
+    }
+  }
+`;
