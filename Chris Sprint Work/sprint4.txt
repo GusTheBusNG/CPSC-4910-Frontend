@@ -1,1 +1,0 @@
-For this weeks sprint, I got the react app to be hosted on the AWS Amplify service. Since our web app uses a 3rd party database I do not need to save anything to the web server. I would like to get it running on the webserver though as AWS Amplify is more expensive
