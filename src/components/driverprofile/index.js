@@ -8,39 +8,39 @@ import ChangePassForm from "../changepassform"
 import {fetchDriver} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
 
-const Email = props => {
+const Email = ({email}) => {
   return (
     <div>
       <h2 className='bold'> Email </h2>
-      <p> {props.email} </p>
+      <p> {email} </p>
     </div>
   )
 }
 
-const FullName = props => {
+const FullName = ({firstName, lastName}) => {
   return (
     <div>
       <h2 className='bold'> Full Name </h2>
-      <p> {props.firstName} {props.lastName} </p>
+      <p> {firstName} {lastName} </p>
     </div>
   )
 }
 
-const Description = (props) => {
+const Description = ({description}) => {
   return (
     <div>
       <h2 className='bold'> Description </h2>
-      <p> {props.description} </p>
+      <p> {description} </p>
     </div>
   )
 }
 
-const Driver = (props) => {
+const Driver = ({driver: {description, User: {email, firstName, lastName}}}) => {
   return (
     <div>
-      <Email email={props.dict['User'].email}/>
-      <FullName firstName={props.dict['User'].firstName} lastName={props.dict['User'].lastName}/>
-      <Description description={props.dict['description']}/>
+      <Email email={email}/>
+      <FullName firstName={firstName} lastName={lastName}/>
+      <Description description={description}/>
     </div>
   )
 }
@@ -49,7 +49,7 @@ const DriverProfile = (props) => {
   const [view, changeView] = useState('profile');
 
   const id = props.id;
-  const dict = {};
+  let driver = {};
   const { loading, error, data } = useQuery(fetchDriver, {
     variables: { id }
   });
@@ -58,23 +58,19 @@ const DriverProfile = (props) => {
   if (loading) return <p>Loading ...</p>;
   if (data) {
     data.Drivers.forEach(({ description, User}) => {
-      dict['description'] = description;
-      dict['User'] = User;
+      driver = {description, User};
     })
-  }
-  else {
-    return <p className='driverProfile'> Sorry, something went wrong. </p>
   }
 
   switch (view) {
     case "changePass":
       return <ChangePassForm userId={props.userId}/>;
     case "editProfile":
-      return <EditProfile id={id} dict={dict}/>;
+      return <EditProfile id={id} driver={driver}/>;
     default:
       return (
         <div className='driverProfile'>
-        <Driver dict={dict}/>
+        <Driver driver={driver}/>
         <Button variant="primary" type="submit" onClick={() => changeView('editProfile')}> Edit Profile </Button>
         <Button variant="link"
                 style={{display: "block", margin: "auto"}}
