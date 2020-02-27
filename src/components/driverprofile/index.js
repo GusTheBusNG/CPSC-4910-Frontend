@@ -8,42 +8,34 @@ import ChangePassForm from "../changepassform"
 import {fetchDriver} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
 
-const Email = ({email}) => {
-  return (
-    <div>
-      <h2 className='bold'> Email </h2>
-      <p> {email} </p>
-    </div>
-  )
-}
+export const Email = ({email}) => (
+  <div>
+    <h2 className='bold'> Email </h2>
+    <p> {email} </p>
+  </div>
+)
 
-const FullName = ({firstName, lastName}) => {
-  return (
-    <div>
-      <h2 className='bold'> Full Name </h2>
-      <p> {firstName} {lastName} </p>
-    </div>
-  )
-}
+export const FullName = ({firstName, lastName}) => (
+  <div>
+    <h2 className='bold'> Full Name </h2>
+    <p> {firstName} {lastName} </p>
+  </div>
+)
 
-const Description = ({description}) => {
-  return (
-    <div>
-      <h2 className='bold'> Description </h2>
-      <p> {description} </p>
-    </div>
-  )
-}
+export const Description = ({description}) => (
+  <div>
+    <h2 className='bold'> Description </h2>
+    <p> {description} </p>
+  </div>
+)
 
-const Driver = ({driver: {description, User: {email, firstName, lastName}}}) => {
-  return (
-    <div>
-      <Email email={email}/>
-      <FullName firstName={firstName} lastName={lastName}/>
-      <Description description={description}/>
-    </div>
-  )
-}
+export const Driver = ({driver: {description, email, firstName, lastName}}) => (
+  <div>
+    <Email email={email}/>
+    <FullName firstName={firstName} lastName={lastName}/>
+    <Description description={description}/>
+  </div>
+)
 
 const DriverProfile = (props) => {
   const [view, changeView] = useState('profile');
@@ -58,7 +50,7 @@ const DriverProfile = (props) => {
   if (loading) return <p>Loading ...</p>;
   if (data) {
     data.Drivers.forEach(({ description, User}) => {
-      driver = {description, User};
+      driver = {description, ...User};
     })
   }
 
