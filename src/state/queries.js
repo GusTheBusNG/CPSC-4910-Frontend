@@ -99,3 +99,16 @@ export const getAllDriverApplications = gql`
     }
   }
 `;
+
+export const fetchDriver = gql`
+  query Drivers($id: Int) {
+    Drivers(where: {id: {_eq: $id}}) {
+      description
+      User {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+`;

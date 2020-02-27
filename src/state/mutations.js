@@ -326,3 +326,27 @@ export const insertDriverApplication = gql`
     }
   }
 `;
+
+export const updateDriverDescription = gql`
+  mutation updateDriverDescription($id: Int, $description: String) {
+    __typename
+    update_Drivers(where: {id: {_eq: $id}}, _set: {description: $description}) {
+      returning {
+        description
+      }
+    }
+}
+`
+
+export const updateDriverNameAndEmail= gql`
+  mutation updateDriverNameAndEmail($id: Int, $email: String, $firstName: String, $lastName: String) {
+    __typename
+    update_Users(where: {Driver: {id: {_eq: $id}}}, _set: {email: $email, firstName: $firstName, lastName: $lastName}) {
+      returning {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+`
