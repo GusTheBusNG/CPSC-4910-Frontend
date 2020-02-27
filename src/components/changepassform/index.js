@@ -1,17 +1,19 @@
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 
 import {getPassword} from '../../state/queries';
-import {useQuery} from '@apollo/react-hooks';
+import {changePassword} from '../../state/mutations'
+import {useQuery, useMutation} from '@apollo/react-hooks';
 
 const ChangePassForm = (props) => {
   const [validated, setValidated] = useState(false);
   const { loading, error, data } = useQuery(getPassword, {
     variables: { id: props.userId }
   });
+  const [changePass, {lloading, lerror }] = useMutation(changePassword);
+
   let pass;
   let passMatch = false;
 
@@ -41,7 +43,13 @@ const ChangePassForm = (props) => {
       if (newPass !== confirmPass) {
         alert("New passwords don't match")
       }
-      setValidated((oldPass === pass) && (newPass === confirmPass))
+      if ((oldPass === pass) && (newPass === confirmPass)) {
+        changePass({ variables: {
+          id: props.userId,
+          password: newPass
+        }})
+        setValidated(true)
+      }
     }
 
     return (
@@ -72,11 +80,11 @@ const ChangePassForm = (props) => {
             </Form.Group>
 
             <Button variant="primary" type="submit">
-            { loading ? "Loading..." : "Submit" }
+            { loading || lloading ? "Loading..." : "Submit" }
             </Button>
 
             <Form.Text>
-              { error ? "Well that didn't work" : null }
+              { error || lerror ? "Well that didn't work" : null }
             </Form.Text>
           </Form>
         </Card.Body>
