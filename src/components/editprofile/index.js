@@ -73,6 +73,7 @@ const EditProfile = (props) => {
           </Form>
         </Card.Body>
       </Card>
+      <a href='/profile'> Go back </a>
     </div>
   )
 }

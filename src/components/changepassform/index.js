@@ -89,7 +89,7 @@ const ChangePassForm = (props) => {
           </Form>
         </Card.Body>
       </Card>
-        <a href='/profile'> go back </a>
+        <a href='/profile'> Go back </a>
       </div>
     )
   }
