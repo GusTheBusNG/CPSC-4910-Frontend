@@ -13,7 +13,7 @@ const Profile = () => {
         case "Admin":
           return <p>Admin profile</p>;
         case "Driver":
-          return <DriverProfile id={decrypted.split(".")[2]}/>;
+          return <DriverProfile id={decrypted.split(".")[2]} userId={decrypted.split(".")[0]}/>;
         case "Sponsor":
           return <p>Admin profile</p>;
         default:

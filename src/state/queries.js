@@ -112,3 +112,11 @@ export const fetchDriver = gql`
     }
   }
 `;
+
+export const getPassword = gql`
+  query getPassword($id: Int) {
+    Users(where: {id: {_eq: $id}}) {
+      password
+    }
+  }
+`;

@@ -68,7 +68,7 @@ const DriverProfile = (props) => {
 
   switch (view) {
     case "changePass":
-      return <ChangePassForm/>;
+      return <ChangePassForm userId={props.userId}/>;
     case "editProfile":
       return <EditProfile id={id} dict={dict}/>;
     default:

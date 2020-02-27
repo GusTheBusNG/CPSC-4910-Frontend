@@ -336,9 +336,9 @@ export const updateDriverDescription = gql`
       }
     }
 }
-`
+`;
 
-export const updateDriverNameAndEmail= gql`
+export const updateDriverNameAndEmail = gql`
   mutation updateDriverNameAndEmail($id: Int, $email: String, $firstName: String, $lastName: String) {
     __typename
     update_Users(where: {Driver: {id: {_eq: $id}}}, _set: {email: $email, firstName: $firstName, lastName: $lastName}) {
@@ -349,4 +349,15 @@ export const updateDriverNameAndEmail= gql`
       }
     }
   }
-`
+`;
+
+export const changePassword = gql`
+  mutation changePassword($id: Int, $password: String) {
+    __typename
+    update_Users(where: {id: {_eq: $id}}, _set: {password: $password}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
