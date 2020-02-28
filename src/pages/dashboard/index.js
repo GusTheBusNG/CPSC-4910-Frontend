@@ -16,9 +16,9 @@ class Dashboard extends React.Component {
         case "Admin":
           return <AdminPanel/>;
         case "Driver":
-          return <DriverPanel/>;
+          return <DriverPanel id={decrypted.split(".")[2]}/>;
         case "Sponsor":
-          return <SponsorPanel/>;
+          return <SponsorPanel id={decrypted.split(".")[2]}/>;
         default:
           return <p> Invalid login. </p>;
       }

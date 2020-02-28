@@ -41,6 +41,9 @@ const tableIcons = {
 const table = (props) => (
   <MaterialTable
     icons={tableIcons}
+    options={{
+      actionsColumnIndex: -1
+    }}
     {...props}
   />
 )
