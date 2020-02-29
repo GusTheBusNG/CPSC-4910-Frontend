@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
+import './add-catalog.scss';
+
 const AddCatalog = () => {
   const requestConfig = {
     url: 'http://localhost:5000/api/v1/ebay',
@@ -32,7 +34,7 @@ const AddCatalog = () => {
 
   return (
     <div className="add-catalog">
-      <h1>Add items to your catalog</h1>
+      <h2>Add items to your catalog</h2>
       <Form noValidate onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="keywords">
