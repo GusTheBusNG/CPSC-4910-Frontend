@@ -1,9 +1,13 @@
 import React from 'react';
+import AddCatalog from '../add-catalog';
 
 class SponsorPanel extends React.Component {
   render() {
     return (
-      <p> this is a sponsor panel. </p>
+      <>
+        <AddCatalog />
+        <p> this is a sponsor panel. </p>
+      </>
     );
   }
 }
