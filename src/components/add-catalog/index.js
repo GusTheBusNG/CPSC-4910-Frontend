@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 
 import './add-catalog.scss';
 
-const AddCatalog = () => {
+const AddCatalog = ({ companyId }) => {
   const requestConfig = {
     url: 'http://localhost:5000/api/v1/ebay',
     method: 'get',
@@ -61,7 +61,7 @@ const AddCatalog = () => {
           { error ? "Well that didn't work" : null }
         </Form.Text>
       </Form>
-      <AddCatalogTable ebayResponse={data} loading={loading} />
+      <AddCatalogTable ebayResponse={data} loading={loading} companyId={companyId} />
     </div>
   );
 }

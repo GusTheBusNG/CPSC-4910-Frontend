@@ -326,3 +326,31 @@ export const insertDriverApplication = gql`
     }
   }
 `;
+
+export const insertProductToCatalog = gql`
+  mutation insertProductToCatalog(
+    $companyId: Int!
+    $endTime: timestamptz!
+    $ebayLink: String!
+    $photo: String!
+    $price: money!
+    $title: String!
+  ) {
+    insert_Products(objects: {
+      Catalogs: { data: { companyId: $companyId} },
+      endTime: $endTime,
+      link: $ebayLink,
+      photo: $photo,
+      price: $price,
+      title: $title
+    }) {
+      returning {
+        title
+        price
+        photo
+        link
+        endTime
+      }
+    }
+  }
+`;

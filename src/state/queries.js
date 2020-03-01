@@ -99,3 +99,30 @@ export const getAllDriverApplications = gql`
     }
   }
 `;
+
+export const getCompany = gql`
+  query getCompany($sponsorId: Int!) {
+    Sponsors(where: {id: {_eq: $sponsorId}}) {
+      Company {
+        id
+        name
+        pointToDollarRatio
+        description
+      }
+    }
+  }
+`;
+
+export const getCatalog = gql`
+  query getCatalog($companyId: Int!) {
+    Catalog(where: {companyId: {_eq: $companyId}}) {
+      Product {
+        link
+        photo
+        price
+        title
+        endTime
+      }
+    }
+  }
+`;
