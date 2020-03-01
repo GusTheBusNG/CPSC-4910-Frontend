@@ -117,6 +117,7 @@ export const getCatalog = gql`
   query getCatalog($companyId: Int!) {
     Catalog(where: {companyId: {_eq: $companyId}}) {
       Product {
+        id
         link
         photo
         price

@@ -1,5 +1,6 @@
 import React from 'react';
 import AddCatalog from '../add-catalog';
+import Catalog from '../tables/catalog';
 import { useQuery } from '@apollo/react-hooks';
 import { getCompany } from '../../state/queries';
 
@@ -9,7 +10,15 @@ const SponsorPanel = props => {
 
   return (
     <>
-      { !error && <AddCatalog companyId={data && data.Sponsors[0].Company.id} /> }
+      { 
+        !error && data &&
+          (
+            <>
+              <Catalog companyId={data.Sponsors[0].Company.id} />
+              <AddCatalog companyId={data.Sponsors[0].Company.id} />
+            </>
+          )
+      }
       <p> this is a sponsor panel. </p>
     </>
   );

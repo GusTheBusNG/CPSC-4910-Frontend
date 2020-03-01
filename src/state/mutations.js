@@ -354,3 +354,16 @@ export const insertProductToCatalog = gql`
     }
   }
 `;
+
+export const deleteItemFromCatalog = gql`
+  mutation deleteItemFromCatalog(
+    $productId: Int!
+    $companyId: Int!
+  ) {
+    delete_Catalog(where: {productId: {_eq: $productId}, companyId: {_eq: $companyId}}) {
+      returning {
+        productId
+      }
+    }
+  }
+`;

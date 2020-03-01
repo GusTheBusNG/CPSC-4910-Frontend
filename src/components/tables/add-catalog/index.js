@@ -7,17 +7,9 @@ import { getCatalog } from '../../../state/queries';
 
 const AddCatalog = props => {
   const { ebayResponse, loading, companyId } = props;
-  const { data } = useQuery(getCatalog, { variables: { companyId }})
+  const { data, refetch } = useQuery(getCatalog, { variables: { companyId }})
   const [canAddItems, setCanAddItems] = useState([]);
-  const [insertProductToCatalogAction] = useMutation(insertProductToCatalog, {
-    update(cache, { data: newProductData }) {
-      const { Catalog } = cache.readQuery({ query: getCatalog, variables: { companyId } });
-      cache.writeQuery({
-        query: getCatalog,
-        data: { Catalog: Catalog.concat([{ Product: { ...newProductData.insert_Products.returning[0] }, "__typename": "Catalog" }])} }
-      );
-    }
-  });
+  const [insertProductToCatalogAction] = useMutation(insertProductToCatalog)
 
   useEffect(() => {
     if (data === undefined || ebayResponse === undefined) return ;
@@ -60,7 +52,7 @@ const AddCatalog = props => {
           tooltip: 'Save Item',
           onClick: (event, { endTime, ebayLink, photo, price, title }) => insertProductToCatalogAction({
             variables: { companyId, endTime, ebayLink, photo, price, title }
-          })
+          }).then(() => refetch({ companyId }))
         }
       ]}
       {...props}
