@@ -100,6 +100,19 @@ export const getAllDriverApplications = gql`
   }
 `;
 
+export const getCompany = gql`
+  query getCompany($sponsorId: Int!) {
+    Sponsors(where: {id: {_eq: $sponsorId}}) {
+      Company {
+        id
+        name
+        pointToDollarRatio
+        description
+      }
+    }
+  }
+`;
+
 export const fetchDriver = gql`
   query Drivers($id: Int) {
     Drivers(where: {id: {_eq: $id}}) {
@@ -108,6 +121,21 @@ export const fetchDriver = gql`
         email
         firstName
         lastName
+      }
+    }
+  }
+`;
+
+export const getCatalog = gql`
+  query getCatalog($companyId: Int!) {
+    Catalog(where: {companyId: {_eq: $companyId}}) {
+      Product {
+        id
+        link
+        photo
+        price
+        title
+        endTime
       }
     }
   }

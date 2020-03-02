@@ -327,6 +327,34 @@ export const insertDriverApplication = gql`
   }
 `;
 
+export const insertProductToCatalog = gql`
+  mutation insertProductToCatalog(
+    $companyId: Int!
+    $endTime: timestamptz!
+    $ebayLink: String!
+    $photo: String!
+    $price: money!
+    $title: String!
+  ) {
+    insert_Products(objects: {
+      Catalogs: { data: { companyId: $companyId} },
+      endTime: $endTime,
+      link: $ebayLink,
+      photo: $photo,
+      price: $price,
+      title: $title
+    }) {
+      returning {
+        title
+        price
+        photo
+        link
+        endTime
+      }
+    }
+  }
+`;
+
 export const updateDriverDescription = gql`
   mutation updateDriverDescription($id: Int, $description: String) {
     __typename
@@ -346,6 +374,19 @@ export const updateDriverNameAndEmail = gql`
         email
         firstName
         lastName
+      }
+    }
+  }
+`;
+
+export const deleteItemFromCatalog = gql`
+  mutation deleteItemFromCatalog(
+    $productId: Int!
+    $companyId: Int!
+  ) {
+    delete_Catalog(where: {productId: {_eq: $productId}, companyId: {_eq: $companyId}}) {
+      returning {
+        productId
       }
     }
   }
