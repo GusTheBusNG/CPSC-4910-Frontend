@@ -1,6 +1,7 @@
 import React from 'react';
 import AddCatalog from '../add-catalog';
 import Catalog from '../tables/catalog';
+import CompanyDrivers from '../tables/company-drivers'
 import { useQuery } from '@apollo/react-hooks';
 import { getCompany } from '../../state/queries';
 
@@ -10,16 +11,16 @@ const SponsorPanel = props => {
 
   return (
     <>
-      { 
+      {
         !error && data &&
           (
             <>
               <Catalog companyId={data.Sponsors[0].Company.id} />
               <AddCatalog companyId={data.Sponsors[0].Company.id} />
+              <CompanyDrivers companyId={data.Sponsors[0].Company.id} />
             </>
           )
       }
-      <p> this is a sponsor panel. </p>
     </>
   );
 }
