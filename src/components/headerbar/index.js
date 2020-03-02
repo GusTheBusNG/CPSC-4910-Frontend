@@ -69,6 +69,7 @@ class HeaderBar extends React.Component {
               { loggedIn ? (
                 <React.Fragment>
                   <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  <Nav.Link href="/profile">Profile</Nav.Link>
                   <Nav.Link href="/">Home</Nav.Link>
                   <Nav.Link href="/" onClick={this.logout}>Logout</Nav.Link>
                 </React.Fragment>

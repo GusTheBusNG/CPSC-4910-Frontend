@@ -113,6 +113,19 @@ export const getCompany = gql`
   }
 `;
 
+export const fetchDriver = gql`
+  query Drivers($id: Int) {
+    Drivers(where: {id: {_eq: $id}}) {
+      description
+      User {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
 export const getCatalog = gql`
   query getCatalog($companyId: Int!) {
     Catalog(where: {companyId: {_eq: $companyId}}) {
@@ -124,6 +137,14 @@ export const getCatalog = gql`
         title
         endTime
       }
+    }
+  }
+`;
+
+export const getPassword = gql`
+  query getPassword($id: Int) {
+    Users(where: {id: {_eq: $id}}) {
+      password
     }
   }
 `;
