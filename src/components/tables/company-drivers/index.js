@@ -50,7 +50,6 @@ const CompanyDrivers = ({companyId}) => {
       { title: "Last Name", field: "lastName", editable: "never" },
       { title: "Email", field: "email", editable: "never" },
       { title: "Points", field: "points" },
-      { title: "Driver ID", field: "driverId", editable: "never"}
     ]}
     editable={{
       onRowUpdate: (newData) => updateDriver(newData),
