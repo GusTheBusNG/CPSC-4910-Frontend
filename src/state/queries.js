@@ -148,3 +148,24 @@ export const getPassword = gql`
     }
   }
 `;
+
+export const getCompanyDrivers = gql`
+  query getCompanyDrivers($companyId: Int) {
+    Sponsors(where: {companyId: {_eq: $companyId}}) {
+      Company {
+        DriverCompanies {
+          activeRelationship
+          points
+          Driver {
+            id
+            User {
+              email
+              firstName
+              lastName
+            }
+          }
+        }
+      }
+    }
+  }
+`

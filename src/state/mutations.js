@@ -402,3 +402,24 @@ export const changePassword = gql`
     }
   }
 `;
+
+export const updateDriverAffiliation = gql`
+  mutation updateDriverAffiliation($driverId: Int, $companyId: Int, $relationship: Boolean, $points: numeric) {
+    update_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {id: {_eq: $driverId}}}, _set: {activeRelationship: $relationship, points: $points}) {
+      returning {
+        activeRelationship
+        points
+      }
+    }
+  }
+`;
+
+export const deleteDriverAffiliation = gql`
+  mutation deleteDriverAffiliation($companyId: Int, $driverId: Int) {
+    delete_DriverCompanies(where: {Company: {id: {_eq: $companyId}}, Driver: {id: {_eq: $driverId}}}) {
+      returning {
+        driverId
+      }
+    }
+  }
+`;
