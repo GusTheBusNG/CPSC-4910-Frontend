@@ -7,7 +7,7 @@ import React from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {updateDriverDescription, updateDriverNameAndEmail} from '../../state/mutations'
 
-const EditProfile = (props) => {
+const EditProfile = ({id, driver: {description, email, firstName, lastName}}) => {
   const [submitDesc, {loading, error }] = useMutation(updateDriverDescription);
   const [submitNameAndEmail, {lloading, lerror }] = useMutation(updateDriverNameAndEmail);
 
@@ -22,15 +22,15 @@ const EditProfile = (props) => {
     }
 
     submitDesc({ variables: {
-      id: props.id,
-      description: form['description'].value ? form['description'].value : props.dict['description']
+      id: id,
+      description: form['description'].value ? form['description'].value : description
     }})
 
     submitNameAndEmail({ variables: {
-      id: props.id,
-      email: form['email'].value ? form['email'].value : props.dict['User']['email'],
-      firstName: form['firstName'].value ? form['firstName'].value : props.dict['User']['firstName'],
-      lastName: form['lastName'].value ? form['lastName'].value : props.dict['User']['lastName']
+      id: id,
+      email: form['email'].value ? form['email'].value : email,
+      firstName: form['firstName'].value ? form['firstName'].value : firstName,
+      lastName: form['lastName'].value ? form['lastName'].value : lastName
     }})
   }
 
@@ -41,7 +41,7 @@ const EditProfile = (props) => {
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Group controlId="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder={props.dict['User']['email']} />
+              <Form.Control type="email" placeholder={email} />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -49,18 +49,18 @@ const EditProfile = (props) => {
             <Form.Row>
               <Form.Group as={Col} controlId="firstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control type="text" placeholder={props.dict['User']['firstName']} />
+                <Form.Control type="text" placeholder={firstName} />
               </Form.Group>
 
               <Form.Group as={Col} controlId="lastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="text" placeholder={props.dict['User']['lastName']} />
+                <Form.Control type="text" placeholder={lastName} />
               </Form.Group>
             </Form.Row>
 
             <Form.Group controlId="description">
               <Form.Label>Description of yourself for sponsors!</Form.Label>
-              <Form.Control type="textarea" placeholder={props.dict['description']} />
+              <Form.Control type="textarea" placeholder={description} />
             </Form.Group>
 
             <Button variant="primary" type="submit">
