@@ -99,3 +99,73 @@ export const getAllDriverApplications = gql`
     }
   }
 `;
+
+export const getCompany = gql`
+  query getCompany($sponsorId: Int!) {
+    Sponsors(where: {id: {_eq: $sponsorId}}) {
+      Company {
+        id
+        name
+        pointToDollarRatio
+        description
+      }
+    }
+  }
+`;
+
+export const fetchDriver = gql`
+  query Drivers($id: Int) {
+    Drivers(where: {id: {_eq: $id}}) {
+      description
+      User {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const getCatalog = gql`
+  query getCatalog($companyId: Int!) {
+    Catalog(where: {companyId: {_eq: $companyId}}) {
+      Product {
+        id
+        link
+        photo
+        price
+        title
+        endTime
+      }
+    }
+  }
+`;
+
+export const getPassword = gql`
+  query getPassword($id: Int) {
+    Users(where: {id: {_eq: $id}}) {
+      password
+    }
+  }
+`;
+
+export const getCompanyDrivers = gql`
+  query getCompanyDrivers($companyId: Int) {
+    Sponsors(where: {companyId: {_eq: $companyId}}) {
+      Company {
+        DriverCompanies {
+          activeRelationship
+          points
+          Driver {
+            id
+            User {
+              email
+              firstName
+              lastName
+            }
+          }
+        }
+      }
+    }
+  }
+`

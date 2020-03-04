@@ -326,3 +326,100 @@ export const insertDriverApplication = gql`
     }
   }
 `;
+
+export const insertProductToCatalog = gql`
+  mutation insertProductToCatalog(
+    $companyId: Int!
+    $endTime: timestamptz!
+    $ebayLink: String!
+    $photo: String!
+    $price: money!
+    $title: String!
+  ) {
+    insert_Products(objects: {
+      Catalogs: { data: { companyId: $companyId} },
+      endTime: $endTime,
+      link: $ebayLink,
+      photo: $photo,
+      price: $price,
+      title: $title
+    }) {
+      returning {
+        title
+        price
+        photo
+        link
+        endTime
+      }
+    }
+  }
+`;
+
+export const updateDriverDescription = gql`
+  mutation updateDriverDescription($id: Int, $description: String) {
+    __typename
+    update_Drivers(where: {id: {_eq: $id}}, _set: {description: $description}) {
+      returning {
+        description
+      }
+    }
+}
+`;
+
+export const updateDriverNameAndEmail = gql`
+  mutation updateDriverNameAndEmail($id: Int, $email: String, $firstName: String, $lastName: String) {
+    __typename
+    update_Users(where: {Driver: {id: {_eq: $id}}}, _set: {email: $email, firstName: $firstName, lastName: $lastName}) {
+      returning {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const deleteItemFromCatalog = gql`
+  mutation deleteItemFromCatalog(
+    $productId: Int!
+    $companyId: Int!
+  ) {
+    delete_Catalog(where: {productId: {_eq: $productId}, companyId: {_eq: $companyId}}) {
+      returning {
+        productId
+      }
+    }
+  }
+`;
+
+export const changePassword = gql`
+  mutation changePassword($id: Int, $password: String) {
+    __typename
+    update_Users(where: {id: {_eq: $id}}, _set: {password: $password}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+export const updateDriverAffiliation = gql`
+  mutation updateDriverAffiliation($driverId: Int, $companyId: Int, $relationship: Boolean, $points: numeric) {
+    update_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {id: {_eq: $driverId}}}, _set: {activeRelationship: $relationship, points: $points}) {
+      returning {
+        activeRelationship
+        points
+      }
+    }
+  }
+`;
+
+export const deleteDriverAffiliation = gql`
+  mutation deleteDriverAffiliation($companyId: Int, $driverId: Int) {
+    delete_DriverCompanies(where: {Company: {id: {_eq: $companyId}}, Driver: {id: {_eq: $driverId}}}) {
+      returning {
+        driverId
+      }
+    }
+  }
+`;

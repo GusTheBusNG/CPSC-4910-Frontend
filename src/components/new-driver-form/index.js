@@ -11,6 +11,7 @@ const NewDriverForm = () => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
+    setValidated(false);
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -20,16 +21,18 @@ const NewDriverForm = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }
-
-    setValidated(true);
-    makeDriver({ variables: {
-      email: form['email'].value,
-      password: form['password'].value,
-      firstName: form['firstName'].value,
-      lastName: form['lastName'].value,
-      description: form['description'].value
-    }})
+      setValidated(true);
+    } 
+    else {
+      setValidated(true);
+      makeDriver({ variables: {
+        email: form['email'].value,
+        password: form['password'].value,
+        firstName: form['firstName'].value,
+        lastName: form['lastName'].value,
+        description: form['description'].value
+      }})
+    }    
   }
 
   return (

@@ -4,6 +4,7 @@ import Dashboard from './pages/dashboard'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
 import Login from './pages/login'
+import Profile from './pages/profile'
 import Register from './pages/register'
 import Support from './pages/support'
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route path='/dashboard'>
           <Dashboard/>
+        </Route>
+        <Route path='/profile'>
+          <Profile/>
         </Route>
         <Route exact path='/'>
           <HomePage/>
