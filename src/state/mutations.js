@@ -423,3 +423,44 @@ export const deleteDriverAffiliation = gql`
     }
   }
 `;
+
+export const deleteAdmin = gql`
+  mutation deleteAdmin($id: Int!) {
+    delete_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}) {
+      returning {
+        id
+      }
+    }
+  }
+`
+
+export const insertAdmin = gql`
+  mutation insertAdmin(
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+  ) {
+    insert_Users(objects: {email: $email, firstName: $firstName, lastName: $lastName, password: $password, role: "Admin"}) {
+      returning {
+        email
+      }
+    }
+  }
+`;
+
+export const updateAdmin = gql`
+  mutation updateAdmin(
+    $id: Int!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    update_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName, password: $password}) {
+      returning {
+        email
+      }
+    }
+  }
+`;
