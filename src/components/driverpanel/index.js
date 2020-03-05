@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 import React from 'react';
 import Table from '../tables/table';
 
@@ -17,7 +18,7 @@ export const relationshipState = {
   APPLY: "Apply"
 }
 
-const TableButton = ({companyId, driverId, companies, submitApplication}) => {
+const TableButton = ({companyId, driverId, companies, submitApplication, name}) => {
   const text = (companies.length ?
     (companies[0].activeRelationship ? (relationshipState.VIEW_CATALOG) : (relationshipState.PENDING))
     : (relationshipState.APPLY))
@@ -30,6 +31,15 @@ const TableButton = ({companyId, driverId, companies, submitApplication}) => {
                 onClick={() => submitApplication({companyId, driverId})}>
           {text}
         </Button>
+      );
+    case relationshipState.VIEW_CATALOG:
+      return (
+        <Link to={{pathname: '/catalog', state: {companyId, name}}}>
+          <Button variant="contained"
+                  style={tableButtonStyle}>
+            {text}
+          </Button>
+        </Link>
       );
     default:
       return (
@@ -65,7 +75,11 @@ const DriverPanel = (props) => {
     data.Companies.map(({ id, name, description, DriverCompanies}) => (
       driverCompanies.push(
         {
-        status: <TableButton companyId={id} driverId={driverId} companies={DriverCompanies} submitApplication={submitApplication}/>,
+        status: <TableButton companyId={id}
+                             driverId={driverId}
+                             companies={DriverCompanies}
+                             submitApplication={submitApplication}
+                             name={name}/>,
         company: name,
         description: description,
         points: DriverCompanies.length ? (DriverCompanies[0].points) : ("None")
