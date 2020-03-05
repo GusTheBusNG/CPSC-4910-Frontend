@@ -11,11 +11,19 @@ export const tableButtonStyle = {
   color: "rgb(255,255,255)"
 }
 
+export const relationshipState = {
+  VIEW_CATALOG: "View Catalog",
+  PENDING: "Pending",
+  APPLY: "Apply"
+}
+
 const TableButton = ({companyId, driverId, companies, submitApplication}) => {
-  const text = companies.length ? (companies[0].activeRelationship ? ("View Catalog") : ("Pending")) : ("Apply")
+  const text = (companies.length ?
+    (companies[0].activeRelationship ? (relationshipState.VIEW_CATALOG) : (relationshipState.PENDING))
+    : (relationshipState.APPLY))
 
   switch (text) {
-    case "Apply":
+    case relationshipState.APPLY:
       return (
         <Button variant="contained"
                 style={tableButtonStyle}
