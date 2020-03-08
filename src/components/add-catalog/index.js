@@ -7,15 +7,10 @@ import Col from 'react-bootstrap/Col';
 
 import './add-catalog.scss';
 
-const AddCatalog = ({ companyId }) => {
+const AddCatalog = ({ companyId, name }) => {
   const requestConfig = {
     url: 'http://localhost:5000/api/v1/ebay',
     method: 'get',
-    params: {
-      maxPrice: 100.00,
-      minPrice: 90.00,
-      keywords: 'wheels'
-    }
   };
   const [{ loading, error, data }, refetch] = useAxios(requestConfig);
 
@@ -34,7 +29,7 @@ const AddCatalog = ({ companyId }) => {
 
   return (
     <div className="add-catalog">
-      <h2>Add items to your catalog</h2>
+      <h2>{name ? `Add items to ${name}'s catalog` : 'Add items to your catalog'}</h2>
       <Form noValidate onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="keywords">
@@ -61,7 +56,12 @@ const AddCatalog = ({ companyId }) => {
           { error ? "Well that didn't work" : null }
         </Form.Text>
       </Form>
-      <AddCatalogTable ebayResponse={data} loading={loading} companyId={companyId} />
+      <AddCatalogTable
+        ebayResponse={data}
+        loading={loading}
+        companyId={companyId}
+        name={name}
+      />
     </div>
   );
 }
