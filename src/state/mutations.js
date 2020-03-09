@@ -394,7 +394,6 @@ export const deleteItemFromCatalog = gql`
 
 export const changePassword = gql`
   mutation changePassword($id: Int, $password: String) {
-    __typename
     update_Users(where: {id: {_eq: $id}}, _set: {password: $password}) {
       returning {
         id
