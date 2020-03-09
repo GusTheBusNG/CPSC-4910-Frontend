@@ -6,7 +6,12 @@ import { getCatalog } from '../../../state/queries';
 const DriverCatalog = props => {
   const { companyId, name } = props;
   const { data, loading } = useQuery(getCatalog, { variables: { companyId }})
-
+  if (data) {
+    data.Catalog.forEach(({Product, Company}) => {
+      const price = parseFloat(Product.price.replace('$',''))
+      Product.price = (Company.pointToDollarRatio * price).toFixed(2);
+    })
+  }
   return (
     <Table
       style={{ margin: '1rem' }}
@@ -23,7 +28,7 @@ const DriverCatalog = props => {
           field: "link",
           render: ({ ebayLink }) => <a href={ebayLink}>View Item</a>
         },
-        { title: "Price", field: "price", type: "numeric" },
+        { title: "Price (Points)", field: "price", type: "numeric" },
         { title: "End Time", field: "endTime", type: "datetime" },
       ]}
       data={data && data.Catalog.map(({ Product }) => ({ ...Product }))}

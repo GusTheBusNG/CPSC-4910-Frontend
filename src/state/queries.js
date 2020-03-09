@@ -137,6 +137,9 @@ export const getCatalog = gql`
         title
         endTime
       }
+      Company {
+          pointToDollarRatio
+      }
     }
   }
 `;
