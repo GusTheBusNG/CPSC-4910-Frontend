@@ -423,3 +423,13 @@ export const deleteDriverAffiliation = gql`
     }
   }
 `;
+
+export const updatePointToDollar = gql`
+  mutation updatePointToDollar($newPointToDollar: Int) {
+    update_Companies(_set: {pointToDollarRatio: {_eq: $newPointToDollar}}) {
+      returning {
+        id
+      }
+    }
+  }
+`

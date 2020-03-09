@@ -169,3 +169,13 @@ export const getCompanyDrivers = gql`
     }
   }
 `
+
+export const getPointToDollar = gql`
+  query getPointToDollar($copmanyId: Int) {
+    Sponsors(where: {companyId: {_eq: $companyId}}) {
+      Company {
+        pointToDollarRatio
+      }
+    }
+  }
+`
