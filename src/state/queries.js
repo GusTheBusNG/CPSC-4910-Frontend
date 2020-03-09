@@ -172,3 +172,15 @@ export const getCompanyDrivers = gql`
     }
   }
 `
+
+export const getAllAdmins = gql`
+  query getAllAdmins {
+    Users(where: {role: {_eq: "Admin"}}) {
+      email
+      firstName
+      id
+      lastName
+      password
+    }
+  }
+`;

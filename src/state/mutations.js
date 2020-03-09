@@ -394,7 +394,6 @@ export const deleteItemFromCatalog = gql`
 
 export const changePassword = gql`
   mutation changePassword($id: Int, $password: String) {
-    __typename
     update_Users(where: {id: {_eq: $id}}, _set: {password: $password}) {
       returning {
         id
@@ -419,6 +418,47 @@ export const deleteDriverAffiliation = gql`
     delete_DriverCompanies(where: {Company: {id: {_eq: $companyId}}, Driver: {id: {_eq: $driverId}}}) {
       returning {
         driverId
+      }
+    }
+  }
+`;
+
+export const deleteAdmin = gql`
+  mutation deleteAdmin($id: Int!) {
+    delete_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}) {
+      returning {
+        id
+      }
+    }
+  }
+`
+
+export const insertAdmin = gql`
+  mutation insertAdmin(
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+  ) {
+    insert_Users(objects: {email: $email, firstName: $firstName, lastName: $lastName, password: $password, role: "Admin"}) {
+      returning {
+        email
+      }
+    }
+  }
+`;
+
+export const updateAdmin = gql`
+  mutation updateAdmin(
+    $id: Int!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    update_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName, password: $password}) {
+      returning {
+        email
       }
     }
   }

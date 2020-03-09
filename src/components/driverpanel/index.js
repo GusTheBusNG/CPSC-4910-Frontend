@@ -18,10 +18,20 @@ export const relationshipState = {
   APPLY: "Apply"
 }
 
-const TableButton = ({companyId, driverId, companies, submitApplication, name}) => {
-  const text = (companies.length ?
-    (companies[0].activeRelationship ? (relationshipState.VIEW_CATALOG) : (relationshipState.PENDING))
-    : (relationshipState.APPLY))
+const TableButton = ({companyId, driverId, companies, name, submitApplication}) => {
+  let text;
+
+  if (companies.length) {
+    if (companies[0].activeRelationship) {
+      text = relationshipState.VIEW_CATALOG;
+    }
+    else {
+      text = relationshipState.PENDING
+    }
+  }
+  else {
+    text = relationshipState.APPLY;
+  }
 
   switch (text) {
     case relationshipState.APPLY:
