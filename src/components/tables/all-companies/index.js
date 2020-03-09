@@ -6,8 +6,10 @@ import { deleteCompany, updateCompany } from '../../../state/mutations';
 import AddBox from '@material-ui/icons/AddBox';
 import NewSponsorForm from '../../new-sponsor-form';
 import Card from 'react-bootstrap/Card';
+import Button from '@material-ui/core/Button';
 
 import './all-companies.scss';
+import { useHistory } from 'react-router-dom';
 
 const AllDrivers = (props) => {
   const [deleteCompanyAction] = useMutation(deleteCompany, {
@@ -26,10 +28,9 @@ const AllDrivers = (props) => {
   });
  
   const [updateCompanyAction] = useMutation(updateCompany)
-
   const { loading, error, data } = useQuery(getAllCompanies);
-
   const [showNewCompanyForm, setShowNewCompanyForm] = useState(false)
+  const history = useHistory();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -42,6 +43,19 @@ const AllDrivers = (props) => {
           { title: "Company Name", field: "name" },
           { title: "Point to Dollar Ratio", field: "pointToDollarRatio" },
           { title: "Description", field: "description" },
+          {
+            title: "Catalog",
+            field: "catalog",
+            render: ({id, name}) => (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push('/catalog', { companyId: id, name })}
+              >
+                Catalog
+              </Button>
+            )
+          }
         ]}
         data={data.Companies}
         title="Companies"
@@ -50,7 +64,7 @@ const AllDrivers = (props) => {
             icon: () => <AddBox />,
             tooltip: 'Add User',
             isFreeAction: true,
-            onClick: (event) => setShowNewCompanyForm(!showNewCompanyForm)
+            onClick: () => setShowNewCompanyForm(!showNewCompanyForm)
           }
         ]}
         editable={{

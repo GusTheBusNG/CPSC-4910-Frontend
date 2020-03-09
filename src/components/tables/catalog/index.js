@@ -5,7 +5,7 @@ import { deleteItemFromCatalog } from '../../../state/mutations';
 import { getCatalog } from '../../../state/queries';
 
 const Catalog = props => {
-  const { companyId } = props;
+  const { companyId, name } = props;
   const { data, loading, refetch } = useQuery(getCatalog, { variables: { companyId }})
   const [deleteItemFromCatalogAction] = useMutation(deleteItemFromCatalog);
   
@@ -29,7 +29,7 @@ const Catalog = props => {
         { title: "End Time", field: "endTime", type: "datetime" },
       ]}
       data={data && data.Catalog.map(({ Product }) => ({ ...Product }))}
-      title="Your Catalog"
+      title={name ? `${name}'s catalog` : 'Your catalog'}
       editable={{
         onRowDelete: ({ id }) => deleteItemFromCatalogAction({
           variables: {

@@ -6,7 +6,7 @@ import { insertProductToCatalog } from '../../../state/mutations';
 import { getCatalog } from '../../../state/queries';
 
 const AddCatalog = props => {
-  const { ebayResponse, loading, companyId } = props;
+  const { ebayResponse, loading, companyId, name } = props;
   const { data, refetch } = useQuery(getCatalog, { variables: { companyId }})
   const [canAddItems, setCanAddItems] = useState([]);
   const [insertProductToCatalogAction] = useMutation(insertProductToCatalog)
@@ -45,7 +45,7 @@ const AddCatalog = props => {
         { title: "End Time", field: "endTime", type: "datetime" },
       ]}
       data={canAddItems}
-      title="Add To Your Catalog"
+      title={name ? `Add to ${name}'s catalog` : 'Add to your catalog'}
       actions={[
         {
           icon: (props) => <AddBox {...props} />,
