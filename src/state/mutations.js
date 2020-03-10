@@ -425,8 +425,8 @@ export const deleteDriverAffiliation = gql`
 `;
 
 export const updatePointToDollar = gql`
-  mutation updatePointToDollar($newPointToDollar: Int) {
-    update_Companies(_set: {pointToDollarRatio: {_eq: $newPointToDollar}}) {
+  mutation updatePointToDollar($companyId: Int, $pointToDollarRatio: numeric) {
+    update_Companies(where: {id: {_eq: $companyId}}, _set: {pointToDollarRatio: $pointToDollarRatio}) {
       returning {
         id
       }
