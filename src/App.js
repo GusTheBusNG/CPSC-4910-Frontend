@@ -1,5 +1,6 @@
 import React from 'react';
 import AccountRecovery from './pages/accountrecovery'
+import Catalog from './pages/catalog'
 import Dashboard from './pages/dashboard'
 import HeaderBar from './components/headerbar'
 import HomePage from './pages/homepage/'
@@ -7,7 +8,6 @@ import Login from './pages/login'
 import Profile from './pages/profile'
 import Register from './pages/register'
 import Support from './pages/support'
-import Catalog from './pages/catalog';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './state/client';
 

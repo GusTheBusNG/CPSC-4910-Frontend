@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { decrypt } from '../../state/crypto';
 import AddCatalog from '../../components/add-catalog';
 import CatalogTable from '../../components/tables/catalog';
+import DriverCatalog from '../../components/tables/driver-catalog'
 
 const Catalog = props => {
   const session = localStorage.getItem('session');
@@ -23,7 +24,7 @@ const Catalog = props => {
         </Fragment>
       );
     case 'Driver':
-      return <p>Driver Catalog</p>;
+      return <DriverCatalog companyId={companyId} name={name}/>;
     default:
       return <Redirect to='/dashboard' />;
   }
