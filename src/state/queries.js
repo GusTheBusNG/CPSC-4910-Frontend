@@ -126,6 +126,23 @@ export const fetchDriver = gql`
   }
 `;
 
+export const fetchSponsorAndCompany = gql `
+  query fetchSponsor($userId: Int) {
+    Sponsors(where: {userId: {_eq: $userId}}) {
+      companyId
+      User {
+        email
+        firstName
+        lastName
+      }
+      Company {
+        name
+        description
+      }
+    }
+  }
+`;
+
 export const getCatalog = gql`
   query getCatalog($companyId: Int!) {
     Catalog(where: {companyId: {_eq: $companyId}}) {
