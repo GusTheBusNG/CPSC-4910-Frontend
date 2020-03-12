@@ -5,11 +5,11 @@ import Form from 'react-bootstrap/Form';
 import React from 'react';
 
 import {useMutation} from '@apollo/react-hooks';
-import {updateDriverDescription, updateDriverNameAndEmail} from '../../state/mutations'
+import {updateDriverDescription, updateUserNameAndEmail} from '../../state/mutations'
 
 const EditProfile = ({id, driver: {description, email, firstName, lastName}}) => {
   const [submitDesc, {loading, error }] = useMutation(updateDriverDescription);
-  const [submitNameAndEmail, {lloading, lerror }] = useMutation(updateDriverNameAndEmail);
+  const [submitNameAndEmail, {lloading, lerror }] = useMutation(updateUserNameAndEmail);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -20,11 +20,13 @@ const EditProfile = ({id, driver: {description, email, firstName, lastName}}) =>
       event.preventDefault();
       event.stopPropagation();
     }
-
-    submitDesc({ variables: {
-      id: id,
-      description: form['description'].value ? form['description'].value : description
-    }})
+    
+    if (description) {
+      submitDesc({ variables: {
+        id: id,
+        description: form['description'].value ? form['description'].value : description
+      }})
+    }
 
     submitNameAndEmail({ variables: {
       id: id,
@@ -57,11 +59,11 @@ const EditProfile = ({id, driver: {description, email, firstName, lastName}}) =>
                 <Form.Control type="text" placeholder={lastName} />
               </Form.Group>
             </Form.Row>
-
-            <Form.Group controlId="description">
-              <Form.Label>Description of yourself for sponsors!</Form.Label>
-              <Form.Control type="textarea" placeholder={description} />
-            </Form.Group>
+            {description ?
+              (<Form.Group controlId="description">
+                <Form.Label>Description of yourself for sponsors!</Form.Label>
+                <Form.Control type="textarea" placeholder={description} />
+              </Form.Group>) : null}
 
             <Button variant="primary" type="submit">
             { loading || lloading ? "Loading..." : "Submit" }
