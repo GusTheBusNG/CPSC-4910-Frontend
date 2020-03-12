@@ -34,39 +34,39 @@ const NewSponsorForm = ({ companies }) => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
+    setValidated(false);
     event.preventDefault();
 
     const form = event.currentTarget;
 
-    isEmail(form['email'].value)
-
-    if (form.checkValidity() === false) {
+    if (!isEmail(form['email'].value)) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
     }
+    else {
+      setValidated(true);
+      const variables = {
+        email: form['email'].value,
+        password: form['password'].value,
+        firstName: form['firstName'].value,
+        lastName: form['lastName'].value
+      };
 
-    setValidated(true);
-
-    const variables = {
-      email: form['email'].value,
-      password: form['password'].value,
-      firstName: form['firstName'].value,
-      lastName: form['lastName'].value
-    };
-
-    if (companies) {
-      const companyId = parseInt(form['companySelect'].value.substring(0, form['companySelect'].value.indexOf(' ')), 10);
-      addSponsorToCompanyAction({ variables: {
-        ...variables,
-        companyId
-      }});
-    } else {
-      makeSponsor({ variables: {
-        ...variables,
-        companyDescription: form['companyDescription'].value,
-        companyName: form['companyName'].value,
-        companyPointToDollarRatio: form['companyPointToDollarRatio'].value
-      }});
+      if (companies) {
+        const companyId = parseInt(form['companySelect'].value.substring(0, form['companySelect'].value.indexOf(' ')), 10);
+        addSponsorToCompanyAction({ variables: {
+          ...variables,
+          companyId
+        }});
+      } else {
+        makeSponsor({ variables: {
+          ...variables,
+          companyDescription: form['companyDescription'].value,
+          companyName: form['companyName'].value,
+          companyPointToDollarRatio: form['companyPointToDollarRatio'].value
+        }});
+      }
     }
   }
 

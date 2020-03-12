@@ -16,9 +16,7 @@ const NewDriverForm = () => {
 
     const form = event.currentTarget;
 
-    isEmail(form['email'].value)
-
-    if (form.checkValidity() === false) {
+    if (!isEmail(form['email'].value)) {
       event.preventDefault();
       event.stopPropagation();
       setValidated(true);

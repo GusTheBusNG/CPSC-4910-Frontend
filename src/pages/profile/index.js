@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DriverProfile from '../../components/driverprofile'
+import SponsorProfile from '../../components/sponsorprofile'
 import {decrypt} from "../../state/crypto";
 
 const Profile = () => {
@@ -15,7 +16,7 @@ const Profile = () => {
         case "Driver":
           return <DriverProfile id={decrypted.split(".")[2]} userId={decrypted.split(".")[0]}/>;
         case "Sponsor":
-          return <p>Admin profile</p>;
+          return <SponsorProfile sponsorId={decrypted.split(".")[2]} userId={decrypted.split(".")[0]} />;
         default:
           return <p> Invalid login. </p>;
       }
