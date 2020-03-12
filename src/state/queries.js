@@ -192,6 +192,14 @@ export const getCompanyDrivers = gql`
   }
 `
 
+export const getPointToDollar = gql`
+  query getPointToDollar($companyId: Int) {
+    Companies(where: {id: {_eq: $companyId}}) {
+      pointToDollarRatio
+    }
+  }
+`
+
 export const getAllAdmins = gql`
   query getAllAdmins {
     Users(where: {role: {_eq: "Admin"}}) {

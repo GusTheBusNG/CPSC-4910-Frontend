@@ -423,6 +423,15 @@ export const deleteDriverAffiliation = gql`
   }
 `;
 
+export const updatePointToDollar = gql`
+  mutation updatePointToDollar($companyId: Int, $pointToDollarRatio: numeric) {
+    update_Companies(where: {id: {_eq: $companyId}}, _set: {pointToDollarRatio: $pointToDollarRatio}) {
+      returning {
+        id
+      }
+    }
+  }
+`
 export const deleteAdmin = gql`
   mutation deleteAdmin($id: Int!) {
     delete_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}) {
