@@ -1,0 +1,14 @@
+.sponsorProfile {
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  font-family: SegoeUI;
+}
+
+.bold {
+  font-family: SegoeUIBold;
+}
+
+.singleLine {
+  display: block;
+}

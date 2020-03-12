@@ -126,6 +126,23 @@ export const fetchDriver = gql`
   }
 `;
 
+export const fetchSponsorAndCompany = gql `
+  query fetchSponsor($userId: Int) {
+    Sponsors(where: {userId: {_eq: $userId}}) {
+      companyId
+      User {
+        email
+        firstName
+        lastName
+      }
+      Company {
+        name
+        description
+      }
+    }
+  }
+`;
+
 export const getCatalog = gql`
   query getCatalog($companyId: Int!) {
     Catalog(where: {companyId: {_eq: $companyId}}) {
@@ -136,6 +153,9 @@ export const getCatalog = gql`
         price
         title
         endTime
+      }
+      Company {
+          pointToDollarRatio
       }
     }
   }
@@ -177,3 +197,15 @@ export const getPointToDollar = gql`
     }
   }
 `
+
+export const getAllAdmins = gql`
+  query getAllAdmins {
+    Users(where: {role: {_eq: "Admin"}}) {
+      email
+      firstName
+      id
+      lastName
+      password
+    }
+  }
+`;
