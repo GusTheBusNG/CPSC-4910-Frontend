@@ -15,7 +15,7 @@ const PointToDollar = ({ companyId }) => {
     const form = event.currentTarget;
     const newRatio = form['formRatio'].value
     updatePointToDollarAction({ variables: {
-      companyId: companyId,
+      companyId,
       pointToDollarRatio: newRatio
     }})
   }
@@ -40,8 +40,3 @@ const PointToDollar = ({ companyId }) => {
 }
 
 export default PointToDollar;
-
-// editable={{
-//         onRowUpdate: (newData) => updatePointToDollarAction({ variables: { ...newData }}),
-//       }}
-
