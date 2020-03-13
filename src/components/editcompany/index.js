@@ -21,9 +21,9 @@ const EditCompany = ({company: {id, name, description, pointToDollarRatio}}) => 
 
     submitCompany({ variables: {
       id: id,
-      description: form['description'].value ? form['description'].value : description,
-      name: form['name'].value ? form['name'].value : name,
-      pointToDollarRatio: form['pointToDollarRatio'].value ? form['pointToDollarRatio'].value : pointToDollarRatio
+      description: form.description.value ? form.description.value : description,
+      name: form.name.value ? form.name.value : name,
+      pointToDollarRatio: form.pointToDollarRatio.value ? form.pointToDollarRatio.value : pointToDollarRatio
     }})
   }
 
