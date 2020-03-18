@@ -505,3 +505,31 @@ export const deleteItemFromShoppingCart = gql`
     }
   }
 `;
+
+export const updatePurchase = gql`
+  mutation PurchaseItem(
+    $companyId: Int!
+    $driverId: Int!
+    $productId: Int!
+    $points: numeric!
+    $completed: Boolean!
+  ) {
+    update_ShoppingCart(where: {
+      companyId: {_eq: $companyId},
+      driverId: {_eq: $driverId},
+      productId: {_eq: $productId}
+    }, _set: {completed: $completed}) {
+      returning {
+        id
+      }
+    }
+    update_DriverCompanies(where: {
+      companyId: {_eq: $companyId},
+      driverId: {_eq: $driverId}
+    }, _set: {points: $points}) {
+      returning {
+        points
+      }
+    }
+  }
+`;

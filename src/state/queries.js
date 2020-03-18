@@ -236,3 +236,17 @@ export const getShoppingCartPerDriver = gql`
     }
   }
 `;
+
+export const getPoints = gql`
+  query getDriverCompany(
+    $driverId: Int!
+    $companyId: Int!
+  ) {
+    DriverCompanies(where: {
+      driverId: {_eq: $driverId},
+      companyId: {_eq: $companyId}
+    }) {
+      points
+    }
+  }
+`;
