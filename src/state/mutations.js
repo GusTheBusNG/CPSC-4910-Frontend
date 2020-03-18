@@ -473,8 +473,8 @@ export const updateAdmin = gql`
   }
 `;
 
-export const AddItemToShoppingCart = gql`
-  mutation AddItemToShoppingCart(
+export const addItemToShoppingCart = gql`
+  mutation addItemToShoppingCart(
     $productId: Int!
     $companyId: Int!
     $driverId: Int!
@@ -485,6 +485,20 @@ export const AddItemToShoppingCart = gql`
       companyId: $companyId,
       driverId: $driverId
     }) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+export const deleteItemFromShoppingCart = gql`
+  mutation deleteItemFromShoppingCart(
+    $productId: Int!
+    $companyId: Int!
+    $driverId: Int!
+  ) {
+    delete_ShoppingCart(where: {productId: {_eq: $productId}, companyId: {_eq: $companyId}, driverId: {_eq: $driverId}}) {
       returning {
         id
       }

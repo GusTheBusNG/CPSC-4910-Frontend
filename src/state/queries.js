@@ -227,6 +227,9 @@ export const getShoppingCartPerDriver = gql`
         title
         id
       }
+      Company {
+        pointToDollarRatio
+      }
       created_at
       updated_at
       completed

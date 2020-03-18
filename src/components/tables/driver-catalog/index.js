@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getCatalog, getShoppingCartPerDriver } from '../../../state/queries';
-import { AddItemToShoppingCart } from '../../../state/mutations';
+import { addItemToShoppingCart } from '../../../state/mutations';
 import Button from '@material-ui/core/Button';
 
 const DriverCatalog = props => {
   const { companyId, name, driverId } = props;
-  const [addItem] = useMutation(AddItemToShoppingCart);
+  const [addItem] = useMutation(addItemToShoppingCart);
   const { data: shoppingCart, refetch } = useQuery(getShoppingCartPerDriver, { variables: { companyId, driverId }})
   const { data, loading } = useQuery(getCatalog, { variables: { companyId }})
   const [items, setItems] = useState([]);

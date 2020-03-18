@@ -4,6 +4,7 @@ import { decrypt } from '../../state/crypto';
 import AddCatalog from '../../components/add-catalog';
 import CatalogTable from '../../components/tables/catalog';
 import DriverCatalog from '../../components/tables/driver-catalog'
+import ShoppingCart from '../../components/tables/shopping-cart';
 
 const Catalog = props => {
   const session = localStorage.getItem('session');
@@ -25,11 +26,20 @@ const Catalog = props => {
         </Fragment>
       );
     case 'Driver':
-      return <DriverCatalog
-                companyId={companyId}
-                name={name}
-                driverId={id}
-              />;
+      return (
+        <Fragment>
+          <DriverCatalog
+            companyId={companyId}
+            name={name}
+            driverId={id}
+          />
+          <ShoppingCart
+            companyId={companyId}
+            name={name}
+            driverId={id}
+          />
+        </Fragment>
+      )
     default:
       return <Redirect to='/dashboard' />;
   }
