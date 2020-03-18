@@ -209,3 +209,27 @@ export const getAllAdmins = gql`
     }
   }
 `;
+
+export const getShoppingCartPerDriver = gql`
+  query getShoppingCartPerDriver(
+    $driverId: Int!
+    $companyId: Int!
+  ) {
+    ShoppingCart(where: {
+      driverId: {_eq: $driverId},
+      companyId: {_eq: $companyId}
+    }) {
+      Product {
+        endTime
+        link
+        photo
+        price
+        title
+        id
+      }
+      created_at
+      updated_at
+      completed
+    }
+  }
+`;

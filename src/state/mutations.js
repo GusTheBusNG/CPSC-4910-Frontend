@@ -472,3 +472,22 @@ export const updateAdmin = gql`
     }
   }
 `;
+
+export const AddItemToShoppingCart = gql`
+  mutation AddItemToShoppingCart(
+    $productId: Int!
+    $companyId: Int!
+    $driverId: Int!
+  ) {
+    insert_ShoppingCart(objects: {
+      productId: $productId,
+      completed: false,
+      companyId: $companyId,
+      driverId: $driverId
+    }) {
+      returning {
+        id
+      }
+    }
+  }
+`;

@@ -14,6 +14,7 @@ const Catalog = props => {
   const { companyId, name } = props.location.state;
   const decrypted = decrypt(session.toString());
   const role = decrypted.split('.')[1];
+  const id = decrypted.split('.')[2];
 
   switch(role) {
     case 'Admin':
@@ -24,7 +25,11 @@ const Catalog = props => {
         </Fragment>
       );
     case 'Driver':
-      return <DriverCatalog companyId={companyId} name={name}/>;
+      return <DriverCatalog
+                companyId={companyId}
+                name={name}
+                driverId={id}
+              />;
     default:
       return <Redirect to='/dashboard' />;
   }
