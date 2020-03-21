@@ -209,3 +209,27 @@ export const getAllAdmins = gql`
     }
   }
 `;
+
+export const getAllCompletedTransactions = gql`
+  query getAllCompletedTransacriptions {
+    Companies(where: {DriverCompanies: {activeRelationship: {_eq: true}, Driver: {Transactions: {completed: {_eq: true}}}}}) {
+      name
+      pointToDollarRatio
+      description
+      DriverCompanies {
+        points
+        Driver {
+          User {
+            email
+          }
+          Transactions {
+            Product {
+              title
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+`;
