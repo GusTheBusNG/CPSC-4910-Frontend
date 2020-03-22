@@ -115,7 +115,7 @@ export const getCompany = gql`
 
 export const fetchDriver = gql`
   query Drivers($id: Int) {
-    Drivers(where: {id: {_eq: $id}}) {
+    Drivers(where: {User: {id: {_eq: $id}}}) {
       description
       User {
         email
@@ -129,15 +129,17 @@ export const fetchDriver = gql`
 export const fetchSponsorAndCompany = gql `
   query fetchSponsor($userId: Int) {
     Sponsors(where: {userId: {_eq: $userId}}) {
-      companyId
       User {
         email
         firstName
         lastName
+        id
       }
       Company {
+        id
         name
         description
+        pointToDollarRatio
       }
     }
   }
