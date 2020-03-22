@@ -40,24 +40,22 @@ const styles = StyleSheet.create({
   }
 });
 
-const Doc = ({ Companies }) => {
-  return (
-    <Document>
-      {
-        Companies && Companies.map(({ name, pointToDollarRatio, description, DriverCompanies }) => (
-          <Page size="A4" style={styles.page} key={name}>
-            <View style={styles.company}>
-              <Text style={styles.company.title}>{name}</Text>
-              <Text>Point To Dollar: {pointToDollarRatio}</Text>
-              <Text style={styles.company.description}>{description}</Text>
-              <Drivers DriverCompanies={DriverCompanies} ratio={pointToDollarRatio} />
-            </View>
-          </Page>   
-        ))
-      }
-    </Document>
-  );
-}
+const Doc = ({ Companies }) => (
+  <Document>
+    {
+      Companies && Companies.map(({ name, pointToDollarRatio, description, DriverCompanies }) => (
+        <Page size="A4" style={styles.page} key={name}>
+          <View style={styles.company}>
+            <Text style={styles.company.title}>{name}</Text>
+            <Text>Point To Dollar: {pointToDollarRatio}</Text>
+            <Text style={styles.company.description}>{description}</Text>
+            <Drivers DriverCompanies={DriverCompanies} ratio={pointToDollarRatio} />
+          </View>
+        </Page>   
+      ))
+    }
+  </Document>
+);
 
 const Drivers = ({ DriverCompanies, ratio }) => {
   return DriverCompanies && DriverCompanies.map(({ points, Driver }) => (
@@ -73,7 +71,7 @@ const Transactions = ({ transactions, ratio }) => {
   return transactions && transactions.map(({ Product: { title, price } }) => (
     <View key={title} style={styles.transactions}>
       <Text style={styles.transactions.title}>{title}</Text>
-      <Text style={styles.transactions.points}>Points: {price / ratio} | Money: ${price}</Text>
+      <Text style={styles.transactions.points}>Points: {Math.round(parseFloat(price.substring(1)) / ratio).toFixed(2)} | Money: {price}</Text>
     </View>
   ));
 }
