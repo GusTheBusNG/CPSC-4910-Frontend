@@ -11,7 +11,7 @@ const NewDriverForm = () => {
   const [validated, setValidated] = useState(false);
   
   //TODO: Add the ability to change this message.
-  var errorMessage = "Email is already in use. Please enter a different email.";
+  const errorMessage = "Email is already in use. Please enter a different email.";
 
   const handleSubmit = event => {
     setValidated(false);

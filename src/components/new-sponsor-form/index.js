@@ -32,7 +32,7 @@ const NewSponsorForm = ({ companies }) => {
     }
   });
   const [validated, setValidated] = useState(false);
-  var errorMessage = "Email is already in use. Please enter a different email.";
+  const errorMessage = "Email is already in use. Please enter a different email.";
 
   const handleSubmit = event => {
     setValidated(false);
