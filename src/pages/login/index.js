@@ -8,6 +8,8 @@ import {
 import React from 'react';
 import './index.css'
 
+import ReactivateAccount from "../../components/reactivate-account"
+
 import {encrypt} from "../../state/crypto";
 import {login} from '../../state/queries';
 import {useLazyQuery} from '@apollo/react-hooks';
@@ -51,7 +53,7 @@ const Login = (props) => {
         props.history.push("/dashboard");
       }
       else {
-        return <p> Inactive account </p>
+        return <ReactivateAccount user={data}/>
       }
   }
 
