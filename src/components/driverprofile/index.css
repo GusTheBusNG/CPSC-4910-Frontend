@@ -12,3 +12,9 @@
 .singleLine {
   display: block;
 }
+
+.spacing {
+  padding: 5px;
+  display: block;
+  margin: auto;
+}

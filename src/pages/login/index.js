@@ -31,23 +31,28 @@ const Login = (props) => {
         return <InvalidLogin/>;
       }
 
-      let combined = data.Users[0].id + "." + data.Users[0].role
+      if (data.Users[0].isActive) {
+        let combined = data.Users[0].id + "." + data.Users[0].role
 
-      switch (data.Users[0].role) {
-        case "Driver":
-          combined += "." + data.Users[0].Driver.id;
-          break;
-        case "Sponsor":
-          combined += "." + data.Users[0].Sponsor.id;
-          break;
-        default:
-          break;
+        switch (data.Users[0].role) {
+          case "Driver":
+            combined += "." + data.Users[0].Driver.id;
+            break;
+          case "Sponsor":
+            combined += "." + data.Users[0].Sponsor.id;
+            break;
+          default:
+            break;
+        }
+
+        const encrypted = encrypt(combined);
+        localStorage.setItem('session', encrypted);
+
+        props.history.push("/dashboard");
       }
-
-      const encrypted = encrypt(combined);
-      localStorage.setItem('session', encrypted);
-
-      props.history.push("/dashboard");
+      else {
+        return <p> Inactive account </p>
+      }
   }
 
     return (

@@ -533,3 +533,13 @@ export const updatePurchase = gql`
     }
   }
 `;
+
+export const deactivateAccount = gql`
+  mutation deactivateAccount($id: Int) {
+    update_Users(where: {id: {_eq: $id}}, _set: {isActive: false}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
