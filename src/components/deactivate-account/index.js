@@ -7,12 +7,12 @@ import {
 } from 'react-router-dom'
 
 import {useMutation} from '@apollo/react-hooks';
-import {deactivateAccount} from '../../state/mutations';
+import {changeAccountState} from '../../state/mutations';
 
 const DeactivateAccount = (props) => {
   const [validated, setValidated] = useState(false);
 
-  const [deactivate, {loading, error }] = useMutation(deactivateAccount);
+  const [deactivate, {loading, error }] = useMutation(changeAccountState);
 
   let pass = props.pass
   let userId = props.userId
@@ -33,13 +33,12 @@ const DeactivateAccount = (props) => {
     }
     else {
       deactivate({ variables: {
-          id: userId
+          id: userId,
+          active: false
         }})
       setValidated(true)
       localStorage.removeItem("session");
       props.history.push("/")
-      // Force the headerbar to re render
-      window.location.reload();
     }
   }
 
