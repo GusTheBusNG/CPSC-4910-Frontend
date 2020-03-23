@@ -9,6 +9,9 @@ import Col from 'react-bootstrap/Col';
 const NewDriverForm = () => {
   const [makeDriver, { loading, error }] = useMutation(insertDriver);
   const [validated, setValidated] = useState(false);
+  
+  //TODO: Add the ability to change this message.
+  var errorMessage = "Email is already in use. Please enter a different email.";
 
   const handleSubmit = event => {
     setValidated(false);
@@ -22,14 +25,14 @@ const NewDriverForm = () => {
       setValidated(true);
     } 
     else {
-      setValidated(true);
       makeDriver({ variables: {
         email: form['email'].value,
         password: form['password'].value,
         firstName: form['firstName'].value,
         lastName: form['lastName'].value,
         description: form['description'].value
-      }})
+      }}).catch(e => {})
+      setValidated(true);
     }    
   }
 
@@ -70,8 +73,9 @@ const NewDriverForm = () => {
       </Button>
 
       <Form.Text>
-        { error ? "Well that didn't work" : null }
+        { error ? <p>{ errorMessage }</p> : null }
       </Form.Text>
+
     </Form>
   )
 }

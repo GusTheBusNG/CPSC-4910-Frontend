@@ -32,6 +32,7 @@ const NewSponsorForm = ({ companies }) => {
     }
   });
   const [validated, setValidated] = useState(false);
+  var errorMessage = "Email is already in use. Please enter a different email.";
 
   const handleSubmit = event => {
     setValidated(false);
@@ -58,14 +59,14 @@ const NewSponsorForm = ({ companies }) => {
         addSponsorToCompanyAction({ variables: {
           ...variables,
           companyId
-        }});
+        }}).catch(e => {});
       } else {
         makeSponsor({ variables: {
           ...variables,
           companyDescription: form['companyDescription'].value,
           companyName: form['companyName'].value,
           companyPointToDollarRatio: form['companyPointToDollarRatio'].value
-        }});
+        }}).catch(e => {});
       }
     }
   }
@@ -129,7 +130,7 @@ const NewSponsorForm = ({ companies }) => {
       </Button>
 
       <Form.Text>
-        { error ? "Well that didn't work" : null }
+        { error ? <p>{ errorMessage }</p> : null }
       </Form.Text>
     </Form>
   )
