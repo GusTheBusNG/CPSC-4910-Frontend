@@ -16,6 +16,7 @@ export const login = gql`
       lastName
       role
       id
+      isActive
       Driver {
         id
       }
@@ -121,6 +122,7 @@ export const fetchDriver = gql`
         email
         firstName
         lastName
+        password
       }
     }
   }
