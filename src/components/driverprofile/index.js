@@ -40,7 +40,7 @@ export const Driver = ({driver: {description, email, firstName, lastName}}) => (
 const DriverProfile = (props) => {
   const [view, changeView] = useState('profile');
 
-  const id = props.id;
+  const id = props.userId;
   let driver = {};
   const { loading, error, data } = useQuery(fetchDriver, {
     variables: { id }

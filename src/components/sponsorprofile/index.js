@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import EditProfile from "../editprofile"
-import ChangePassForm from "../changepassform"
 import SponsorCard from "./sponsorcard"
 import CompanyCard from "./companycard"
 
