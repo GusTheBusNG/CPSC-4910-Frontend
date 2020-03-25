@@ -8,10 +8,7 @@ import Col from 'react-bootstrap/Col';
 import './add-catalog.scss';
 
 const AddCatalog = ({ companyId, name }) => {
-  const requestConfig = {
-    url: 'http://localhost:5000/api/v1/ebay',
-    method: 'get',
-  };
+  const requestConfig = {     url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/ebay`,     method: 'get',   };
   const [{ loading, error, data }, refetch] = useAxios(requestConfig);
 
   const handleSubmit = event => {

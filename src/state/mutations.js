@@ -358,7 +358,7 @@ export const insertProductToCatalog = gql`
 export const updateDriverDescription = gql`
   mutation updateDriverDescription($id: Int, $description: String) {
     __typename
-    update_Drivers(where: {id: {_eq: $id}}, _set: {description: $description}) {
+    update_Drivers(where: {User: {id: {_eq: $id}}}, _set: {description: $description}) {
       returning {
         description
       }
@@ -366,10 +366,10 @@ export const updateDriverDescription = gql`
 }
 `;
 
-export const updateDriverNameAndEmail = gql`
-  mutation updateDriverNameAndEmail($id: Int, $email: String, $firstName: String, $lastName: String) {
+export const updateUserNameAndEmail = gql`
+  mutation updateUserNameAndEmail($id: Int, $email: String, $firstName: String, $lastName: String) {
     __typename
-    update_Users(where: {Driver: {id: {_eq: $id}}}, _set: {email: $email, firstName: $firstName, lastName: $lastName}) {
+    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName}) {
       returning {
         email
         firstName
@@ -468,6 +468,77 @@ export const updateAdmin = gql`
     update_Users(where: {role: {_eq: "Admin"}, id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, lastName: $lastName, password: $password}) {
       returning {
         email
+      }
+    }
+  }
+`;
+
+export const addItemToShoppingCart = gql`
+  mutation addItemToShoppingCart(
+    $productId: Int!
+    $companyId: Int!
+    $driverId: Int!
+  ) {
+    insert_ShoppingCart(objects: {
+      productId: $productId,
+      completed: false,
+      companyId: $companyId,
+      driverId: $driverId
+    }) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+export const deleteItemFromShoppingCart = gql`
+  mutation deleteItemFromShoppingCart(
+    $productId: Int!
+    $companyId: Int!
+    $driverId: Int!
+  ) {
+    delete_ShoppingCart(where: {productId: {_eq: $productId}, companyId: {_eq: $companyId}, driverId: {_eq: $driverId}}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+export const updatePurchase = gql`
+  mutation PurchaseItem(
+    $companyId: Int!
+    $driverId: Int!
+    $productId: Int!
+    $points: numeric!
+    $completed: Boolean!
+  ) {
+    update_ShoppingCart(where: {
+      companyId: {_eq: $companyId},
+      driverId: {_eq: $driverId},
+      productId: {_eq: $productId}
+    }, _set: {completed: $completed}) {
+      returning {
+        id
+      }
+    }
+    update_DriverCompanies(where: {
+      companyId: {_eq: $companyId},
+      driverId: {_eq: $driverId}
+    }, _set: {points: $points}) {
+      returning {
+        points
+      }
+    }
+  }
+`;
+
+export const changeAccountState = gql`
+  mutation deactivateAccount($id: Int, $active: Boolean!) {
+    update_Users(where: {id: {_eq: $id}}, _set: {isActive: $active}) {
+      returning {
+        id
       }
     }
   }

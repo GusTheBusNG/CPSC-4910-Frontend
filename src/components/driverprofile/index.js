@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import "./index.css"
 import EditProfile from "../editprofile"
 import ChangePassForm from "../changepassform"
+import DeactivateAccount from '../../components/deactivate-account'
 
 import {fetchDriver} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
@@ -40,7 +41,7 @@ export const Driver = ({driver: {description, email, firstName, lastName}}) => (
 const DriverProfile = (props) => {
   const [view, changeView] = useState('profile');
 
-  const id = props.id;
+  const id = props.userId;
   let driver = {};
   const { loading, error, data } = useQuery(fetchDriver, {
     variables: { id }
@@ -59,11 +60,16 @@ const DriverProfile = (props) => {
       return <ChangePassForm userId={props.userId}/>;
     case "editProfile":
       return <EditProfile id={id} driver={driver}/>;
+    case "deactivateAccount":
+      return <DeactivateAccount pass={driver.password} userId={id}/>;
     default:
       return (
         <div className='driverProfile'>
         <Driver driver={driver}/>
         <Button variant="primary" type="submit" onClick={() => changeView('editProfile')}> Edit Profile </Button>
+        <div className="spacing">
+          <Button variant="danger" onClick={() => changeView('deactivateAccount')}>Deactivate Account</Button>
+        </div>
         <Button variant="link"
                 style={{display: "block", margin: "auto"}}
                 onClick={() => changeView('changePass')}
