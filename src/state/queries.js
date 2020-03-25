@@ -278,3 +278,13 @@ export const getPoints = gql`
     }
   }
 `;
+
+export const fetchNotifications = gql`
+  query fetchNotifications($id: Int) {
+    Notifications(where: {id: {_eq: $id}, hasBeenShown: {_eq: false}}) {
+      message
+      date
+      notificationId
+    }
+  }
+`;

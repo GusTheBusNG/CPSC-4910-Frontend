@@ -5,7 +5,7 @@ import {
   withRouter
 } from 'react-router-dom'
 import { decrypt } from '../../state/crypto';
-
+import Notifications from '../notifications'
 import './headerbar.scss'
 
 class HeaderBar extends React.Component {
@@ -15,7 +15,8 @@ class HeaderBar extends React.Component {
     this.state = {
       redirect: false,
       loggedIn: false,
-      role: ''
+      role: '',
+      userId: 0
     };
   }
 
@@ -25,8 +26,10 @@ class HeaderBar extends React.Component {
     if (session) {
       const decrypted = decrypt(session.toString());
       const role = decrypted.split(".")[1];
+      const userId = decrypted.split(".")[0];
       this.setState({
         role,
+        userId,
         loggedIn: !!session
       });
     }
@@ -38,8 +41,10 @@ class HeaderBar extends React.Component {
     if (session && !this.state.role) {
       const decrypted = decrypt(session.toString());
       const role = decrypted.split(".")[1];
+      const userId = decrypted.split(".")[0];
       this.setState({
         role,
+        userId,
         loggedIn: !!session
       });
     }
@@ -53,7 +58,7 @@ class HeaderBar extends React.Component {
   }
 
   render() {
-    const { loggedIn, role } = this.state;
+    const { loggedIn, role, userId } = this.state;
     return (
       <div>
         <Navbar
@@ -72,6 +77,7 @@ class HeaderBar extends React.Component {
                   <Nav.Link href="/profile">Profile</Nav.Link>
                   <Nav.Link href="/">Home</Nav.Link>
                   <Nav.Link href="/" onClick={this.logout}>Logout</Nav.Link>
+                  <Notifications userId={userId}/>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
