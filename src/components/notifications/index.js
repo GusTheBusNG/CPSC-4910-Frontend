@@ -14,7 +14,7 @@ import { clearNotification } from '../../state/mutations';
 
 
 function parseDate(date) {
-  const d = moment(date).local().format("MM/DD/YYYY HH:MM:SS")
+  const d = moment(date).local().format("MM/DD/YYYY hh:mm:ss A")
   return d
 }
 const Notifications = ({userId}) => {
