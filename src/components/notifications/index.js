@@ -13,13 +13,11 @@ const Notifications = ({userId}) => {
   function renderPopover(props) {
     return (
       <Popover id="popover-basic" {...props}>
-        <Popover.Content>
-          {loading ? "Loading..." : null}
-          {error ? "Something went wrong" : null}
-          {data.Notifications.map(({message, date}) => (
-            <Popover.Title> {message} </Popover.Title>
-          ))}
-        </Popover.Content>
+        {loading ? "Loading..." : null}
+        {error ? "Something went wrong" : null}
+        {data.Notifications.map(({message, date}, index) => (
+          <Popover.Title key={index}> {message} </Popover.Title>
+        ))}
       </Popover>
     )
   }
@@ -27,10 +25,10 @@ const Notifications = ({userId}) => {
   if (loading) return <p> loading...</p>
 
   return (
-    <OverlayTrigger trigger="click" placement="bottom" overlay={renderPopover}>
+    <OverlayTrigger rootClose={true} trigger="click" placement="bottom" overlay={renderPopover}>
       <Nav.Link>
       Alerts {' '}
-        <Badge variant="light">{data.Notifications.length}
+        <Badge variant="danger">{data.Notifications.length}
         </Badge>
       </Nav.Link>
     </OverlayTrigger>

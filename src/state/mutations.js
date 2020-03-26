@@ -403,11 +403,23 @@ export const changePassword = gql`
 `;
 
 export const updateDriverAffiliation = gql`
-  mutation updateDriverAffiliation($driverId: Int, $companyId: Int, $relationship: Boolean, $points: numeric) {
+  mutation updateDriverAffiliation(
+      $driverId: Int,
+      $userId: Int,
+      $companyId: Int,
+      $relationship: Boolean,
+      $points: numeric,
+      $message: String
+    ) {
     update_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {id: {_eq: $driverId}}}, _set: {activeRelationship: $relationship, points: $points}) {
       returning {
         activeRelationship
         points
+      }
+    }
+    insert_Notifications(objects: {id: $userId, message: $message}) {
+      returning {
+        notificationId
       }
     }
   }

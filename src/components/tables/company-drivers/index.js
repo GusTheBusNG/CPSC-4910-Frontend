@@ -11,11 +11,26 @@ const CompanyDrivers = ({companyId}) => {
   const dataArray = [];
 
   const updateDriver = async (newData) => {
+    const index = data.Sponsors[0].Company.DriverCompanies.findIndex(x => x.Driver.id === newData.driverId)
+    const oldData = data.Sponsors[0].Company.DriverCompanies[index]
+    const companyName = data.Sponsors[0].Company.name
+    let message = ""
+
+    if (oldData.activeRelationship !== newData.activeRelationship) {
+      message += ((newData.activeRelationship === 'true') ? (companyName + " accepted your application.\n") : (companyName + " revoked your affiliation.\n"))
+    }
+
+    if (oldData.points !== newData.points) {
+      message += companyName + " added " + String((newData.points - oldData.points).toFixed(2)) + " points to your account."
+    }
+
     await submitUpdatedDriver({ variables: {
       driverId: newData.driverId,
+      userId: newData.userId,
       companyId: companyId,
       relationship: newData.activeRelationship,
-      points: newData.points
+      points: newData.points,
+      message: message
     }});
     await refetch();
   }
@@ -39,7 +54,8 @@ const CompanyDrivers = ({companyId}) => {
       firstName: Driver.User.firstName,
       lastName: Driver.User.lastName,
       points: points,
-      driverId: Driver.id
+      driverId: Driver.id,
+      userId: Driver.User.id
       })
   ))
 
