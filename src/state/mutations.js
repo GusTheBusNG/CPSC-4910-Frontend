@@ -555,3 +555,13 @@ export const changeAccountState = gql`
     }
   }
 `;
+
+export const clearNotification = gql`
+  mutation clearNotification($notificationId: Int) {
+    update_Notifications(where: {notificationId: {_eq: $notificationId}}, _set: {hasBeenShown: true}) {
+      returning {
+        hasBeenShown
+      }
+    }
+  }
+`;
