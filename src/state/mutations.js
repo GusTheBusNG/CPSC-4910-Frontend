@@ -525,6 +525,8 @@ export const updatePurchase = gql`
     $productId: Int!
     $points: numeric!
     $completed: Boolean!
+    $message: String
+    $userId: Int
   ) {
     update_ShoppingCart(where: {
       companyId: {_eq: $companyId},
@@ -541,6 +543,11 @@ export const updatePurchase = gql`
     }, _set: {points: $points}) {
       returning {
         points
+      }
+    }
+    insert_Notifications(objects: {id: $userId, message: $message}) {
+      returning {
+        notificationId
       }
     }
   }
@@ -561,6 +568,16 @@ export const clearNotification = gql`
     update_Notifications(where: {notificationId: {_eq: $notificationId}}, _set: {hasBeenShown: true}) {
       returning {
         hasBeenShown
+      }
+    }
+  }
+`;
+
+export const insertNotification = gql`
+  mutation insertNotification($userId: Int, $message: String) {
+    insert_Notifications(objects: {id: $userId, message: $message}) {
+      returning {
+        notificationId
       }
     }
   }

@@ -1,5 +1,6 @@
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
+import moment from 'moment'
 import Nav from 'react-bootstrap/Nav'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
@@ -11,16 +12,21 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { fetchNotifications } from '../../state/queries';
 import { clearNotification } from '../../state/mutations';
 
+
+function parseDate(date) {
+  const d = moment(date).local().format("MM/DD/YYYY HH:MM:SS")
+  return d
+}
 const Notifications = ({userId}) => {
   const { data, loading, error, refetch } = useQuery(fetchNotifications, { variables: { id: userId } });
   const [setShown] = useMutation(clearNotification);
 
   async function clearNotifications() {
-    await data.Notifications.map(({notificationId}) => (
+    await Promise.all(data.Notifications.map(({notificationId}) => (
       setShown({ variables: {
         notificationId
       }})
-    ))
+    )))
     await refetch();
   }
 
@@ -29,6 +35,7 @@ const Notifications = ({userId}) => {
   }
 
   function renderPopover(props) {
+    data.Notifications.sort(function(a,b) {return b.date - a.date})
     return (
       <Popover id="popover-basic" {...props}>
         <Button variant='link' onClick={refresh}> Refresh </Button>
@@ -36,7 +43,11 @@ const Notifications = ({userId}) => {
         {loading ? "Loading..." : null}
         {error ? "Something went wrong" : null}
         {data.Notifications.map(({message, date}, index) => (
-          <Popover.Title key={index}> {message} {index} </Popover.Title>
+          <Popover.Title key={index}>
+            {parseDate(date)}
+            <Popover.Content>{message}</Popover.Content>
+          </Popover.Title>
+
         ))}
       </Popover>
     )
