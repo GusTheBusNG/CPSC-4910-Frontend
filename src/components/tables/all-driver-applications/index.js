@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getAllDriverApplications, getAllDrivers, getAllCompanies } from '../../../state/queries';
@@ -6,6 +6,8 @@ import { deleteDriverApplication, updateDriverApplication, insertDriverApplicati
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Button from '@material-ui/core/Button';
+import ShoppingCart from '../shopping-cart';
 
 const AllDriverApplications = (props) => {
   const [deleteDriverApplicationAction] = useMutation(deleteDriverApplication, {
@@ -55,6 +57,8 @@ const AllDriverApplications = (props) => {
       });
     }
   });
+
+  const [shoppingCartId, setShoppingCartId] = useState(undefined);
 
   const { loading, error, data } = useQuery(getAllDriverApplications);
   const { data: allDrivers } = useQuery(getAllDrivers);
@@ -112,6 +116,18 @@ const AllDriverApplications = (props) => {
             )
           },
           { title: "Application accepted", field: "applicationAccepted", type: "boolean"},
+          {
+            title: "View Driver Shopping Cart",
+            render: ({ applicationAccepted, driverId, companyId }) => applicationAccepted && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setShoppingCartId({ driverId, companyId })}
+              >
+                View Driver Shopping Cart
+              </Button>
+            )
+          },
           { title: "Points", field: "points" }
         ]}
         data={data.DriverCompanies.map(({
@@ -122,12 +138,14 @@ const AllDriverApplications = (props) => {
               id: companyId
             },
             Driver: {
+              id: driverId,
               User: {
                 email: driverEmail,
                 id: userId
               }
             }
           }) => ({
+            driverId,
             userId,
             driverEmail,
             companyId,
@@ -157,6 +175,16 @@ const AllDriverApplications = (props) => {
         }}
         {...props}
       />
+      {
+        shoppingCartId && (
+          <ShoppingCart
+            style={{ margin: '1rem 5rem'}}
+            companyId={shoppingCartId.companyId}
+            driverId={shoppingCartId.driverId}
+            showCurrentPoints={false}
+          />
+        )
+      }
     </>
   );
 }
