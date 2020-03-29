@@ -92,6 +92,7 @@ export const getAllDriverApplications = gql`
         id
       }
       Driver {
+        id
         User {
           email
           id

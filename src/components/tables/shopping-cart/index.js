@@ -5,7 +5,7 @@ import { getShoppingCartPerDriver, getPoints } from '../../../state/queries';
 import { deleteItemFromShoppingCart, updatePurchase, insertNotification } from '../../../state/mutations';
 import Button from '@material-ui/core/Button';
 
-const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
+const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props }) => {
   const { data, loading, refetch } = useQuery(getShoppingCartPerDriver, { variables: { driverId, companyId }})
   const { data: dataPoints, refetch: refetchPoints } = useQuery(getPoints, { variables: { companyId, driverId }});
   const [deleteItem] = useMutation(deleteItemFromShoppingCart)
@@ -90,7 +90,9 @@ const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
 
   return (
     <>
-      <h2 style={{ margin: '1rem'}}>You have {currentPoints} points</h2>
+      {
+        showCurrentPoints && <h2 style={{ margin: '1rem'}}>You have {currentPoints} points</h2>
+      }
       <Table
         style={{ margin: '1rem' }}
         loading={loading}
@@ -145,6 +147,10 @@ const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
       />
     </>
   )
+}
+
+ShoppingCart.defaultProps = {
+  showCurrentPoints: true
 }
 
 export default ShoppingCart;
