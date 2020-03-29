@@ -12,14 +12,14 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { fetchNotifications } from '../../state/queries';
 import { clearNotification } from '../../state/mutations';
 
-
-function parseDate(date) {
-  const d = moment(date).local().format("MM/DD/YYYY hh:mm:ss A")
-  return d
-}
 const Notifications = ({userId}) => {
   const { data, loading, error, refetch } = useQuery(fetchNotifications, { variables: { id: userId } });
   const [setShown] = useMutation(clearNotification);
+
+  function parseDate(date) {
+    const d = moment(date).local().format("MM/DD/YYYY hh:mm:ss A")
+    return d
+  }
 
   async function clearNotifications() {
     await Promise.all(data.Notifications.map(({notificationId}) => (
@@ -30,15 +30,11 @@ const Notifications = ({userId}) => {
     await refetch();
   }
 
-  async function refresh() {
-    await refetch();
-  }
-
   function renderPopover(props) {
     data.Notifications.sort(function(a,b) {return b.date - a.date})
     return (
       <Popover id="popover-basic" {...props}>
-        <Button variant='link' onClick={refresh}> Refresh </Button>
+        <Button variant='link' onClick={() => refetch()}> Refresh </Button>
         <Button variant='link' onClick={clearNotifications} className="rightAlign"> Clear all </Button>
         {loading ? "Loading..." : null}
         {error ? "Something went wrong" : null}
