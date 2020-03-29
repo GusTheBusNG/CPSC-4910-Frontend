@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getCompanyDrivers } from '../../../state/queries';
 import { updateDriverAffiliation, deleteDriverAffiliation } from '../../../state/mutations';
+import Button from '@material-ui/core/Button'
+import ShoppingCart from '../shopping-cart'
 
 const CompanyDrivers = ({companyId}) => {
   const { data, error, loading, refetch } = useQuery(getCompanyDrivers, { variables: { companyId } });
   const [submitUpdatedDriver] = useMutation(updateDriverAffiliation);
   const [deleteDriver] = useMutation(deleteDriverAffiliation);
+  const [shoppingCartDriverId, setShoppingCartDriverId] = useState(undefined);
   const dataArray = [];
 
   const updateDriver = async (newData) => {
@@ -43,22 +46,48 @@ const CompanyDrivers = ({companyId}) => {
       })
   ))
 
-  return <Table
-    columns={[
-      { title: "Relationship", field: "activeRelationship", lookup: { true: "Active", false: "Pending" }},
-      { title: "First Name", field: "firstName", editable: "never"},
-      { title: "Last Name", field: "lastName", editable: "never" },
-      { title: "Email", field: "email", editable: "never" },
-      { title: "Points", field: "points" },
-    ]}
-    editable={{
-      onRowUpdate: (newData) => updateDriver(newData),
-      onRowDelete: (driver) => deleteDriverHandler(driver)
-
-    }}
-    data={dataArray}
-    title="Drivers"
-  />
+  return (
+    <>
+      <Table
+        style={{ margin: '1rem' }}
+        columns={[
+          { title: "Relationship", field: "activeRelationship", lookup: { true: "Active", false: "Pending" }},
+          { title: "First Name", field: "firstName", editable: "never"},
+          { title: "Last Name", field: "lastName", editable: "never" },
+          { title: "Email", field: "email", editable: "never" },
+          { title: "Points", field: "points" },
+          {
+            title: "View Shopping Cart",
+            render: ({ activeRelationship, driverId }) => activeRelationship && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setShoppingCartDriverId(driverId)}
+              >
+                View Driver Shopping Cart
+              </Button>
+            )
+          }
+        ]}
+        editable={{
+          onRowUpdate: (newData) => updateDriver(newData),
+          onRowDelete: (driver) => deleteDriverHandler(driver)
+        }}
+        data={dataArray}
+        title="Drivers"
+      />
+      {
+        shoppingCartDriverId && (
+          <ShoppingCart
+            style={{ margin: '1rem 5rem'}}
+            driverId={shoppingCartDriverId}
+            companyId={companyId}
+            showCurrentPoints={false}
+          />
+        )
+      }
+    </>
+  )
 }
 
 export default CompanyDrivers;
