@@ -10,7 +10,7 @@ const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
   const { data: dataPoints, refetch: refetchPoints } = useQuery(getPoints, { variables: { companyId, driverId }});
   const [deleteItem] = useMutation(deleteItemFromShoppingCart)
   const [editPurchase, {error: purchaseError}] = useMutation(updatePurchase);
-  const [errorNotification] = useMutation(insertNotification);
+  const [submitNotification] = useMutation(insertNotification);
 
   const currentPoints = dataPoints && dataPoints.DriverCompanies[0].points;
 
@@ -32,16 +32,21 @@ const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
         productId,
         points: (parseFloat(currentPoints) - parseFloat(points)).toFixed(2),
         completed: true,
-        message: "Purchased " + title + " for " + String(points) + " points",
-        userId: userId
       }
     })
 
     if (purchaseError) {
-      await errorNotification({
+      await submitNotification({
         variables: {
           userId: userId,
           message: "Error purchasing " + title
+        }
+      })
+    } else {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: "Purchased " + title + " for " + String(points) + " points",
         }
       })
     }
@@ -61,16 +66,21 @@ const ShoppingCart = ({ companyId, driverId, userId, ...props }) => {
         productId,
         points: (parseFloat(currentPoints) + parseFloat(points)).toFixed(2),
         completed: false,
-        message: "Purchase reverted for " + title + ", " + String(points) + " points returned.",
-        userId: userId
       }
     });
 
     if (purchaseError) {
-      await errorNotification({
+      await submitNotification({
         variables: {
           userId: userId,
           message: "Error reverting purchase of " + title
+        }
+      })
+    } else {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: "Purchase reverted for " + title + ", " + String(points) + " points returned."
         }
       })
     }

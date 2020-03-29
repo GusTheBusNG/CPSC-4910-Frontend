@@ -2,12 +2,13 @@ import React from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getCompanyDrivers } from '../../../state/queries';
-import { updateDriverAffiliation, deleteDriverAffiliation } from '../../../state/mutations';
+import { updateDriverAffiliation, deleteDriverAffiliation, insertNotification } from '../../../state/mutations';
 
 const CompanyDrivers = ({companyId}) => {
   const { data, error, loading, refetch } = useQuery(getCompanyDrivers, { variables: { companyId } });
-  const [submitUpdatedDriver] = useMutation(updateDriverAffiliation);
-  const [deleteDriver] = useMutation(deleteDriverAffiliation);
+  const [submitUpdatedDriver, {error: submitError}] = useMutation(updateDriverAffiliation);
+  const [submitNotification] = useMutation(insertNotification);
+  const [deleteDriver, {error: deleteError}] = useMutation(deleteDriverAffiliation);
   const dataArray = [];
 
   const updateDriver = async (newData) => {
@@ -29,9 +30,17 @@ const CompanyDrivers = ({companyId}) => {
       userId: newData.userId,
       companyId: companyId,
       relationship: newData.activeRelationship,
-      points: newData.points,
-      message: message
+      points: newData.points
     }});
+
+    if (!submitError && message !== "") {
+      await submitNotification({
+        variables: {
+          userId: newData.userId,
+          message: message,
+        }
+      })
+    }
     await refetch();
   }
 
@@ -40,6 +49,15 @@ const CompanyDrivers = ({companyId}) => {
       companyId: companyId,
       driverId: driver.driverId
     }})
+
+    if (!deleteError) {
+      await submitNotification({
+        variables: {
+          userId: driver.userId,
+          message: data.Sponsors[0].Company.name + " revoked your affiliation.",
+        }
+      })
+    }
     await refetch();
   }
 

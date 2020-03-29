@@ -409,17 +409,11 @@ export const updateDriverAffiliation = gql`
       $companyId: Int,
       $relationship: Boolean,
       $points: numeric,
-      $message: String
     ) {
     update_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {id: {_eq: $driverId}}}, _set: {activeRelationship: $relationship, points: $points}) {
       returning {
         activeRelationship
         points
-      }
-    }
-    insert_Notifications(objects: {id: $userId, message: $message}) {
-      returning {
-        notificationId
       }
     }
   }
@@ -525,8 +519,6 @@ export const updatePurchase = gql`
     $productId: Int!
     $points: numeric!
     $completed: Boolean!
-    $message: String
-    $userId: Int
   ) {
     update_ShoppingCart(where: {
       companyId: {_eq: $companyId},
@@ -543,11 +535,6 @@ export const updatePurchase = gql`
     }, _set: {points: $points}) {
       returning {
         points
-      }
-    }
-    insert_Notifications(objects: {id: $userId, message: $message}) {
-      returning {
-        notificationId
       }
     }
   }
