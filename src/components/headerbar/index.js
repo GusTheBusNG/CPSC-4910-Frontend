@@ -77,7 +77,7 @@ class HeaderBar extends React.Component {
                   <Nav.Link href="/profile">Profile</Nav.Link>
                   <Nav.Link href="/">Home</Nav.Link>
                   <Nav.Link href="/" onClick={this.logout}>Logout</Nav.Link>
-                  <Notifications userId={userId}/>
+                  {role === 'Driver' ? <Notifications userId={userId}/> : null}
                 </React.Fragment>
               ) : (
                 <React.Fragment>
