@@ -16,12 +16,9 @@ const Notifications = ({userId}) => {
   const { data, loading, error, refetch } = useQuery(fetchNotifications, { variables: { id: userId } });
   const [setShown] = useMutation(clearNotification);
 
-  function parseDate(date) {
-    const d = moment(date).local().format("MM/DD/YYYY hh:mm:ss A")
-    return d
-  }
+  const parseDate = date => moment(date).local().format("MM/DD/YYYY hh:mm:ss A")
 
-  async function clearNotifications() {
+  const clearNotifications = async () => {
     await Promise.all(data.Notifications.map(({notificationId}) => (
       setShown({ variables: {
         notificationId
@@ -30,14 +27,14 @@ const Notifications = ({userId}) => {
     await refetch();
   }
 
-  function renderPopover(props) {
-    data.Notifications.sort(function(a,b) {return b.date - a.date})
+  const renderPopover = (props) => {
+    data.Notifications.sort((a,b) => {return b.date - a.date})
     return (
       <Popover id="popover-basic" {...props}>
         <Button variant='link' onClick={() => refetch()}> Refresh </Button>
         <Button variant='link' onClick={clearNotifications} className="rightAlign"> Clear all </Button>
-        {loading ? "Loading..." : null}
-        {error ? "Something went wrong" : null}
+        {loading && "Loading..."}
+        {error && "Something went wrong"}
         {data.Notifications.map(({message, date}, index) => (
           <Popover.Title key={index}>
             {parseDate(date)}

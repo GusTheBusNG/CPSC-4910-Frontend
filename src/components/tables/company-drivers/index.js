@@ -14,18 +14,21 @@ const CompanyDrivers = ({companyId}) => {
   const [shoppingCartDriverId, setShoppingCartDriverId] = useState(undefined);
   const dataArray = [];
 
-  const updateDriver = async (newData) => {
-    const index = data.Sponsors[0].Company.DriverCompanies.findIndex(x => x.Driver.id === newData.driverId)
-    const oldData = data.Sponsors[0].Company.DriverCompanies[index]
+  const updateDriver = async (newData, oldData) => {
     const companyName = data.Sponsors[0].Company.name
     let message = ""
 
     if (oldData.activeRelationship !== newData.activeRelationship) {
-      message += ((newData.activeRelationship === 'true') ? (companyName + " accepted your application.\n") : (companyName + " revoked your affiliation.\n"))
+      if (newData.activeRelationship === "true") {
+        message += `${companyName} accepted your application.\n`
+      } else {
+        message += `${companyName} revoked your affiliation.\n`
+      }
     }
 
     if (oldData.points !== newData.points) {
-      message += companyName + " added " + String((newData.points - oldData.points).toFixed(2)) + " points to your account."
+      let pointDifference = (newData.points - oldData.points).toFixed(0)
+      message += `${companyName} added ${pointDifference} points to your account.`
     }
 
     await submitUpdatedDriver({ variables: {
@@ -33,7 +36,7 @@ const CompanyDrivers = ({companyId}) => {
       userId: newData.userId,
       companyId: companyId,
       relationship: newData.activeRelationship,
-      points: newData.points
+      points: parseFloat(newData.points).toFixed(0)
     }});
 
     if (!submitError && message !== "") {
@@ -104,7 +107,7 @@ const CompanyDrivers = ({companyId}) => {
           }
         ]}
         editable={{
-          onRowUpdate: (newData) => updateDriver(newData),
+          onRowUpdate: (newData, oldData) => updateDriver(newData, oldData),
           onRowDelete: (driver) => deleteDriverHandler(driver)
         }}
         data={dataArray}

@@ -16,21 +16,19 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
 
   const convert = ({ price, pointToDollarRatio }) => {
     const numberPrice = parseFloat(price.replace('$',''))
-    return (numberPrice / pointToDollarRatio ).toFixed(2);
+    return (numberPrice / pointToDollarRatio ).toFixed(0);
   }
 
-  const tryToPurchase = async ({ productId, points }) => {
+  const tryToPurchase = async ({ productId, points, title }) => {
     if (!dataPoints) return alert('Something is still loading, please refresh the page and try again');
     if (currentPoints < points) return alert('You do not have enough points to buy this item');
-    const index = data.ShoppingCart.findIndex(x => x.Product.id === productId)
-    const title = data.ShoppingCart[index].Product.title
 
     await editPurchase({
       variables: {
         companyId,
         driverId,
         productId,
-        points: (parseFloat(currentPoints) - parseFloat(points)).toFixed(2),
+        points: (parseFloat(currentPoints) - parseFloat(points)).toFixed(0),
         completed: true,
       }
     })
@@ -39,14 +37,14 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
       await submitNotification({
         variables: {
           userId: userId,
-          message: "Error purchasing " + title
+          message: `Error purchasing ${title}`
         }
       })
     } else {
       await submitNotification({
         variables: {
           userId: userId,
-          message: "Purchased " + title + " for " + String(points) + " points",
+          message: `Purchased ${title} for ${points} points`,
         }
       })
     }
@@ -54,17 +52,15 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
     refetchPoints();
   }
 
-  const tryToRevertPurchase = async ({ productId, points, endTime}) => {
+  const tryToRevertPurchase = async ({ productId, points, endTime, title}) => {
     if (endTime < new Date()) return alert('You cannot revert this purchase due to the deadline time');
-    const index = data.ShoppingCart.findIndex(x => x.Product.id === productId)
-    const title = data.ShoppingCart[index].Product.title
 
     await editPurchase({
       variables: {
         companyId,
         driverId,
         productId,
-        points: (parseFloat(currentPoints) + parseFloat(points)).toFixed(2),
+        points: (parseFloat(currentPoints) + parseFloat(points)).toFixed(0),
         completed: false,
       }
     });
@@ -73,14 +69,14 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
       await submitNotification({
         variables: {
           userId: userId,
-          message: "Error reverting purchase of " + title
+          message: `Error reverting purchase of ${title}`
         }
       })
     } else {
       await submitNotification({
         variables: {
           userId: userId,
-          message: "Purchase reverted for " + title + ", " + String(points) + " points returned."
+          message: `Purchase reverted for ${title}, ${points} points returned.`
         }
       })
     }
@@ -113,12 +109,12 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
           {
             title: "Purchase",
             field: "purchase",
-            render: ({ id: productId, price: points, completed, endTime }) => <Button
+            render: ({ id: productId, price: points, completed, endTime,  title }) => <Button
                             variant="contained"
                             color="primary"
                             onClick={() => completed ?
-                                tryToRevertPurchase({ productId, points, endTime }) :
-                                tryToPurchase({ productId, points })}
+                                tryToRevertPurchase({ productId, points, endTime, title }) :
+                                tryToPurchase({ productId, points, title })}
                           >
                             {completed ? 'Revert Purchase' : 'Purchase Item'}
                           </Button>
