@@ -403,7 +403,13 @@ export const changePassword = gql`
 `;
 
 export const updateDriverAffiliation = gql`
-  mutation updateDriverAffiliation($driverId: Int, $companyId: Int, $relationship: Boolean, $points: numeric) {
+  mutation updateDriverAffiliation(
+      $driverId: Int,
+      $userId: Int,
+      $companyId: Int,
+      $relationship: Boolean,
+      $points: numeric,
+    ) {
     update_DriverCompanies(where: {companyId: {_eq: $companyId}, Driver: {id: {_eq: $driverId}}}, _set: {activeRelationship: $relationship, points: $points}) {
       returning {
         activeRelationship
@@ -539,6 +545,26 @@ export const changeAccountState = gql`
     update_Users(where: {id: {_eq: $id}}, _set: {isActive: $active}) {
       returning {
         id
+      }
+    }
+  }
+`;
+
+export const clearNotification = gql`
+  mutation clearNotification($notificationId: Int) {
+    update_Notifications(where: {notificationId: {_eq: $notificationId}}, _set: {hasBeenShown: true}) {
+      returning {
+        hasBeenShown
+      }
+    }
+  }
+`;
+
+export const insertNotification = gql`
+  mutation insertNotification($userId: Int, $message: String) {
+    insert_Notifications(objects: {id: $userId, message: $message}) {
+      returning {
+        notificationId
       }
     }
   }

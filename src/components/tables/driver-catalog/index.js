@@ -16,7 +16,7 @@ const DriverCatalog = props => {
   if (!convertedPrice && data) {
     data.Catalog.forEach(({Product, Company}) => {
       const price = parseFloat(Product.price.replace('$',''))
-      Product.price = (price / Company.pointToDollarRatio ).toFixed(2);
+      Product.price = (price / Company.pointToDollarRatio ).toFixed(0);
     })
     setConvertedPrice(true);
   }

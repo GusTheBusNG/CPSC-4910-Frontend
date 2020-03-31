@@ -2,23 +2,24 @@ import React from 'react';
 import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getShoppingCartPerDriver, getPoints } from '../../../state/queries';
-import { deleteItemFromShoppingCart, updatePurchase } from '../../../state/mutations';
+import { deleteItemFromShoppingCart, updatePurchase, insertNotification } from '../../../state/mutations';
 import Button from '@material-ui/core/Button';
 
-const ShoppingCart = ({ companyId, driverId, showCurrentPoints, ...props }) => {
+const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props }) => {
   const { data, loading, refetch } = useQuery(getShoppingCartPerDriver, { variables: { driverId, companyId }})
   const { data: dataPoints, refetch: refetchPoints } = useQuery(getPoints, { variables: { companyId, driverId }});
   const [deleteItem] = useMutation(deleteItemFromShoppingCart)
-  const [editPurchase] = useMutation(updatePurchase);
+  const [editPurchase, {error: purchaseError}] = useMutation(updatePurchase);
+  const [submitNotification] = useMutation(insertNotification);
 
   const currentPoints = dataPoints && dataPoints.DriverCompanies[0].points;
 
   const convert = ({ price, pointToDollarRatio }) => {
     const numberPrice = parseFloat(price.replace('$',''))
-    return (numberPrice / pointToDollarRatio ).toFixed(2);
+    return (numberPrice / pointToDollarRatio ).toFixed(0);
   }
 
-  const tryToPurchase = async ({ productId, points }) => {
+  const tryToPurchase = async ({ productId, points, title }) => {
     if (!dataPoints) return alert('Something is still loading, please refresh the page and try again');
     if (currentPoints < points) return alert('You do not have enough points to buy this item');
 
@@ -27,15 +28,31 @@ const ShoppingCart = ({ companyId, driverId, showCurrentPoints, ...props }) => {
         companyId,
         driverId,
         productId,
-        points: (parseFloat(currentPoints) - parseFloat(points)).toFixed(2),
-        completed: true
+        points: (parseFloat(currentPoints) - parseFloat(points)).toFixed(0),
+        completed: true,
       }
     })
+
+    if (purchaseError) {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: `Error purchasing ${title}`
+        }
+      })
+    } else {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: `Purchased ${title} for ${points} points`,
+        }
+      })
+    }
     refetch();
     refetchPoints();
   }
 
-  const tryToRevertPurchase = async ({ productId, points, endTime}) => {
+  const tryToRevertPurchase = async ({ productId, points, endTime, title}) => {
     if (endTime < new Date()) return alert('You cannot revert this purchase due to the deadline time');
 
     await editPurchase({
@@ -43,10 +60,26 @@ const ShoppingCart = ({ companyId, driverId, showCurrentPoints, ...props }) => {
         companyId,
         driverId,
         productId,
-        points: (parseFloat(currentPoints) + parseFloat(points)).toFixed(2),
-        completed: false
+        points: (parseFloat(currentPoints) + parseFloat(points)).toFixed(0),
+        completed: false,
       }
     });
+
+    if (purchaseError) {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: `Error reverting purchase of ${title}`
+        }
+      })
+    } else {
+      await submitNotification({
+        variables: {
+          userId: userId,
+          message: `Purchase reverted for ${title}, ${points} points returned.`
+        }
+      })
+    }
     refetch();
     refetchPoints();
   }
@@ -76,12 +109,12 @@ const ShoppingCart = ({ companyId, driverId, showCurrentPoints, ...props }) => {
           {
             title: "Purchase",
             field: "purchase",
-            render: ({ id: productId, price: points, completed, endTime }) => <Button
+            render: ({ id: productId, price: points, completed, endTime,  title }) => <Button
                             variant="contained"
                             color="primary"
                             onClick={() => completed ?
-                                tryToRevertPurchase({ productId, points, endTime }) :
-                                tryToPurchase({ productId, points })}
+                                tryToRevertPurchase({ productId, points, endTime, title }) :
+                                tryToPurchase({ productId, points, title })}
                           >
                             {completed ? 'Revert Purchase' : 'Purchase Item'}
                           </Button>
@@ -93,7 +126,7 @@ const ShoppingCart = ({ companyId, driverId, showCurrentPoints, ...props }) => {
         data={data &&
           data.ShoppingCart.map(
             ({ Product, Company: { pointToDollarRatio }, ...everythingElse}) => (
-              { 
+              {
                 ...Product,
                 price: convert({ price: Product.price, pointToDollarRatio}),
                 ...everythingElse
