@@ -10,12 +10,12 @@ import {changePassword} from '../../state/mutations';
 const AccountRecovery = (props) => {
   const [submit, { data }] = useLazyQuery(getID);
   const [updatePassword] = useMutation(changePassword);
-  var newPassword = "";
+  let newPassword = "";
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    submit({variables: {userEmail: event.currentTarget['email'].value}})
-    if(data) {
+    await submit({variables: {userEmail: event.currentTarget['email'].value}})
+    if(data && data.Users.length > 0) {
       newPassword = generator.generate({length: 10, numbers: true});
       updatePassword({variables: {id: data.Users[0].id, password: newPassword}});
       alert('This is your new password. DONT LOSE IT!: ' + newPassword);
