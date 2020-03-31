@@ -18,7 +18,10 @@ const CompanyDrivers = ({companyId}) => {
       driverId: newData.driverId,
       companyId: companyId,
       relationship: newData.activeRelationship,
-      points: newData.points
+      points: newData.points,
+      firstName: newData.firstName,
+      lastName: newData.lastName,
+      email: newData.email
     }});
     await refetch();
   }
@@ -52,9 +55,9 @@ const CompanyDrivers = ({companyId}) => {
         style={{ margin: '1rem' }}
         columns={[
           { title: "Relationship", field: "activeRelationship", lookup: { true: "Active", false: "Pending" }},
-          { title: "First Name", field: "firstName", editable: "never"},
-          { title: "Last Name", field: "lastName", editable: "never" },
-          { title: "Email", field: "email", editable: "never" },
+          { title: "First Name", field: "firstName" },
+          { title: "Last Name", field: "lastName" },
+          { title: "Email", field: "email" },
           { title: "Points", field: "points" },
           {
             title: "View Shopping Cart",
