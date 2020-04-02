@@ -58,7 +58,7 @@ const AllDriverApplications = (props) => {
     }
   });
 
-  const [shoppingCartId, setShoppingCartId] = useState(undefined);
+  const [shoppingCartData, setShoppingCartData] = useState({ });
 
   const { loading, error, data } = useQuery(getAllDriverApplications);
   const { data: allDrivers } = useQuery(getAllDrivers);
@@ -118,11 +118,11 @@ const AllDriverApplications = (props) => {
           { title: "Application accepted", field: "applicationAccepted", type: "boolean"},
           {
             title: "View Driver Shopping Cart",
-            render: ({ applicationAccepted, driverId, companyId }) => applicationAccepted && (
+            render: ({ applicationAccepted, driverId, companyId, userId }) => applicationAccepted && (
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => setShoppingCartId({ driverId, companyId })}
+                onClick={() => setShoppingCartData({ driverId, companyId, userId })}
               >
                 View Driver Shopping Cart
               </Button>
@@ -176,11 +176,12 @@ const AllDriverApplications = (props) => {
         {...props}
       />
       {
-        shoppingCartId && (
+        shoppingCartData && (
           <ShoppingCart
             style={{ margin: '1rem 5rem'}}
-            companyId={shoppingCartId.companyId}
-            driverId={shoppingCartId.driverId}
+            companyId={shoppingCartData.companyId}
+            driverId={shoppingCartData.driverId}
+            userId={shoppingCartData.userId}
             showCurrentPoints={false}
           />
         )

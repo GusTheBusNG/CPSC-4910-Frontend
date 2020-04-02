@@ -34,6 +34,7 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
     })
 
     if (purchaseError) {
+      console.log('hit', userId)
       await submitNotification({
         variables: {
           userId: userId,
@@ -73,6 +74,7 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
         }
       })
     } else {
+      console.log('hit')
       await submitNotification({
         variables: {
           userId: userId,

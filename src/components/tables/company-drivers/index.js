@@ -11,7 +11,7 @@ const CompanyDrivers = ({companyId}) => {
   const [submitUpdatedDriver, {error: submitError}] = useMutation(updateDriverAffiliation);
   const [submitNotification] = useMutation(insertNotification);
   const [deleteDriver, {error: deleteError}] = useMutation(deleteDriverAffiliation);
-  const [shoppingCartDriverId, setShoppingCartDriverId] = useState(undefined);
+  const [shoppingCartData, setShoppingCartData] = useState({ });
   const dataArray = [];
 
   const updateDriver = async (newData, oldData) => {
@@ -97,11 +97,11 @@ const CompanyDrivers = ({companyId}) => {
           { title: "Points", field: "points" },
           {
             title: "View Shopping Cart",
-            render: ({ activeRelationship, driverId }) => activeRelationship && (
+            render: ({ activeRelationship, driverId, userId }) => activeRelationship && (
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => setShoppingCartDriverId(driverId)}
+                onClick={() => setShoppingCartData({ driverId, userId })}
               >
                 View Driver Shopping Cart
               </Button>
@@ -116,10 +116,11 @@ const CompanyDrivers = ({companyId}) => {
         title="Drivers"
       />
       {
-        shoppingCartDriverId && (
+        shoppingCartData && (
           <ShoppingCart
             style={{ margin: '1rem 5rem'}}
-            driverId={shoppingCartDriverId}
+            driverId={shoppingCartData.driverId}
+            userId={shoppingCartData.userId}
             companyId={companyId}
             showCurrentPoints={false}
           />
