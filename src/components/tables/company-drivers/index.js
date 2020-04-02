@@ -36,6 +36,9 @@ const CompanyDrivers = ({companyId}) => {
       userId: newData.userId,
       companyId: companyId,
       relationship: newData.activeRelationship,
+      firstName: newData.firstName,
+      lastName: newData.lastName,
+      email: newData.email,
       points: parseFloat(newData.points).toFixed(0)
     }});
 
@@ -89,9 +92,9 @@ const CompanyDrivers = ({companyId}) => {
         style={{ margin: '1rem' }}
         columns={[
           { title: "Relationship", field: "activeRelationship", lookup: { true: "Active", false: "Pending" }},
-          { title: "First Name", field: "firstName", editable: "never"},
-          { title: "Last Name", field: "lastName", editable: "never" },
-          { title: "Email", field: "email", editable: "never" },
+          { title: "First Name", field: "firstName" },
+          { title: "Last Name", field: "lastName" },
+          { title: "Email", field: "email" },
           { title: "Points", field: "points" },
           {
             title: "View Shopping Cart",
