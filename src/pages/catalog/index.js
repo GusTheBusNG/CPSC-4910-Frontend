@@ -14,6 +14,7 @@ const Catalog = props => {
 
   const { companyId, name } = props.location.state;
   const decrypted = decrypt(session.toString());
+  const userId = decrypted.split('.')[0];
   const role = decrypted.split('.')[1];
   const id = decrypted.split('.')[2];
 
@@ -37,6 +38,7 @@ const Catalog = props => {
             companyId={companyId}
             name={name}
             driverId={id}
+            userId={userId}
           />
         </Fragment>
       )

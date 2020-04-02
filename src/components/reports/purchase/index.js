@@ -71,7 +71,7 @@ const Transactions = ({ transactions, ratio }) => {
   return transactions && transactions.map(({ Product: { title, price } }) => (
     <View key={title} style={styles.transactions}>
       <Text style={styles.transactions.title}>{title}</Text>
-      <Text style={styles.transactions.points}>Points: {Math.round(parseFloat(price.substring(1)) / ratio).toFixed(2)} | Money: {price}</Text>
+      <Text style={styles.transactions.points}>Points: {Math.round(parseFloat(price.substring(1)) / ratio).toFixed(0)} | Money: {price}</Text>
     </View>
   ));
 }
