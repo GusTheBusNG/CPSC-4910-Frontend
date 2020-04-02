@@ -33,7 +33,6 @@ const CompanyDrivers = ({companyId}) => {
 
     await submitUpdatedDriver({ variables: {
       driverId: newData.driverId,
-      userId: newData.userId,
       companyId: companyId,
       relationship: newData.activeRelationship,
       firstName: newData.firstName,
