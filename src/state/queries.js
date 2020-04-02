@@ -291,3 +291,11 @@ export const fetchNotifications = gql`
     }
   }
 `;
+
+export const getID = gql`
+  query getID($userEmail: String!) {
+    Users(where: {email: {_eq: $userEmail}}) {
+      id
+    }
+  }
+`
