@@ -5,6 +5,7 @@ import "./index.css"
 import EditProfile from "../editprofile"
 import ChangePassForm from "../changepassform"
 import DeactivateAccount from '../../components/deactivate-account'
+import Preferences from '../../components/preferences'
 
 import {fetchDriver} from '../../state/queries';
 import { useQuery } from '@apollo/react-hooks';
@@ -62,11 +63,16 @@ const DriverProfile = (props) => {
       return <EditProfile id={id} driver={driver}/>;
     case "deactivateAccount":
       return <DeactivateAccount pass={driver.password} userId={id}/>;
+    case "preferences":
+      return <Preferences userId={props.userId}/>
     default:
       return (
         <div className='driverProfile'>
         <Driver driver={driver}/>
         <Button variant="primary" type="submit" onClick={() => changeView('editProfile')}> Edit Profile </Button>
+        <div className="spacing">
+          <Button variant="primary" onClick={() => changeView('preferences')}>Edit Preferences</Button>
+        </div>
         <div className="spacing">
           <Button variant="danger" onClick={() => changeView('deactivateAccount')}>Deactivate Account</Button>
         </div>

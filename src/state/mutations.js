@@ -562,11 +562,31 @@ export const clearNotification = gql`
 `;
 
 export const insertNotification = gql`
-  mutation insertNotification($userId: Int, $message: String) {
-    insert_Notifications(objects: {id: $userId, message: $message}) {
+  mutation insertNotification($userId: Int, $message: String, $type: String) {
+    insert_Notifications(objects: {id: $userId, message: $message, type: $type}) {
       returning {
         notificationId
       }
     }
   }
 `;
+
+export const insertPreferences = gql `
+  mutation insertPreferences($userId: Int) {
+    insert_Permissions(objects: {userId: $userId, points: true, order: true, error: true}) {
+      returning {
+        userId
+      }
+    }
+  }
+`;
+
+export const updatePreferences = gql `
+  mutation updatePreferences($userId: Int, $error: Boolean, $order: Boolean, $points: Boolean) {
+    update_Permissions(where: {userId: {_eq: $userId}}, _set: {error: $error, order: $order, points: $points}) {
+      returning {
+        userId
+      }
+    }
+  }
+`
