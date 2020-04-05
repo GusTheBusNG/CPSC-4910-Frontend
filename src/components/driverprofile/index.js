@@ -1,4 +1,6 @@
 import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
+import Nav from 'react-bootstrap/Nav'
 import React, { useState } from 'react';
 
 import "./index.css"
@@ -63,26 +65,45 @@ const DriverProfile = (props) => {
       return <EditProfile id={id} driver={driver}/>;
     case "deactivateAccount":
       return <DeactivateAccount pass={driver.password} userId={id}/>;
-    case "preferences":
-      return <Preferences userId={props.userId}/>
     default:
       return (
-        <div className='driverProfile'>
-        <Driver driver={driver}/>
-        <Button variant="primary" type="submit" onClick={() => changeView('editProfile')}> Edit Profile </Button>
-        <div className="spacing">
-          <Button variant="primary" onClick={() => changeView('preferences')}>Edit Preferences</Button>
-        </div>
-        <div className="spacing">
-          <Button variant="danger" onClick={() => changeView('deactivateAccount')}>Deactivate Account</Button>
-        </div>
-        <Button variant="link"
-                style={{display: "block", margin: "auto"}}
-                onClick={() => changeView('changePass')}
-        >
-          Change Password
-        </Button>
-      </div>
+        <Card>
+        <Card.Header>
+          <Nav fill variant="tabs" defaultActiveKey="#profile">
+            <Nav.Item>
+              <Nav.Link
+                href="#profile"
+                onClick={() => changeView('profile')}>
+                  Profile
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                href="#preferences"
+                onClick={() => changeView('preferences')}>
+                  Notification Settings
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Card.Header>
+        <Card.Body>
+          {view === "profile" ? (
+            <div className='driverProfile'>
+              <Driver driver={driver}/>
+              <Button variant="primary" type="submit" onClick={() => changeView('editProfile')}> Edit Profile </Button>
+              <div className="spacing">
+                <Button variant="danger" onClick={() => changeView('deactivateAccount')}>Deactivate Account</Button>
+              </div>
+              <Button variant="link"
+                      style={{display: "block", margin: "auto"}}
+                      onClick={() => changeView('changePass')}
+              >
+                Change Password
+              </Button>
+            </div>
+          ) : <Preferences userId={props.userId}/>}
+      </Card.Body>
+      </Card>
       )
     }
 }

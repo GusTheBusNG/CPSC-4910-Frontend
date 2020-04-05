@@ -1,6 +1,3 @@
-// makePreferences({variables: {
-//   userId: data.User[0].id
-// }})
 import React from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {insertPreferences, updatePreferences} from '../../state/mutations'
