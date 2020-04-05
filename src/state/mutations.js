@@ -561,6 +561,11 @@ export const clearNotification = gql`
   }
 `;
 
+// The types of notifications are:
+  // order: Can be opted out of 
+  // points: Can be opted out of
+  // error: Can be opted out of
+  // Any other type the driver is unable to opt out of
 export const insertNotification = gql`
   mutation insertNotification($userId: Int, $message: String, $type: String) {
     insert_Notifications(objects: {id: $userId, message: $message, type: $type}) {
