@@ -92,6 +92,7 @@ export const getAllDriverApplications = gql`
         id
       }
       Driver {
+        id
         User {
           email
           id
@@ -177,6 +178,7 @@ export const getCompanyDrivers = gql`
   query getCompanyDrivers($companyId: Int) {
     Sponsors(where: {companyId: {_eq: $companyId}}) {
       Company {
+        name
         DriverCompanies {
           activeRelationship
           points
@@ -186,6 +188,7 @@ export const getCompanyDrivers = gql`
               email
               firstName
               lastName
+              id
             }
           }
         }
@@ -278,3 +281,21 @@ export const getPoints = gql`
     }
   }
 `;
+
+export const fetchNotifications = gql`
+  query fetchNotifications($id: Int) {
+    Notifications(where: {id: {_eq: $id}, hasBeenShown: {_eq: false}}) {
+      message
+      date
+      notificationId
+    }
+  }
+`;
+
+export const getID = gql`
+  query getID($userEmail: String!) {
+    Users(where: {email: {_eq: $userEmail}}) {
+      id
+    }
+  }
+`
