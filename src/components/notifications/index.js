@@ -48,7 +48,7 @@ const Notifications = ({userId}) => {
   if (loading) return <p> loading...</p>
 
   data.Notifications.forEach(function(item, index, object) {
-    if (item.Permissions[item.type] === false) {
+    if (item.Permissions !== null && item.Permissions[item.type] === false) {
       object.splice(index, 1);
     }
   });
