@@ -20,3 +20,11 @@ h4 {
 h5 {
   font-family: SegoeUI;
 }
+
+.leftAlign {
+  list-style-position: inside;
+  text-align: center;
+  list-style: inside;
+  display: inline-block;
+  font-family: SegoeUISemiBold;
+}
