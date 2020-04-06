@@ -11,7 +11,7 @@ class HomePageBody extends React.Component {
         <h3>Good Driver Incentive Program</h3>
         <h4> What we do:</h4>
         <h5> The Driver Incentive program is designed to encourage good driving behavior by rewarding drivers with points based on their driving habits. </h5>
-        <div>
+        <div className="centerContainer">
           <ul className="leftAlign">
             <li> Drivers can earn points for good driving</li>
             <li> Drivers can apply to multiple different companies and earn rewards from all of them </li>

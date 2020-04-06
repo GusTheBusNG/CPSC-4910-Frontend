@@ -23,8 +23,15 @@ h5 {
 
 .leftAlign {
   list-style-position: inside;
-  text-align: center;
+  text-align: left;
   list-style: inside;
   display: inline-block;
   font-family: SegoeUISemiBold;
+}
+
+.centerContainer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }
