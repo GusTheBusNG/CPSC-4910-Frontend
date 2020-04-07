@@ -1,0 +1,3 @@
+Created new web server which runs under http://ec2-52-87-160-24.compute-1.amazonaws.com/.
+
+Tried to do HTTPS, but the domain is blacklisted to add certificates which means we cannot do this.
