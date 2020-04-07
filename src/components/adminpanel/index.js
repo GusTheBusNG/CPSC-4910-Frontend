@@ -12,8 +12,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { getAllCompletedTransactions } from '../../state/queries'
 
 const AdminPanel = () => { 
-  const { data, loading } = useQuery(getAllCompletedTransactions)
-  if (loading) return <p>Loading...</p>
+  const { data } = useQuery(getAllCompletedTransactions)
+
   return (
     <div style={{ maxWidth: "98%", margin: "1rem auto" }}>
       <AllDrivers />
@@ -21,10 +21,14 @@ const AdminPanel = () => {
       <AllCompanies style={{ marginTop: "1rem" }} />
       <AllDriverApplications style={{ marginTop: "1rem" }} />
       <AllAdmins style={{ marginTop: "1rem" }} />
-      <PDFViewer>
-        <Purchase Companies={data.Companies} />
-      </PDFViewer>
-      <Download document={<Purchase Companies={data.Companies} />} filename="Purchases" />
+      {data && (
+        <>
+          <PDFViewer>
+            <Purchase Companies={data.Companies} />
+          </PDFViewer>
+          <Download document={<Purchase Companies={data.Companies} />} filename="Purchases" />
+        </>
+      )}
     </div>
   );
 }
