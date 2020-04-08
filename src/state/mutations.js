@@ -577,8 +577,8 @@ export const insertNotification = gql`
 `;
 
 export const insertPreferences = gql `
-  mutation insertPreferences($userId: Int) {
-    insert_Permissions(objects: {userId: $userId, points: true, order: true, error: true}) {
+  mutation insertPreferences($userId: Int, $error: Boolean, $order: Boolean, $points: Boolean) {
+    insert_Permissions(objects: {userId: $userId, points: $points, order: $order, error: $error}) {
       returning {
         userId
       }
