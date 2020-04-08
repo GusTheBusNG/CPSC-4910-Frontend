@@ -85,6 +85,7 @@ class HeaderBar extends React.Component {
                   <Nav.Link href="/register">Sign Up</Nav.Link>
                 </React.Fragment>
               )}
+              <Nav.Link href="/support">Support</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
