@@ -306,6 +306,30 @@ export const getID = gql`
   }
 `
 
+export const getTransactionsPerCompany = gql`
+  query getTransactionsPerCompany($sponsorId: Int!) {
+    Companies(where: {DriverCompanies: {activeRelationship: {_eq: true}, Driver: {Transactions: {completed: {_eq: true}}}}, Sponsors: {id: {_eq: $sponsorId}}}) {
+      name
+      pointToDollarRatio
+      description
+      DriverCompanies {
+        points
+        Driver {
+          User {
+            email
+          }
+          Transactions {
+            Product {
+              title
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const fetchPreferences = gql`
   query fetchPreferences($userId: Int) {
     Permissions(where: {userId: {_eq: $userId}}) {
