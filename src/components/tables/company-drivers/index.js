@@ -16,19 +16,20 @@ const CompanyDrivers = ({companyId}) => {
 
   const updateDriver = async (newData, oldData) => {
     const companyName = data.Sponsors[0].Company.name
-    let message = ""
+    let affiliationMessage = ""
+    let pointMessage = ""
 
     if (oldData.activeRelationship !== newData.activeRelationship) {
       if (newData.activeRelationship === "true") {
-        message += `${companyName} accepted your application.\n`
+        affiliationMessage += `${companyName} accepted your application.\n`
       } else {
-        message += `${companyName} revoked your affiliation.\n`
+        affiliationMessage += `${companyName} revoked your affiliation.\n`
       }
     }
 
     if (oldData.points !== newData.points) {
       let pointDifference = (newData.points - oldData.points).toFixed(0)
-      message += `${companyName} added ${pointDifference} points to your account.`
+      pointMessage += `${companyName} added ${pointDifference} points to your account.`
     }
 
     await submitUpdatedDriver({ variables: {
@@ -41,11 +42,21 @@ const CompanyDrivers = ({companyId}) => {
       points: parseFloat(newData.points).toFixed(0)
     }});
 
-    if (!submitError && message !== "") {
+    if (!submitError && affiliationMessage !== "") {
       await submitNotification({
         variables: {
           userId: newData.userId,
-          message: message,
+          message: affiliationMessage,
+          type: "affiliation"
+        }
+      })
+    }
+    if (!submitError && pointMessage !== "") {
+      await submitNotification({
+        variables: {
+          userId: newData.userId,
+          message: pointMessage,
+          type: "points"
         }
       })
     }
@@ -63,6 +74,7 @@ const CompanyDrivers = ({companyId}) => {
         variables: {
           userId: driver.userId,
           message: data.Sponsors[0].Company.name + " revoked your affiliation.",
+          type: "affiliation"
         }
       })
     }

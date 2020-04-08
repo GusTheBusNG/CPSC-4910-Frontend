@@ -38,7 +38,8 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
       await submitNotification({
         variables: {
           userId: userId,
-          message: `Error purchasing ${title}`
+          message: `Error purchasing ${title}`,
+          type: "error"
         }
       })
     } else {
@@ -46,6 +47,7 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
         variables: {
           userId: userId,
           message: `Purchased ${title} for ${points} points`,
+          type: "order"
         }
       })
     }
@@ -70,7 +72,8 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
       await submitNotification({
         variables: {
           userId: userId,
-          message: `Error reverting purchase of ${title}`
+          message: `Error reverting purchase of ${title}`,
+          type: "error"
         }
       })
     } else {
@@ -78,7 +81,8 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
       await submitNotification({
         variables: {
           userId: userId,
-          message: `Purchase reverted for ${title}, ${points} points returned.`
+          message: `Purchase reverted for ${title}, ${points} points returned.`,
+          type: "order"
         }
       })
     }

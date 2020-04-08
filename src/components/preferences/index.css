@@ -1,0 +1,20 @@
+.preferences {
+  text-align: center;
+  margin: auto;
+  font-family: SegoeUI;
+  display: block;
+}
+
+.bold {
+  font-family: SegoeUIBold;
+}
+
+.singleLine {
+  display: block;
+}
+
+.spacing {
+  padding: 5px;
+  display: block;
+  margin: auto;
+}

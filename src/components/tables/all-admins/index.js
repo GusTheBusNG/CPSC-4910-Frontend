@@ -3,15 +3,19 @@ import Table from '../table';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getAllAdmins } from '../../../state/queries';
 import { deleteAdmin, insertAdmin, updateAdmin } from '../../../state/mutations';
+import handleError, { ALL_ADMINS } from '../error/handle';
 
 const AllAdmins = (props) => {
-  const [deleteAdminAction] = useMutation(deleteAdmin);
-  const [insertAdminAction] = useMutation(insertAdmin);
-  const [updateAdminAction] = useMutation(updateAdmin);
+  const refetchQueries = { refetchQueries: [{ query: getAllAdmins }] };
+  const [deleteAdminAction, { error: deleteError }] = useMutation(deleteAdmin, refetchQueries);
+  const [insertAdminAction, { error: insertError }] = useMutation(insertAdmin, refetchQueries);
+  const [updateAdminAction, { error: updateError }] = useMutation(updateAdmin, refetchQueries);
 
   const { loading, error, data, refetch } = useQuery(getAllAdmins);
 
-  if (error) return <p>Error</p>;
+  const errors = { get: error, insert: insertError, update: updateError, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: ALL_ADMINS });
+  if (errorResponse) return errorResponse;
 
   return (
     <Table
@@ -25,12 +29,9 @@ const AllAdmins = (props) => {
       ]}
       data={data && data.Users}
       editable={{
-        onRowAdd: newData => insertAdminAction({ variables: { ...newData }})
-          .then(() => refetch()),
-        onRowUpdate: ({ __typename, ...newData}) => updateAdminAction({ variables: { ...newData }})
-          .then(() => refetch()),
+        onRowAdd: newData => insertAdminAction({ variables: { ...newData }}),
+        onRowUpdate: ({ __typename, ...newData}) => updateAdminAction({ variables: { ...newData }}),
         onRowDelete: ({ id }) => deleteAdminAction({ variables: { id }})
-          .then(() => refetch())
       }}
       title="Admins"
       {...props}

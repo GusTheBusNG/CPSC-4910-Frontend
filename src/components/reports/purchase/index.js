@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     description: {
       fontSize: 12,
       paddingBottom: 5
+    },
+    moneyToCompany: {
+
     }
   },
   driver: {
@@ -40,22 +43,38 @@ const styles = StyleSheet.create({
   }
 });
 
-const Doc = ({ Companies }) => (
-  <Document>
-    {
-      Companies && Companies.map(({ name, pointToDollarRatio, description, DriverCompanies }) => (
-        <Page size="A4" style={styles.page} key={name}>
-          <View style={styles.company}>
-            <Text style={styles.company.title}>{name}</Text>
-            <Text>Point To Dollar: {pointToDollarRatio}</Text>
-            <Text style={styles.company.description}>{description}</Text>
-            <Drivers DriverCompanies={DriverCompanies} ratio={pointToDollarRatio} />
-          </View>
-        </Page>   
-      ))
-    }
-  </Document>
-);
+const Doc = ({ Companies }) => {
+  const getMoneyDue = () => {
+    let money = 0;
+
+    Companies && Companies.forEach(({ DriverCompanies }) => {
+      DriverCompanies && DriverCompanies.forEach(({ Driver: { Transactions } }) => {
+        Transactions && Transactions.forEach(({ Product: { price } }) => money += parseFloat(price.substring(1)))
+      })
+    })
+
+    // 0.01 is the ratio for the tax to use the system
+    return (money * 0.01).toFixed(2);
+  }
+  
+  return (
+    <Document>
+      {
+        Companies && Companies.map(({ name, pointToDollarRatio, description, DriverCompanies }) => (
+          <Page size="A4" style={styles.page} key={name}>
+            <View style={styles.company}>
+              <Text style={styles.company.title}>{name}</Text>
+              <Text>Point To Dollar: {pointToDollarRatio}</Text>
+              <Text>{`Money due to system: $${getMoneyDue()}`}</Text>
+              <Text style={styles.company.description}>{description}</Text>
+              <Drivers DriverCompanies={DriverCompanies} ratio={pointToDollarRatio} />
+            </View>
+          </Page>   
+        ))
+      }
+    </Document>
+  );
+}
 
 const Drivers = ({ DriverCompanies, ratio }) => {
   return DriverCompanies && DriverCompanies.map(({ points, Driver }) => (
