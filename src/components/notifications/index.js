@@ -35,18 +35,23 @@ const Notifications = ({userId}) => {
         <Button variant='link' onClick={clearNotifications} className="rightAlign"> Clear all </Button>
         {loading && "Loading..."}
         {error && "Something went wrong"}
-        {data.Notifications.map(({message, date}, index) => (
+        {data.Notifications.map(({message, date, type, Permissions}, index) => (
           <Popover.Title key={index}>
             {parseDate(date)}
             <Popover.Content>{message}</Popover.Content>
           </Popover.Title>
-
         ))}
       </Popover>
     )
   }
   if (error) return <p> error </p>
   if (loading) return <p> loading...</p>
+
+  data.Notifications.forEach(function(item, index, object) {
+    if (item.Permissions !== null && item.Permissions[item.type] === false) {
+      object.splice(index, 1);
+    }
+  });
 
   return (
     <OverlayTrigger rootClose={true} trigger="click" placement="bottom" overlay={renderPopover}>
