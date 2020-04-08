@@ -288,6 +288,12 @@ export const fetchNotifications = gql`
       message
       date
       notificationId
+      type
+      Permissions {
+        points
+        order
+        error
+      }
     }
   }
 `;
@@ -320,6 +326,16 @@ export const getTransactionsPerCompany = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const fetchPreferences = gql`
+  query fetchPreferences($userId: Int) {
+    Permissions(where: {userId: {_eq: $userId}}) {
+      error
+      order
+      points
     }
   }
 `;

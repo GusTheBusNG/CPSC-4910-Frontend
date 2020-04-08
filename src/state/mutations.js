@@ -561,12 +561,37 @@ export const clearNotification = gql`
   }
 `;
 
+// The types of notifications are:
+  // order: Can be opted out of 
+  // points: Can be opted out of
+  // error: Can be opted out of
+  // Any other type the driver is unable to opt out of
 export const insertNotification = gql`
-  mutation insertNotification($userId: Int, $message: String) {
-    insert_Notifications(objects: {id: $userId, message: $message}) {
+  mutation insertNotification($userId: Int, $message: String, $type: String) {
+    insert_Notifications(objects: {id: $userId, message: $message, type: $type}) {
       returning {
         notificationId
       }
     }
   }
 `;
+
+export const insertPreferences = gql `
+  mutation insertPreferences($userId: Int, $error: Boolean, $order: Boolean, $points: Boolean) {
+    insert_Permissions(objects: {userId: $userId, points: $points, order: $order, error: $error}) {
+      returning {
+        userId
+      }
+    }
+  }
+`;
+
+export const updatePreferences = gql `
+  mutation updatePreferences($userId: Int, $error: Boolean, $order: Boolean, $points: Boolean) {
+    update_Permissions(where: {userId: {_eq: $userId}}, _set: {error: $error, order: $order, points: $points}) {
+      returning {
+        userId
+      }
+    }
+  }
+`
