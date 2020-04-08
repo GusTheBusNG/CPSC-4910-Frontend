@@ -29,7 +29,7 @@ const SponsorPanel = props => {
           <PDFViewer>
             <SponsorReport Companies={reportData.Companies} />
           </PDFViewer>
-          <Download document={<SponsorReport companyId={data.Companies} />} filename="Driver Purchases" />
+          <Download document={<SponsorReport Companies={reportData.Companies} />} filename="Driver-Purchases" />
         </>
       )}
     </>
