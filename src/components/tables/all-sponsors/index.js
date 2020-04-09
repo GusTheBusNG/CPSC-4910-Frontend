@@ -6,32 +6,27 @@ import { deleteSponsor, updateSponsor } from '../../../state/mutations';
 import AddBox from '@material-ui/icons/AddBox';
 import NewSponsorForm from '../../new-sponsor-form';
 import Card from 'react-bootstrap/Card';
+import handleError, { ALL_SPONSORS } from '../error/handle'
 
 import './all-sponsors.scss';
 
 const AllSponsors = (props) => {
-  const [deleteSponsorAction] = useMutation(deleteSponsor, {
-    update(cache, { data: { delete_Users: { returning } } }) {
-      const { Sponsors } = cache.readQuery({ query: getAllSponsors });
-      cache.writeQuery({
-        query: getAllSponsors,
-        data: { Sponsors: Sponsors.filter(({ User: { id } }) => id !== returning[0].id)}
-      })
-    }
-  });
-  const [updateSponsorAction] = useMutation(updateSponsor);
-
-  const { loading, error, data } = useQuery(getAllSponsors);
+  const refetchQueries = { refetchQueries: [{ query: getAllSponsors }, { query: getAllCompanies }] };
+  const [deleteSponsorAction, { error: deleteError }] = useMutation(deleteSponsor, refetchQueries);
+  const [updateSponsorAction, { error: updateError }] = useMutation(updateSponsor, refetchQueries);
+  const { loading, error, data, refetch } = useQuery(getAllSponsors);
   const { data: companiesData } = useQuery(getAllCompanies);
 
   const [showNewSponsorForm, setShowNewSponsorForm] = useState(false);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  const errors = { get: error, update: updateError, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: ALL_SPONSORS });
+  if (errorResponse) return errorResponse;
 
   return (
     <>
       <Table
+        loading={loading}
         columns={[
           { title: "ID", field: "id", type: "numeric", editable: "never" },
           { title: "First Name", field: "firstName" },
@@ -39,7 +34,7 @@ const AllSponsors = (props) => {
           { title: "Email", field: "email" },
           { title: "Password", field: "password" },
         ]}
-        data={data.Sponsors.map(sponsor => ({
+        data={data && data.Sponsors.map(sponsor => ({
           id: sponsor.User.id,
           firstName: sponsor.User.firstName,
           lastName: sponsor.User.lastName,
