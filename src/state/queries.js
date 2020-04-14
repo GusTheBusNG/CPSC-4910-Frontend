@@ -339,3 +339,18 @@ export const fetchPreferences = gql`
     }
   }
 `;
+
+export const fetchCompanySponsors = gql`
+  query fetchCompanySponsors($id: Int) {
+    Companies(where: {id: {_eq: $id}}) {
+      Sponsors {
+        User {
+          email
+          firstName
+          lastName
+          isActive
+        }
+      }
+    }
+  }
+`;
