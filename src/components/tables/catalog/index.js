@@ -8,6 +8,17 @@ const Catalog = props => {
   const { companyId, name } = props;
   const { data, loading, refetch } = useQuery(getCatalog, { variables: { companyId }})
   const [deleteItemFromCatalogAction] = useMutation(deleteItemFromCatalog);
+
+  const date = new Date();
+  const timestamp = date.toISOString();
+
+  setTimeout( function(){ if(data) {
+    for(let i = 0; i < data.Catalog.length; i++) {
+      if(data.Catalog[i].Product.endTime <= timestamp) {
+        deleteItemFromCatalogAction({variables: { productId: data.Catalog[i].Product.id, companyId }})
+      }
+    }
+  }}, 3000);
   
   return (
     <Table
