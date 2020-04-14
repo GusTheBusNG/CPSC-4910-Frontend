@@ -600,10 +600,11 @@ export const updateCompanySponsor = gql`
   mutation updateSponsor(
   $id: Int,
   $email: String,
+  $password: String,
   $firstName: String,
   $isActive: Boolean,
   $lastName: String) {
-    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, isActive: $isActive, lastName: $lastName}) {
+    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, password: $password, isActive: $isActive, lastName: $lastName}) {
       returning {
         id
       }

@@ -350,6 +350,7 @@ export const fetchCompanySponsors = gql`
           firstName
           lastName
           isActive
+          password
         }
       }
     }
