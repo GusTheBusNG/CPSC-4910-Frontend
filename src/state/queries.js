@@ -345,6 +345,7 @@ export const fetchCompanySponsors = gql`
     Companies(where: {id: {_eq: $id}}) {
       Sponsors {
         User {
+          id
           email
           firstName
           lastName
