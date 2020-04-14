@@ -12,13 +12,13 @@ const Catalog = props => {
   const date = new Date();
   const timestamp = date.toISOString();
 
-  setTimeout( function(){ if(data) {
-    for(let i = 0; i < data.Catalog.length; i++) {
-      if(data.Catalog[i].Product.endTime <= timestamp) {
-        deleteItemFromCatalogAction({variables: { productId: data.Catalog[i].Product.id, companyId }})
+  if(data) {
+    data.Catalog.forEach(({ Product }) => function(){ 
+      if(Product.endTime <= timestamp) {
+        deleteItemFromCatalogAction({variables: { productId: Product.id, companyId }})
       }
-    }
-  }}, 3000);
+    })
+  }
   
   return (
     <Table
