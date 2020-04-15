@@ -4,13 +4,16 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { deleteItemFromCatalog } from '../../../state/mutations';
 import { getCatalog } from '../../../state/queries';
 
+import handleError, { CATALOG } from '../error/handle'
+
 const Catalog = props => {
   const { companyId, name } = props;
-  const { data, loading, refetch } = useQuery(getCatalog, { variables: { companyId }})
-  const [deleteItemFromCatalogAction] = useMutation(deleteItemFromCatalog);
+  const { data, loading, refetch, error } = useQuery(getCatalog, { variables: { companyId }})
+  const [deleteItemFromCatalogAction, { error: deleteError }] = useMutation(deleteItemFromCatalog);
 
-  const date = new Date();
-  const timestamp = date.toISOString();
+  const errors = { get: error, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: CATALOG });
+  if (errorResponse) return errorResponse;
 
   if(data) {
     Promise.all(data.Catalog.map(({ Product }) => { 
