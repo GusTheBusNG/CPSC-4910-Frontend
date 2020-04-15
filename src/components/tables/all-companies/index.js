@@ -11,33 +11,24 @@ import Button from '@material-ui/core/Button';
 import './all-companies.scss';
 import { useHistory } from 'react-router-dom';
 
-const AllDrivers = (props) => {
-  const [deleteCompanyAction] = useMutation(deleteCompany, {
-    update(cache, { data }) {
-      const { Companies } = cache.readQuery({ query: getAllCompanies });
-      const { Sponsors } = cache.readQuery({ query: getAllSponsors });
-      cache.writeQuery({
-        query: getAllCompanies,
-        data: { Companies: Companies.filter(({ id } ) => id !== data.delete_Companies.returning[0].id)}
-      });
-      cache.writeQuery({
-        query: getAllSponsors,
-        data: { Sponsors: Sponsors.filter(({ User: { id } } ) => id !== data.delete_Sponsors.returning[0].userId)}
-      });
-    }
-  });
- 
-  const [updateCompanyAction] = useMutation(updateCompany)
-  const { loading, error, data } = useQuery(getAllCompanies);
-  const [showNewCompanyForm, setShowNewCompanyForm] = useState(false)
-  const history = useHistory();
+import handleError, { ALL_COMPANIES } from '../error/handle';
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+const AllCompanies = props => {
+  const refetchQueries = { refetchQueries: [{ query: getAllCompanies }, { query: getAllSponsors }] };
+  const [deleteCompanyAction, { error: deleteError }] = useMutation(deleteCompany, refetchQueries);
+  const [updateCompanyAction, { error: updateError }] = useMutation(updateCompany, refetchQueries)
+  const { loading, error, data, refetch } = useQuery(getAllCompanies);
+  const [showNewCompanyForm, setShowNewCompanyForm] = useState(false)
+  const history = useHistory()
+
+  const errors = { get: error, update: updateError, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: ALL_COMPANIES });
+  if (errorResponse) return errorResponse;
 
   return (
     <>
       <Table
+        loading={loading}
         columns={[
           { title: "ID", field: "id", type: "numeric", editable: "never" },
           { title: "Company Name", field: "name" },
@@ -57,7 +48,7 @@ const AllDrivers = (props) => {
             )
           }
         ]}
-        data={data.Companies}
+        data={data && data.Companies}
         title="Companies"
         actions={[
           {
@@ -87,6 +78,4 @@ const AllDrivers = (props) => {
   );
 }
 
-
-
-export default AllDrivers;
+export default AllCompanies;
