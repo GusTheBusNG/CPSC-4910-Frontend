@@ -13,11 +13,12 @@ const Catalog = props => {
   const timestamp = date.toISOString();
 
   if(data) {
-    data.Catalog.forEach(({ Product }) => function(){ 
+    Promise.all(data.Catalog.map(({ Product }) => { 
       if(Product.endTime <= timestamp) {
-        deleteItemFromCatalogAction({variables: { productId: Product.id, companyId }})
+        return deleteItemFromCatalogAction({variables: { productId: Product.id, companyId }})
       }
-    })
+      return undefined;
+    }))
   }
   
   return (
