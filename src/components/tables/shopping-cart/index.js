@@ -4,13 +4,18 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getShoppingCartPerDriver, getPoints } from '../../../state/queries';
 import { deleteItemFromShoppingCart, updatePurchase, insertNotification } from '../../../state/mutations';
 import Button from '@material-ui/core/Button';
+import handleError, { SHOPPING_CART } from '../error/handle';
 
 const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props }) => {
-  const { data, loading, refetch } = useQuery(getShoppingCartPerDriver, { variables: { driverId, companyId }})
+  const { data, loading, refetch, error } = useQuery(getShoppingCartPerDriver, { variables: { driverId, companyId }})
   const { data: dataPoints, refetch: refetchPoints } = useQuery(getPoints, { variables: { companyId, driverId }});
-  const [deleteItem] = useMutation(deleteItemFromShoppingCart)
+  const [deleteItem, { error: deleteError }] = useMutation(deleteItemFromShoppingCart)
   const [editPurchase, {error: purchaseError}] = useMutation(updatePurchase);
-  const [submitNotification] = useMutation(insertNotification);
+  const [submitNotification, { error: insertError }] = useMutation(insertNotification);
+
+  const errors = { get: error, insert: insertError, update: purchaseError, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: SHOPPING_CART });
+  if (errorResponse) return errorResponse;
 
   const currentPoints = dataPoints && dataPoints.DriverCompanies[0].points;
 
@@ -34,7 +39,6 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
     })
 
     if (purchaseError) {
-      console.log('hit', userId)
       await submitNotification({
         variables: {
           userId: userId,
@@ -77,7 +81,6 @@ const ShoppingCart = ({ companyId, driverId, userId, showCurrentPoints, ...props
         }
       })
     } else {
-      console.log('hit')
       await submitNotification({
         variables: {
           userId: userId,

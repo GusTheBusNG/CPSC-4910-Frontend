@@ -562,7 +562,7 @@ export const clearNotification = gql`
 `;
 
 // The types of notifications are:
-  // order: Can be opted out of 
+  // order: Can be opted out of
   // points: Can be opted out of
   // error: Can be opted out of
   // Any other type the driver is unable to opt out of
@@ -595,3 +595,19 @@ export const updatePreferences = gql `
     }
   }
 `
+
+export const updateCompanySponsor = gql`
+  mutation updateSponsor(
+  $id: Int,
+  $email: String,
+  $password: String,
+  $firstName: String,
+  $isActive: Boolean,
+  $lastName: String) {
+    update_Users(where: {id: {_eq: $id}}, _set: {email: $email, firstName: $firstName, password: $password, isActive: $isActive, lastName: $lastName}) {
+      returning {
+        id
+      }
+    }
+  }
+`;

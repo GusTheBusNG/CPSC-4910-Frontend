@@ -16,20 +16,20 @@ const Catalog = props => {
   if (errorResponse) return errorResponse;
 
   if(data) {
-    Promise.all(data.Catalog.map(({ Product }) => { 
+    Promise.all(data.Catalog.map(({ Product }) => {
       if(Product.endTime <= timestamp) {
         return deleteItemFromCatalogAction({variables: { productId: Product.id, companyId }})
       }
       return undefined;
     }))
   }
-  
+
   return (
     <Table
       style={{ margin: '1rem' }}
       loading={loading}
       columns={[
-        { 
+        {
           title: "Photo",
           field: "photo",
           render: ({ photo, title }) => <img src={photo} alt={title} className="add-catalog-image" />
