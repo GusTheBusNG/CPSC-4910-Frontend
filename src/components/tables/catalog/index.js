@@ -15,6 +15,9 @@ const Catalog = props => {
   const errorResponse = handleError({ error: errors, refetch, messages: CATALOG });
   if (errorResponse) return errorResponse;
 
+  const date = new Date();
+  const timestamp = date.toISOString();
+
   if(data) {
     Promise.all(data.Catalog.map(({ Product }) => {
       if(Product.endTime <= timestamp) {
