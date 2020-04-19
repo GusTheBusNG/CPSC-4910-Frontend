@@ -9,67 +9,31 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import ShoppingCart from '../shopping-cart';
 
-const AllDriverApplications = (props) => {
-  const [deleteDriverApplicationAction] = useMutation(deleteDriverApplication, {
-    update(cache, { data: { delete_DriverCompanies } }) {
-      const deletedCompanyId = delete_DriverCompanies.returning[0].companyId;
-      const deletedUserId = delete_DriverCompanies.returning[0].Driver.userId;
-      const { DriverCompanies } = cache.readQuery({ query: getAllDriverApplications });
-      cache.writeQuery({
-        query: getAllDriverApplications,
-        data: { DriverCompanies: DriverCompanies.filter(({
-          Company: {
-            companyId
-          },
-          Driver: {
-            User: {
-              id: userId
-            }
-          }
-        }) => companyId !== deletedCompanyId && userId !== deletedUserId)}
-      });
-    }
-  });
-  const [insertDriverApplicationAction] = useMutation(insertDriverApplication, {
-    update(cache, { data: { insert_DriverCompanies: { returning }} }) {
-      const { DriverCompanies } = cache.readQuery({ query: getAllDriverApplications });
-      cache.writeQuery({
-        query: getAllDriverApplications,
-        data: { DriverCompanies: DriverCompanies.concat(returning) },
-      });
-    }
-  });
-  const [updateDriverApplicationAction] = useMutation(updateDriverApplication, {
-    update(cache, { data: { update_DriverCompanies: { returning } } }) {
-      const updatedApplication = returning[0];
-      const { DriverCompanies } = cache.readQuery({ query: getAllDriverApplications });
-      cache.writeQuery({
-        query: getAllDriverApplications,
-        data: {
-          DriverCompanies: DriverCompanies.map(application => {
-            if (application.Driver.User.id === updatedApplication.Driver.User.id &&
-                application.Company.id === updatedApplication.Company.id) {
-              return updatedApplication;
-            }
-            return application;
-          })
-        }
-      });
-    }
-  });
+import handleError, { ALL_DRIVER_APPLICATIONS } from '../error/handle';
 
-  const [shoppingCartData, setShoppingCartData] = useState({ });
-
-  const { loading, error, data } = useQuery(getAllDriverApplications);
+const AllDriverApplications = props => {
+  const refetchQueries = { refetchQueries: [
+    { query: getAllDriverApplications },
+    { query: getAllDrivers },
+    { query: getAllCompanies }
+  ]};
+  const [deleteDriverApplicationAction, { error: deleteError }] = useMutation(deleteDriverApplication, refetchQueries);
+  const [insertDriverApplicationAction, { error: insertError }] = useMutation(insertDriverApplication, refetchQueries);
+  const [updateDriverApplicationAction, { error: updateError }] = useMutation(updateDriverApplication, refetchQueries);
+  const { loading, error, data, refetch } = useQuery(getAllDriverApplications);
   const { data: allDrivers } = useQuery(getAllDrivers);
   const { data: allCompanies } = useQuery(getAllCompanies);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  const [shoppingCartData, setShoppingCartData] = useState({ });
+
+  const errors = { get: error, insert: insertError, update: updateError, delete: deleteError };
+  const errorResponse = handleError({ error: errors, refetch, messages: ALL_DRIVER_APPLICATIONS });
+  if (errorResponse) return errorResponse;
 
   return (
     <>
       <Table
+        loading={loading}
         columns={[
           { title: "Driver ID", field: "userId", type: "numeric", editable: "never" },
           {
@@ -130,7 +94,7 @@ const AllDriverApplications = (props) => {
           },
           { title: "Points", field: "points" }
         ]}
-        data={data.DriverCompanies.map(({
+        data={data && data.DriverCompanies.map(({
             activeRelationship: applicationAccepted,
             points,
             Company: {
@@ -176,7 +140,7 @@ const AllDriverApplications = (props) => {
         {...props}
       />
       {
-        shoppingCartData && (
+        shoppingCartData && shoppingCartData.driverId && (
           <ShoppingCart
             style={{ margin: '1rem 5rem'}}
             companyId={shoppingCartData.companyId}

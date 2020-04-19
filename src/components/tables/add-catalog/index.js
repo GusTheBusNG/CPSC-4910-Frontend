@@ -5,11 +5,13 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { insertProductToCatalog } from '../../../state/mutations';
 import { getCatalog } from '../../../state/queries';
 
+import handleError, { ADD_CATALOG } from '../error/handle'
+
 const AddCatalog = props => {
   const { ebayResponse, loading, companyId, name } = props;
-  const { data, refetch } = useQuery(getCatalog, { variables: { companyId }})
+  const { data, refetch, error } = useQuery(getCatalog, { variables: { companyId }})
   const [canAddItems, setCanAddItems] = useState([]);
-  const [insertProductToCatalogAction] = useMutation(insertProductToCatalog)
+  const [insertProductToCatalogAction, { error: insertError }] = useMutation(insertProductToCatalog)
 
   useEffect(() => {
     if (data === undefined || ebayResponse === undefined) return ;
@@ -25,6 +27,10 @@ const AddCatalog = props => {
       return isNotInCatalog;
     }))
   }, [ebayResponse, data])
+
+  const errors = { get: error, insert: insertError };
+  const errorResponse = handleError({ error: errors, refetch, messages: ADD_CATALOG });
+  if (errorResponse) return errorResponse;
   
   return (
     <Table
