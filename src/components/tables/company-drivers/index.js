@@ -128,7 +128,7 @@ const CompanyDrivers = ({companyId}) => {
         title="Drivers"
       />
       {
-        shoppingCartData && (
+        shoppingCartData && shoppingCartData.driverId && (
           <ShoppingCart
             style={{ margin: '1rem 5rem'}}
             driverId={shoppingCartData.driverId}

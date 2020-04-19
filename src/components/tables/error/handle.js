@@ -35,7 +35,7 @@ export const ALL_ADMINS = {
     title: 'Updating an admin failed',
     description: 'We tried to update the admin account, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting an admin failed',
     description: 'We tried to delete an admin account, but something went wrong, try again please.'
   },
@@ -54,7 +54,7 @@ export const ALL_DRIVERS = {
     title: 'Updating a driver failed',
     description: 'We tried to update the driver account, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting a driver failed',
     description: 'We tried to delete the driver account, but something went wrong, try again please.'
   },
@@ -69,7 +69,7 @@ export const ALL_COMPANIES = {
     title: 'Updating a company failed',
     description: 'We tried to update the company account, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting a company failed',
     description: 'We tried to delete the company account, but something went wrong, try again please.'
   },
@@ -88,7 +88,7 @@ export const ALL_DRIVER_APPLICATIONS = {
     title: 'Updating a driver application failed',
     description: 'We tried to update the driver application account, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting a driver application failed',
     description: 'We tried to delete a driver application account, but something went wrong, try again please.'
   },
@@ -110,7 +110,7 @@ export const CATALOG = {
     title: 'Get Catalog Failed',
     description: 'We tried to get all the catalog information, but something went wrong, please refresh to try again.',
   },
-  delete: {
+  deleteError: {
     title: 'Deleting an entry in the catalog failed',
     description: 'We tried to delete an entry in the catalog, but something went wrong, try again please.'
   }
@@ -125,7 +125,7 @@ export const ALL_SPONSORS = {
     title: 'Updating a sponsor failed',
     description: 'We tried to update the sponsor account, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting a sponsor failed',
     description: 'We tried to delete a sponsor account, but something went wrong, try again please.'
   },
@@ -144,7 +144,7 @@ export const SHOPPING_CART = {
     title: 'Updating a shopping cart entry failed',
     description: 'We tried to update the shopping cart entry, but something went wrong, try again please.'
   },
-  delete: {
+  deleteError: {
     title: 'Deleting a shopping cart entry failed',
     description: 'We tried to delete a shopping cart entry, but something went wrong, try again please.'
   },
